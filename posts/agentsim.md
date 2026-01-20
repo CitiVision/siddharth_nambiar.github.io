@@ -8,7 +8,7 @@
 > This article was originally published on IAAC’s blog as part of academic work. This version is republished here by the author for portfolio consolidation.
 
 ---
-![Agent Simulation – Cover Image](../assets/Agent_cover_image.png)
+![Agent Simulation – Cover Image](../assets/GIF_Rotate.gif)
 ## The Objective
 
 The objective of the project was to simulate the movement of people within a specific neighborhood in the city of **Viladecans, Spain**, and visualize the difference in the movement patterns of free agents **pre-intervention vs. post-intervention**.
@@ -48,8 +48,7 @@ Agent-based simulations can also support participatory planning by helping stake
 
 The agent simulation was designed for a **specific location in Viladecans, Spain**.
 
-> *(Optional: Add an image/map here)*  
-> `![Viladecans study area](../assets/viladecans-study-area.png)`
+![Viladecans](../assets/viladecans.png)
 
 ---
 
