@@ -1,7 +1,6 @@
 # From Pollution To Pollination
 
 Team member(s): Juan Camilo Giraldo, Nupur Sircar and Siddharth Nambiar  
-Modified by Juan Camilo Giraldo on January 4, 2024
 
 ## 1. Introduction
 
@@ -18,18 +17,18 @@ The objective of this project is to leverage air dynamism for a self-healing, re
 Fundamentally air is composed of a variety of elements, broadly nitrogen, oxygen, argon and other elements. Diving deeper into its constituents it is noticed that levels of these elements get diluted due to the presence of various pollutants like CO2, O3, CH4, NOx, PM2.5, PM10 and many others. However, these pollutants are considered harmful at different scales. CO2, O3 are contributors of global warming that brings about macro-climatic changes. Pollutants like NOx, PM10 and PM2.5 contribute to local pollution, prolonged exposure to which affects the liveability of cities and health of its citizens.
 
 ![CONTEXT-3](../assets/Pollution2Pollination/CONTEXT-3.jpg)  
-*insert Image – CONTEXT 3*
+*fig 3.1. Different plans developed focus on reduction in emissions of NOx and PM10 from different modes of transport*
 
 To study Barcelona as one of the major cities which is highly affected by the presence of local pollutants in air, it is vital to concentrate on the policies. Barcelona has actively been strategizing over the past two decades to mitigate air pollution by 2050. In doing so, the policies focus more on the local pollutants like NOx and PM10 and what measures can be taken to significantly reduce the concentration levels of these pollutants. Analyzing the sources of these two pollutants it is observed that ground transport and port and airport activities contribute for up to 70% of these emissions. Hence, Barcelona’s policies are targeted towards mitigating air pollution through mobility-oriented solutions. The Metropolitan Plan of urban mobility of Barcelona 2024 prioritizes sustainable transport corridor along with schemes to reduce the usage of private motorized vehicles.
 
-With all the measures Barcelona has been taking for transportation, it compels designers to look deeper through the magnifying glass, at the additional sources of these pollutants in air. As a result, the biggest polluters, after transport activities, are industrial activities and energy generation with almost 24% contribution of NOx and 21% of PM10 contribution. So this deepens the design question furthermore and forces designers to reflect on “Is there another way to tackle air pollution that complements the existing mobility plans?”
+With all the measures Barcelona has been taking for transportation, it compels designers to look deeper through the magnifying glass, at the additional sources of these pollutants in air. As a result, the biggest polluters, after transport activities, are industrial activities and energy generation with almost 24% contribution of NOx and 21% of PM10 contribution. So this deepens the design question furthermore and forces designers to reflect on *“Is there another way to tackle air pollution that complements the existing mobility plans?”*
 
 ## 4. Analysis
 
 Designing for cleaner air requires an understanding of the quality of air. In this regard, observations from the changing patterns in concentration of NOx and PM10 in air within the province of Catalonia bring to light specific locations, most of which lie in the basin of Besos and the Urban Barcelona.
 
 <video controls style="width:100%;max-width:900px;border-radius:10px;border:1px solid #eee" src="../assets/Pollution2Pollination/MonthlyAnimationCropped.mp4"></video>
-<p><em>- subtext under video (fig 4.1(a)NOx Monthly Average Concentration; (b) PM10 Monthly Average Concentration; (c) Monthly Average Wind Speed and Direction)</em></p>
+<p><em>(fig 4.1(a)NOx Monthly Average Concentration; (b) PM10 Monthly Average Concentration; (c) Monthly Average Wind Speed and Direction)</em></p>
 
 However, the changing patterns of concentration of pollutants also emphasize on an underlying cause, i.e. movement pattern of air. Air is dynamic and with its changing speed creates wind. Across the year the changing wind speeds assist carrying pollutants from the source to the rest of the city.
 
@@ -38,14 +37,13 @@ On superimposing layers of pollutant concentration along with the sources on the
 Studying the different layers and their adjacencies helped to zoom into the major areas that were the sources of these pollutants in the air. These are precisely the stretches which can be the initiation points to strategize and design for cleaner air in Barcelona.
 
 ![LocationBesos](../assets/Pollution2Pollination/LocationBesos.png)  
-*insert picture - LocationBesos.png*
 
 ## 5. Conceptualisation
 
 Dynamic wind flows play into certain factors that allow for the development of a ‘self-healing’/regenerative cycle. The regenerative cycle helps to bridge the gap between turbulent wind speed and vegetation by the process of pollination. Pollen is distributed across distance through different means. Conversely turbulent wind speeds generate the phenomena of pollination to help in revegetation.
 
 ![CycleBlog](../assets/Pollution2Pollination/CycleBlog.png)  
-*subtext under image (fig 5.1. cycle of re-vegetation)*
+*(fig 5.1. cycle of re-vegetation)*
 
 Wind pollination also known as anemophily is a form a pollination in which pollen grains are transported by wind to the stigmas of other flowers. It is the most common form of pollination, accounting for over 70% of all plant species. Wind pollinated plants typically produce large amounts of pollen that is lightweight and easily carried by the wind. They have stigmas that are large and feathery, which help them to capture pollen grains.
 
@@ -58,7 +56,7 @@ In order to identify potential stretches of green corridors, the prioritized mob
 This also correlated with sites/nodes within close proximity of these expansion corridors where interventions could be further incorporated to advance the agenda of making the air cleaner and greener.
 
 ![CorridorsAndPolygons-2](../assets/Pollution2Pollination/CorridorsAndPolygons-2.gif)  
-* subtext under gif (fig 6.1. Filtering the prioritised mobility corridors and proximal nodes)*
+*(fig 6.1. Filtering the prioritised mobility corridors and proximal nodes)*
 
 ## 6.1 Design Locations
 
@@ -73,7 +71,7 @@ Further north up the river Besos we have Ripollet and La Llagosta, which are bot
 The stretch along Ripollet is a sample that depicts the possible outcome if the design concept was to move forward in implementation. The growth of green spaces along the proposed sites of intervention correlates with the existing urban infrastructure to create a hyper-connected green corridor in the district. This goes towards facilitating the improvement in air quality of these spaces while reducing concentration levels of PM10 and NO2 in the atmosphere.
 
 ![NodeIntervention-1](../assets/Pollution2Pollination/NodeIntervention-1.gif)  
-*subtext under gif (fig 6.1.1. An overview of implementation of design concept in the site of Ripollet)*
+*(fig 6.1.1. An overview of implementation of design concept in the site of Ripollet)*
 
 ## 6.2. Key Framework
 
@@ -82,8 +80,8 @@ The stretch along Ripollet is a sample that depicts the possible outcome if the 
 
 The analysis and strategies feature key concepts to construct a design matrix, taking into consideration non-human and human counterparts of the city and spreading the matrix across the spatial and non-spatial realm to design for turbulence which in turn would be designing for pollination and the expansion of greens.
 
-![DesignMatrix-1-2048x802](../assets/Pollution2Pollination/DesignMatrix-1-2048x802.png)  
-*subtext under image (fig 6.2.2. Design matrix considering the stakeholders along two major realms)*
+![DesignMatrix-1-2048x802](../assets/Pollution2Pollination/Matrix-1-2048x802.png)  
+*(fig 6.2.2. Design matrix considering the stakeholders along two major realms)*
 
 ## 6.3. Spatial Interventions
 
@@ -92,7 +90,7 @@ At the inception of spatial design intervention, the strategies revolve around t
 The design proposal focuses on ways to plug-in the system of greens along with the mobility prioritized corridor as a policy to create interconnected ecological corridors. Selection of tree species in the palette depend on the type of mobility corridor the ecological corridors plug-in with. Selection of low to high canopy tree species differ from pedestrian corridors to tram lines.
 
 ![ezgif.com-optimize-7](../assets/Pollution2Pollination/ezgif.com-optimize-7.gif)  
-*subtext under image (fig 6.3.1. Different ecological corridor sections for different mobility corridor and ecological node sections for open and vacant spaces)*
+*(fig 6.3.1. Different ecological corridor sections for different mobility corridor and ecological node sections for open and vacant spaces)*
 
 However, in the nodes identified in close proximity to these corridors, open spaces can house biodiversity green pockets. These biodiversity pockets have a variety of tree species from the wind-pollinating tree palette as well as trees that can attract other ecological counterparts like birds and other insects. These are also sites for roosting for birds, that will bring an ecological balance at the nodes of the intervention.
 
@@ -111,14 +109,14 @@ Monitoring
 Initiatives to spread awareness would include policies that focus primarily on the human counterpart of the city. The intention is to make the problems of air tangible and make the problems, stakeholders of air and the proposed solution, visible to all. Effortless games that talk about the effects of using different ecological design solutions around different sources of pollution, will increase the level of awareness in younger generations, the future changemakers.
 
 ![BreatheGame-2048x1113](../assets/Pollution2Pollination/BreatheGame-2048x1113.png)  
-*enter subtext under image (fig 6.4.1. BREATHE: A game for all age groups to spread awareness about air pollution)*
+*(fig 6.4.1. BREATHE: A game for all age groups to spread awareness about air pollution)*
 
 This would be in the interest of instigating positive behavioural changes in the public. This knowledge can lead to changes in reducing personal emissions, choosing cleaner transportation options and adopting practice that minimize pollution.
 
 Initiatives to monitor constant changes in pollutant concentration levels could include the use of birds as bio indicators looking at nesting and migration pattern to correlate healthier air conditions. Artificial ways of monitoring could include the use of Citizen science kits. By providing citizen with tools to monitor air dynamics, the idea is to complement existing monitoring stations.
 
 ![13_04_TotalMonitoring-1024x1024](../assets/Pollution2Pollination/13_04_TotalMonitoring-1024x1024.gif)  
-*enter subtext under gif (fig 6.4.2. Changing numbers of monitoring stations and birding hotspots to monitor air quality through both human and non-human stakeholders)*
+*(fig 6.4.2. Changing numbers of monitoring stations and birding hotspots to monitor air quality through both human and non-human stakeholders)*
 
 ## . Impact and Conclusion
 
@@ -127,11 +125,11 @@ In conclusion, the design upsurges the numbers of high canopy trees which direct
 The impact of this design proposal depends not just on the spatial strategies but also on the success rate of the non-spatial strategies.
 
 ![ImpactSummary](../assets/Pollution2Pollination/ImpactSummary.png)  
-*enter subtext under image (fig 7.1. Statistics understanding the exponential impact of the design solution)*
+*(fig 7.1. Statistics understanding the exponential impact of the design solution)*
 
 Statistically 1 full grown tree absorbs 197 g/yr of PM10 and 502 g/yr pf NOx. Through the spatial design strategies, the design aims at creating 73.9kms of ecological corridors, 3.3sq.kms of ecological nodes and 1.9sq.kms of re-furbished vacant spaces. This implies that the effectiveness of the project depend on how many trees are planted in these calculated areas. Planting 1 tree per km of the designed space can reduce upto 0.002% of generated emissions in Barcelona in one year. With increased awareness amongst human counterparts, the planting scheme can be expanded to planting more than 500 trees per km of the designed space to reduce generated emissions in Barcelona by 4.2% /yr.  
 
 As a final point, it is highly important to take into consideration all the human and non-human counterparts along both spatial and non-spatial realm for a successful execution of this project and observe significant changes in pollution levels, while restoring an ecological balance in Barcelona.
 
 ![15_WholeCycleOptimized](../assets/Pollution2Pollination/15_WholeCycleOptimized.gif)  
-*enter subtext under image (fig 7.2. Designed wind speeds result in re-vegetation through increased wind pollination)*
+*(fig 7.2. Designed wind speeds result in re-vegetation through increased wind pollination)*
