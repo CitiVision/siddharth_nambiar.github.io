@@ -1,28 +1,3 @@
-<div style="
-  background-image: url('../assets/SidNambiar_Sign-01.png');
-  background-size: cover;
-  background-position: center;
-  padding: 80px 40px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-">
-
-  <img src="../assets/SidNambiar_Sign-01.png"
-       alt="Sid Nambiar logo"
-       style="width:80px; height:auto;">
-
-  <h1 style="
-    margin: 0;
-    font-size: 3rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  ">
-    Sid Nambiar
-  </h1>
-
-</div>
 
 # Agent Simulation: Measuring Intervention Impact
 
