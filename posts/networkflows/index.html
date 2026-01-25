@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tracking Cross-Border Monetary Flows to measure Geopolitical Insecurity</title>
+  <meta name="description" content="A streamlined pipeline to visualize and extrapolate financial data enabling correlation with spatial geo-specific information." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Top Progress / Nav -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#top">Victor Menarguez × Siddharth Nambiar</a>
+      <nav class="nav">
+        <a href="#brief">Brief</a>
+        <a href="#datasets">Datasets</a>
+        <a href="#processing">Processing</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#sources">Sources</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__bg">
+        <!-- Replace with a hero image/gif from your post -->
+        <img src="assets/hero.gif" alt="Hero visual" loading="lazy" />
+      </div>
+
+      <div class="hero__content">
+        <p class="kicker">Modified by Victor Menarguez on March 27, 2024</p>
+        <h1>Tracking Cross-Border Monetary Flows to measure Geopolitical Insecurity</h1>
+        <p class="subtitle">
+          Creating a streamlined pipeline to visualize and extrapolate financial data enabling a correlation with spatial geo-specific information.
+        </p>
+
+        <div class="meta">
+          <div>
+            <div class="meta__label">Team member(s)</div>
+            <div class="meta__value">Victor Menarguez and Siddharth Nambiar</div>
+          </div>
+          <div>
+            <div class="meta__label">Theme</div>
+            <div class="meta__value">FDI · GDP per capita · Military Bases · Overseas Ports</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO / BRIEF -->
+    <section id="brief" class="section">
+      <div class="container narrow">
+        <h2>The Brief</h2>
+
+        <p>
+          The World and all countries alike have been increasingly more susceptible to events and developments in the geo-political theatre.
+          It is not surprising that the world’s top two economic and military superpowers play a pivotal role in this theatre of events.
+        </p>
+
+        <p>
+          In the recent past, both the United States of American and the People’s Republic of China have increasingly been locking horns on multiple fronts.
+          Therefore, it is an interesting field of research to delve into analyze the dynamic between these two nations on any particular front.
+        </p>
+
+        <p>
+          This project will delve into the correlation between the recent decline of the US Foreign Direct Investment (FDI) into China and explore whether or not this decline ties into agenda for Chinese military expansions and supremacy.
+          We go about this objective whilst creating a pipeline of development for the extraction, processing and visualization of similar relevant datasets.
+        </p>
+
+        <!-- Optional: a pull-quote callout -->
+        <blockquote class="callout">
+          <p>
+            Exploring whether a decline in US FDI into China correlates with China’s expansion through overseas port infrastructure.
+          </p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- DATASETS -->
+    <section id="datasets" class="section section--alt">
+      <div class="container">
+        <div class="grid two">
+          <div>
+            <h2>The Data-sets Involved</h2>
+            <p>
+              Whilst going about the brief for the project, the fascinating point these datasets reveal at first glance is the the reaches and differences between both countries because US controls it’s geopolitical power through the military (hard power) and China does it through ports that have potential to be used for military proposes (soft power).
+            </p>
+
+            <p>In this project we are working with 4 different data sets. To follow cross-border monetary flows we will analyse ;</p>
+
+            <ul class="bullets">
+              <li>US inflows of FDI into China</li>
+              <li>The evolution of the GDP per capita of both countries.</li>
+              <li>To measure the geopolitical insecurity of both countries we will use a data set that shows the US military bases around the globe</li>
+              <li>Ports Infrastructure China has invested into different countries over the last 20 years.</li>
+            </ul>
+          </div>
+
+          <figure class="media">
+            <!-- Replace with your “datasets overview” graphic -->
+            <img src="assets/datasets-overview.png" alt="Datasets overview" loading="lazy" />
+            <figcaption>Figure: Overview of datasets used in the pipeline.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA PROCESSING -->
+    <section id="processing" class="section">
+      <div class="container">
+        <div class="grid two">
+          <div>
+            <h2>Data Processing</h2>
+            <p>
+              The Data processing involved the primary stage of cleaning and making sure there were no outliers and all the data fields were in the relevant formats to be utilised for the different Python Libraries for visualization.
+              Some datasets would come without the respective geo-location and would have to be identified with the geopy library.
+              Varies different Python libraries were utilised to create a visually impactful report.
+            </p>
+
+            <div class="tagrow">
+              <span class="tag">Cleaning</span>
+              <span class="tag">Formatting</span>
+              <span class="tag">Geocoding (geopy)</span>
+              <span class="tag">Visualization</span>
+            </div>
+          </div>
+
+          <figure class="media">
+            <!-- Replace with a “pipeline diagram” image/gif -->
+            <img src="assets/pipeline.gif" alt="Pipeline visualization" loading="lazy" />
+            <figcaption>Pipeline: extraction → processing → geocoding → visualization.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYSIS -->
+    <section id="analysis" class="section section--alt">
+      <div class="container">
+        <h2>The Analysis</h2>
+        <p class="lead">
+          We move through relevant events that happened in the last decades to see what impact had in both countries
+        </p>
+
+        <!-- GDP per capita -->
+        <div class="block">
+          <div class="grid two">
+            <div>
+              <h3>GDP per Capita — USA vs China</h3>
+              <p>
+                In the above graph we can se the evolution of the GDP per capita of both countries. This is important to understand the cost for the citizens of both countries of investing into their geopolitical strategy.
+                While the GDP per capita has been growing at a similar pace in the US (except 2008 financial crisis and the pandemic), China didn’t spike until some decades ago after opening their economy to the global trade.
+                There is a big difference between these two superpowers and that means that every dollar invested in their geopolitics is much more costly for the Chinese citizens.
+              </p>
+            </div>
+
+            <figure class="media">
+              <!-- Replace with the GDP chart from your post -->
+              <img src="assets/chart-gdp-per-capita.png" alt="GDP per capita chart" loading="lazy" />
+              <figcaption>GDP per capita evolution (USA vs China).</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- FDI vs Ports -->
+        <div class="block">
+          <div class="grid two">
+            <div>
+              <h3>US FDI into China vs China’s Overseas Port Investment</h3>
+              <p>
+                This graph analyses the US FDI into China compared with China’s investment into overseas ports. We see a clear correlation between this two metrics.
+                When US FDI inflows to China start decreasing, the Asian superpower starts investing heavily into overseas ports.
+                After the 2008 crisis, the US started investing less into China and China saw that as a threat or maybe an opportunity to gain power in the global geopolitical spectrum.
+                We also see how after the pandemic, China resumed with their plans of expansion and we expect this country to continue increasing their presence through overseas ports around the world.
+              </p>
+            </div>
+
+            <figure class="media">
+              <!-- Replace with the correlation chart from your post -->
+              <img src="assets/chart-fdi-vs-ports.png" alt="FDI vs ports investment chart" loading="lazy" />
+              <figcaption>Correlation between US FDI inflows to China and China’s overseas port investment.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Magnitude of FDI -->
+        <div class="block">
+          <h3>Visualizing the magnitude of fresh US FDI Inflow into China during the stated period</h3>
+          <figure class="media full">
+            <!-- Replace with your map/graphic -->
+            <img src="assets/map-fdi-magnitude.png" alt="FDI magnitude visualization" loading="lazy" />
+            <figcaption>Magnitude of US FDI inflow into China (spatial/temporal visualization).</figcaption>
+          </figure>
+        </div>
+
+        <!-- US Military -->
+        <div class="block">
+          <h3 class="caps">MAPPING THE ‘WORLD’S POLICE’</h3>
+          <p>This are all the US military bases in the world by 2020</p>
+
+          <figure class="media full">
+            <img src="assets/map-us-bases-2020.png" alt="US military bases 2020" loading="lazy" />
+            <figcaption>US military bases worldwide (2020).</figcaption>
+          </figure>
+
+          <p>
+            This heatmap shows the comparison between 2015 and 2020 of the US overseas military bases. The darker countries are the ones that have the most amount of US military bases.
+            We see how the United States has increased their military network in Japan, Northern Africa and the Middle East.
+          </p>
+
+          <figure class="media full">
+            <img src="assets/heatmap-us-bases-2015-2020.png" alt="US bases heatmap comparison 2015 vs 2020" loading="lazy" />
+            <figcaption>US overseas military base presence comparison (2015 vs 2020).</figcaption>
+          </figure>
+        </div>
+
+        <!-- Chinese counter-punch -->
+        <div class="block">
+          <h3 class="caps">THE CHINESE COUNTER-PUNCH</h3>
+
+          <div class="grid two">
+            <div>
+              <p>
+                This graphic representation shows that China has been engaged in trade and economic activity with all regions of the globe.
+                USA namely has been the biggest contributor to that, which highlights why the Trade War with the USA has been a sore point in the relations between the two countries.
+                Australia has also seen massive inflow of large investments from China.
+              </p>
+            </div>
+
+            <figure class="media">
+              <img src="assets/graphic-china-global-trade.png" alt="China global trade and investment graphic" loading="lazy" />
+              <figcaption>China’s global trade and investment footprint.</figcaption>
+            </figure>
+          </div>
+
+          <p>
+            As analysed statistically earlier, China has also rapidly increased their port infrastructure presence. The Spatial Visualization above aims to highlight the sheer number of ports that have been constructed across the span of the globe, whilst showing the scaled investment made into each of these ports.
+            The color coding helps visualize the number of ports that been been categorised as having ‘Potential for Naval Use’ (GREEN).
+            As can be seen, most of the port infrastructure investments are Naval use capable
+          </p>
+
+          <figure class="media full">
+            <img src="assets/map-china-ports-naval-potential.png" alt="China overseas ports and naval potential" loading="lazy" />
+            <figcaption>China overseas ports: scale of investment and “potential for naval use”.</figcaption>
+          </figure>
+
+          <p>
+            This chart refers to the Countries wherein China has Invested the most amount of money into developing Port Infrastructure
+          </p>
+
+          <figure class="media full">
+            <img src="assets/chart-china-port-investment-by-country.png" alt="China port investment by country chart" loading="lazy" />
+            <figcaption>China’s port infrastructure investment by country.</figcaption>
+          </figure>
+
+          <h3>Density of Chinese Investment by Country overlaid with the presence of the Ports</h3>
+          <p>
+            This map is a comparison between the 4000 biggest investments made by Chinese companies in the last two decades and the location of the overseas ports they control.
+            The darkest countries are the ones that Chinese companies have made the biggest investments. For this analysis we excluded the US because is by far the country where Chinese companies have put the most amount of money and by doing this we will be able to analyse more accurately which areas of the globe is China more interested in doing business.
+          </p>
+
+          <p>
+            In terms of economic investment we can highlight a few countries like Australia, Brazil and Canada but there is not a specific region where the Asian country invests more.
+            This shows that China invests into overseas ports for other reasons rather than economic and with the ports we can see some patterns.
+            A lot of overseas ports are concentrated in the Gulf of Guinea, Middle East and the South East of Asia.
+            This highlights the Chinese control over global trade and the potential of this country to have military presence all over the globe.
+            Even though a lot of ports are located in these 3 regions, they are spread around the globe and that strengthen our reasoning.
+          </p>
+
+          <figure class="media full">
+            <img src="assets/map-china-investment-density-ports-overlay.png" alt="Chinese investment density and ports overlay map" loading="lazy" />
+            <figcaption>Chinese investment density (top investments) overlaid with overseas ports.</figcaption>
+          </figure>
+        </div>
+
+        <!-- Regions of control -->
+        <div class="block">
+          <h3 class="caps">REGIONS OF CONTROL</h3>
+          <p>
+            Finally, we wanted to understand if both countries are interested in the same regions or they have different approaches for their geopolitical control.
+            As we can see in the first map, shows that China’s main areas of control are in Central Africa, Middle East and South East Asia while the US has the most military presence in Central America, Europe, Middle East and Japan.
+            Both superpowers are very present in the Middle East but they don’t really share the rest of the control areas.
+            US heavy presence in Japan goes back to the 2WW and is still a huge enclave to show their strength and proximity to China.
+            On the other hand, China started investing into overseas ports around 20 years ago so we can expect an increase of their naval potential presence over the coming decades.
+            Time will tell if they will opt to control the same regions as the US or they will choose a different strategy.
+          </p>
+
+          <div class="grid two">
+            <figure class="media">
+              <img src="assets/map-china-regions-of-control.png" alt="China regions of control map" loading="lazy" />
+              <figcaption>China: regions of port influence / naval potential.</figcaption>
+            </figure>
+
+            <figure class="media">
+              <img src="assets/map-us-regions-of-control.png" alt="US regions of control map" loading="lazy" />
+              <figcaption>USA: regions of military presence.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="conclusion" class="section">
+      <div class="container narrow">
+        <h2 class="caps">CONCLUSION</h2>
+        <h3>Clear correlation between the Peak of the Chinese Investment into Ports – with – The Trough of US FDI Inflow into China</h3>
+
+        <p>After all this analysis we can conclude a few things:</p>
+
+        <ol class="bullets numbered">
+          <li>While the US exerts geopolitical power through military presence (hard power), China does it by investing in overseas ports (soft power) that have potential for military proposes.</li>
+          <li>There is a clear correlation between the decrease of US FDI inflows and the increase of Chinese investments into overseas ports. This shows the importance of the relations between this two countries and how monetary flows can affect geopolitics.</li>
+          <li>China’s GDP per capita has been growing at a very fast pace but is still very far from the US. This means that the investment per capita into geopolitical matters is much more expensive for the Chinese citizens and raises the question whether China will have the ability to continue investing at this pace.</li>
+          <li>Chinese companies economic investments in the last 20 years have almost no geographical correlation with Chinese investments into overseas ports. This strengthen the idea that the Asian country invests into ports for geopolitical and potential military matters.</li>
+          <li>Although presence of both countries (military and port) is spread all over the globe, we struggle to see a direct correlation between areas of control. This can be due to two factors; either is to early to see this correlation because China started investing into ports just two decades ago or they follow different geopolitical control strategies.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources" class="section section--alt">
+      <div class="container narrow">
+        <h2 class="caps">SOURCES</h2>
+        <ul class="bullets">
+          <li>US military bases: <a href="https://aura.american.edu" target="_blank" rel="noreferrer">https://aura.american.edu</a></li>
+          <li>Chinese overseas ports: <a href="https://www.cfr.org" target="_blank" rel="noreferrer">https://www.cfr.org</a></li>
+          <li>FDI:</li>
+          <li>GDP per capita: <a href="https://datacommons.org" target="_blank" rel="noreferrer">https://datacommons.org</a></li>
+        </ul>
+
+        <div class="footerline">
+          <span>© <span id="year"></span> Victor Menarguez · Siddharth Nambiar</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+  
