@@ -4,20 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tracking Cross-Border Monetary Flows to measure Geopolitical Insecurity</title>
-  <meta name="description" content="A streamlined pipeline to visualize and extrapolate financial data enabling correlation with spatial geo-specific information." />
+  <meta name="description" content="Creating a streamlined pipeline to visualize and extrapolate financial data enabling correlation with spatial geo-specific information." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- Top Progress / Nav -->
+  <!-- Sticky top nav -->
   <header class="topbar">
     <div class="topbar__inner">
-      <a class="brand" href="#top">Victor Menarguez × Siddharth Nambiar</a>
+      <a class="brand" href="#top">Network Flows</a>
       <nav class="nav">
         <a href="#brief">Brief</a>
         <a href="#datasets">Datasets</a>
         <a href="#processing">Processing</a>
         <a href="#analysis">Analysis</a>
+        <a href="#regions">Regions</a>
         <a href="#conclusion">Conclusion</a>
         <a href="#sources">Sources</a>
       </nav>
@@ -26,11 +27,16 @@
 
   <main id="top" class="page">
 
-    <!-- HERO -->
+    <!-- =========================================================
+         HERO (1) hero.gif
+    ========================================================== -->
     <section class="hero">
       <div class="hero__bg">
-        <!-- Replace with a hero image/gif from your post -->
-        <img src="assets/hero.gif" alt="Hero visual" loading="lazy" />
+        <img
+          src="posts/networkflows/assets/hero.gif"
+          alt="Hero visual"
+          loading="eager"
+        />
       </div>
 
       <div class="hero__content">
@@ -45,15 +51,13 @@
             <div class="meta__label">Team member(s)</div>
             <div class="meta__value">Victor Menarguez and Siddharth Nambiar</div>
           </div>
-          <div>
-            <div class="meta__label">Theme</div>
-            <div class="meta__value">FDI · GDP per capita · Military Bases · Overseas Ports</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- INTRO / BRIEF -->
+    <!-- =========================================================
+         BRIEF (text-first like the doc)
+    ========================================================== -->
     <section id="brief" class="section">
       <div class="container narrow">
         <h2>The Brief</h2>
@@ -72,17 +76,12 @@
           This project will delve into the correlation between the recent decline of the US Foreign Direct Investment (FDI) into China and explore whether or not this decline ties into agenda for Chinese military expansions and supremacy.
           We go about this objective whilst creating a pipeline of development for the extraction, processing and visualization of similar relevant datasets.
         </p>
-
-        <!-- Optional: a pull-quote callout -->
-        <blockquote class="callout">
-          <p>
-            Exploring whether a decline in US FDI into China correlates with China’s expansion through overseas port infrastructure.
-          </p>
-        </blockquote>
       </div>
     </section>
 
-    <!-- DATASETS -->
+    <!-- =========================================================
+         DATASETS (2) datasets-overview.png
+    ========================================================== -->
     <section id="datasets" class="section section--alt">
       <div class="container">
         <div class="grid two">
@@ -103,15 +102,23 @@
           </div>
 
           <figure class="media">
-            <!-- Replace with your “datasets overview” graphic -->
-            <img src="assets/datasets-overview.png" alt="Datasets overview" loading="lazy" />
-            <figcaption>Figure: Overview of datasets used in the pipeline.</figcaption>
+            <img
+              src="posts/networkflows/assets/datasets-overview.png"
+              alt="Datasets overview"
+              loading="lazy"
+            />
+            <figcaption>Datasets overview.</figcaption>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- DATA PROCESSING -->
+    <!-- =========================================================
+         PROCESSING / METHODOLOGY
+         (3) pipeline.png
+         (4) jupyter.png
+         (12) notebook gif (placed later in analysis section as a “live view”)
+    ========================================================== -->
     <section id="processing" class="section">
       <div class="container">
         <div class="grid two">
@@ -132,23 +139,57 @@
           </div>
 
           <figure class="media">
-            <!-- Replace with a “pipeline diagram” image/gif -->
-            <img src="assets/pipeline.gif" alt="Pipeline visualization" loading="lazy" />
+            <img
+              src="posts/networkflows/assets/pipeline.png"
+              alt="Pipeline diagram"
+              loading="lazy"
+            />
             <figcaption>Pipeline: extraction → processing → geocoding → visualization.</figcaption>
+          </figure>
+        </div>
+
+        <figure class="media full" style="margin-top:18px;">
+          <img
+            src="posts/networkflows/assets/jupyter.png"
+            alt="Jupyter notebook workflow"
+            loading="lazy"
+          />
+          <figcaption>Working environment: Jupyter notebooks used to build and validate the pipeline.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TIMELINE / CONTEXT
+         (5) timeline.png
+    ========================================================== -->
+    <section class="section section--alt">
+      <div class="container">
+        <div class="block" style="border-top:none; padding-top:0;">
+          <h2>Context Timeline</h2>
+          <figure class="media full">
+            <img
+              src="posts/networkflows/assets/timeline.png"
+              alt="Timeline of events"
+              loading="lazy"
+            />
+            <figcaption>A timeline of events used to interpret shifts in economic and geopolitical strategy.</figcaption>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- ANALYSIS -->
-    <section id="analysis" class="section section--alt">
+    <!-- =========================================================
+         ANALYSIS
+    ========================================================== -->
+    <section id="analysis" class="section">
       <div class="container">
         <h2>The Analysis</h2>
         <p class="lead">
           We move through relevant events that happened in the last decades to see what impact had in both countries
         </p>
 
-        <!-- GDP per capita -->
+        <!-- (6) GDP Capita 2020.png -->
         <div class="block">
           <div class="grid two">
             <div>
@@ -161,14 +202,17 @@
             </div>
 
             <figure class="media">
-              <!-- Replace with the GDP chart from your post -->
-              <img src="assets/chart-gdp-per-capita.png" alt="GDP per capita chart" loading="lazy" />
+              <img
+                src="posts/networkflows/assets/GDP%20Capita%202020.png"
+                alt="GDP per capita chart 2020"
+                loading="lazy"
+              />
               <figcaption>GDP per capita evolution (USA vs China).</figcaption>
             </figure>
           </div>
         </div>
 
-        <!-- FDI vs Ports -->
+        <!-- (7) FDI & ports 2020.png -->
         <div class="block">
           <div class="grid two">
             <div>
@@ -182,106 +226,144 @@
             </div>
 
             <figure class="media">
-              <!-- Replace with the correlation chart from your post -->
-              <img src="assets/chart-fdi-vs-ports.png" alt="FDI vs ports investment chart" loading="lazy" />
-              <figcaption>Correlation between US FDI inflows to China and China’s overseas port investment.</figcaption>
+              <img
+                src="posts/networkflows/assets/FDI%20%26%20ports%202020.png"
+                alt="FDI and ports chart 2020"
+                loading="lazy"
+              />
+              <figcaption>FDI inflows vs overseas port investment.</figcaption>
             </figure>
           </div>
         </div>
 
-        <!-- Magnitude of FDI -->
+        <!-- (8) usfdiglobe5.png -->
         <div class="block">
           <h3>Visualizing the magnitude of fresh US FDI Inflow into China during the stated period</h3>
           <figure class="media full">
-            <!-- Replace with your map/graphic -->
-            <img src="assets/map-fdi-magnitude.png" alt="FDI magnitude visualization" loading="lazy" />
-            <figcaption>Magnitude of US FDI inflow into China (spatial/temporal visualization).</figcaption>
+            <img
+              src="posts/networkflows/assets/usfdiglobe5.png"
+              alt="US FDI inflow magnitude globe"
+              loading="lazy"
+            />
+            <figcaption>Magnitude of fresh US FDI inflow into China (spatial visualization).</figcaption>
           </figure>
         </div>
 
-        <!-- US Military -->
+        <!-- (9) US bases 2015 points.png -->
         <div class="block">
           <h3 class="caps">MAPPING THE ‘WORLD’S POLICE’</h3>
           <p>This are all the US military bases in the world by 2020</p>
 
           <figure class="media full">
-            <img src="assets/map-us-bases-2020.png" alt="US military bases 2020" loading="lazy" />
-            <figcaption>US military bases worldwide (2020).</figcaption>
+            <img
+              src="posts/networkflows/assets/US%20bases%202015%20points.png"
+              alt="US military bases points"
+              loading="lazy"
+            />
+            <figcaption>US overseas military bases (points).</figcaption>
           </figure>
 
-          <p>
+          <!-- (10) US-bases-2015-2020.gif -->
+          <p style="margin-top:16px;">
             This heatmap shows the comparison between 2015 and 2020 of the US overseas military bases. The darker countries are the ones that have the most amount of US military bases.
             We see how the United States has increased their military network in Japan, Northern Africa and the Middle East.
           </p>
 
           <figure class="media full">
-            <img src="assets/heatmap-us-bases-2015-2020.png" alt="US bases heatmap comparison 2015 vs 2020" loading="lazy" />
-            <figcaption>US overseas military base presence comparison (2015 vs 2020).</figcaption>
+            <img
+              src="posts/networkflows/assets/US-bases-2015-2020.gif"
+              alt="US bases comparison 2015 to 2020"
+              loading="lazy"
+            />
+            <figcaption>Change in US overseas military base presence (2015 → 2020).</figcaption>
           </figure>
         </div>
 
-        <!-- Chinese counter-punch -->
+        <!-- (11) CrossBorder MonetaryFlows&GlobalInsecurity-31.png -->
         <div class="block">
           <h3 class="caps">THE CHINESE COUNTER-PUNCH</h3>
 
-          <div class="grid two">
-            <div>
-              <p>
-                This graphic representation shows that China has been engaged in trade and economic activity with all regions of the globe.
-                USA namely has been the biggest contributor to that, which highlights why the Trade War with the USA has been a sore point in the relations between the two countries.
-                Australia has also seen massive inflow of large investments from China.
-              </p>
-            </div>
-
-            <figure class="media">
-              <img src="assets/graphic-china-global-trade.png" alt="China global trade and investment graphic" loading="lazy" />
-              <figcaption>China’s global trade and investment footprint.</figcaption>
-            </figure>
-          </div>
-
-          <p>
-            As analysed statistically earlier, China has also rapidly increased their port infrastructure presence. The Spatial Visualization above aims to highlight the sheer number of ports that have been constructed across the span of the globe, whilst showing the scaled investment made into each of these ports.
-            The color coding helps visualize the number of ports that been been categorised as having ‘Potential for Naval Use’ (GREEN).
-            As can be seen, most of the port infrastructure investments are Naval use capable
-          </p>
-
           <figure class="media full">
-            <img src="assets/map-china-ports-naval-potential.png" alt="China overseas ports and naval potential" loading="lazy" />
-            <figcaption>China overseas ports: scale of investment and “potential for naval use”.</figcaption>
+            <img
+              src="posts/networkflows/assets/CrossBorder%20MonetaryFlows%26GlobalInsecurity-31.png"
+              alt="China global engagement graphic"
+              loading="lazy"
+            />
+            <figcaption>China’s trade and economic engagement footprint.</figcaption>
           </figure>
 
-          <p>
+          <p style="margin-top:16px;">
+            This graphic representation shows that China has been engaged in trade and economic activity with all regions of the globe.
+            USA namely has been the biggest contributor to that, which highlights why the Trade War with the USA has been a sore point in the relations between the two countries.
+            Australia has also seen massive inflow of large investments from China.
+          </p>
+
+          <!-- (12) big notebook gif -->
+          <figure class="media full">
+            <img
+              src="posts/networkflows/assets/The3dGlobe_DeckGLthing-JupyterNotebookand4morepages-Profile1-MicrosoftEdge2024-03-1816-11-48-ezgif.com-speed.gif"
+              alt="DeckGL globe and notebook workflow animation"
+              loading="lazy"
+            />
+            <figcaption>Interactive workflow: notebook + 3D globe visualization (DeckGL).</figcaption>
+          </figure>
+
+          <!-- (13) Top 10 investment ports.png -->
+          <p style="margin-top:16px;">
             This chart refers to the Countries wherein China has Invested the most amount of money into developing Port Infrastructure
           </p>
 
           <figure class="media full">
-            <img src="assets/chart-china-port-investment-by-country.png" alt="China port investment by country chart" loading="lazy" />
-            <figcaption>China’s port infrastructure investment by country.</figcaption>
+            <img
+              src="posts/networkflows/assets/Top%2010%20investment%20ports.png"
+              alt="Top 10 investment ports"
+              loading="lazy"
+            />
+            <figcaption>Top countries by Chinese port infrastructure investment.</figcaption>
           </figure>
 
-          <h3>Density of Chinese Investment by Country overlaid with the presence of the Ports</h3>
+          <!-- (14) China-investment-countries-no-US-ports.png -->
+          <h3 style="margin-top:22px;">Density of Chinese Investment by Country overlaid with the presence of the Ports</h3>
           <p>
             This map is a comparison between the 4000 biggest investments made by Chinese companies in the last two decades and the location of the overseas ports they control.
             The darkest countries are the ones that Chinese companies have made the biggest investments. For this analysis we excluded the US because is by far the country where Chinese companies have put the most amount of money and by doing this we will be able to analyse more accurately which areas of the globe is China more interested in doing business.
           </p>
 
           <p>
-            In terms of economic investment we can highlight a few countries like Australia, Brazil and Canada but there is not a specific region where the Asian country invests more.
-            This shows that China invests into overseas ports for other reasons rather than economic and with the ports we can see some patterns.
-            A lot of overseas ports are concentrated in the Gulf of Guinea, Middle East and the South East of Asia.
-            This highlights the Chinese control over global trade and the potential of this country to have military presence all over the globe.
-            Even though a lot of ports are located in these 3 regions, they are spread around the globe and that strengthen our reasoning.
+            In terms of economic investment we can highlight a few countries like Australia, Brazil and Canada but there is not a specific region where the Asian country invests more. This shows that China invests into overseas ports for other reasons rather than economic and with the ports we can see some patterns. A lot of overseas ports are concentrated in the Gulf of Guinea, Middle East and the South East of Asia. This highlights the Chinese control over global trade and the potential of this country to have military presence all over the globe. Even though a lot of ports are located in these 3 regions, they are spread around the globe and that strengthen our reasoning.
           </p>
 
           <figure class="media full">
-            <img src="assets/map-china-investment-density-ports-overlay.png" alt="Chinese investment density and ports overlay map" loading="lazy" />
-            <figcaption>Chinese investment density (top investments) overlaid with overseas ports.</figcaption>
+            <img
+              src="posts/networkflows/assets/China-investment-countries-no-US-ports.png"
+              alt="China investment countries no US ports overlay"
+              loading="lazy"
+            />
+            <figcaption>Investment density by country overlaid with overseas ports (excluding US).</figcaption>
+          </figure>
+
+          <!-- (15) China-US Ports.gif -->
+          <figure class="media full" style="margin-top:18px;">
+            <img
+              src="posts/networkflows/assets/China-US%20Ports.gif"
+              alt="China vs US presence animation"
+              loading="lazy"
+            />
+            <figcaption>Comparative presence: Chinese ports vs US overseas military footprint.</figcaption>
           </figure>
         </div>
+      </div>
+    </section>
 
-        <!-- Regions of control -->
-        <div class="block">
-          <h3 class="caps">REGIONS OF CONTROL</h3>
+    <!-- =========================================================
+         REGIONS OF CONTROL
+         (16) china_regionofcontrol.png
+         (17) Us_regionofcontrol.png
+    ========================================================== -->
+    <section id="regions" class="section section--alt">
+      <div class="container">
+        <div class="block" style="border-top:none; padding-top:0;">
+          <h2 class="caps">REGIONS OF CONTROL</h2>
           <p>
             Finally, we wanted to understand if both countries are interested in the same regions or they have different approaches for their geopolitical control.
             As we can see in the first map, shows that China’s main areas of control are in Central Africa, Middle East and South East Asia while the US has the most military presence in Central America, Europe, Middle East and Japan.
@@ -293,20 +375,31 @@
 
           <div class="grid two">
             <figure class="media">
-              <img src="assets/map-china-regions-of-control.png" alt="China regions of control map" loading="lazy" />
-              <figcaption>China: regions of port influence / naval potential.</figcaption>
+              <img
+                src="posts/networkflows/assets/china_regionofcontrol.png"
+                alt="China regions of control"
+                loading="lazy"
+              />
+              <figcaption>China: regions of influence via overseas ports.</figcaption>
             </figure>
 
             <figure class="media">
-              <img src="assets/map-us-regions-of-control.png" alt="US regions of control map" loading="lazy" />
-              <figcaption>USA: regions of military presence.</figcaption>
+              <img
+                src="posts/networkflows/assets/Us_regionofcontrol.png"
+                alt="US regions of control"
+                loading="lazy"
+              />
+              <figcaption>USA: regions of influence via overseas military bases.</figcaption>
             </figure>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONCLUSION -->
+    <!-- =========================================================
+         CONCLUSION
+         (18) conclusion_Image.jpg
+    ========================================================== -->
     <section id="conclusion" class="section">
       <div class="container narrow">
         <h2 class="caps">CONCLUSION</h2>
@@ -321,10 +414,21 @@
           <li>Chinese companies economic investments in the last 20 years have almost no geographical correlation with Chinese investments into overseas ports. This strengthen the idea that the Asian country invests into ports for geopolitical and potential military matters.</li>
           <li>Although presence of both countries (military and port) is spread all over the globe, we struggle to see a direct correlation between areas of control. This can be due to two factors; either is to early to see this correlation because China started investing into ports just two decades ago or they follow different geopolitical control strategies.</li>
         </ol>
+
+        <figure class="media full" style="margin-top:18px;">
+          <img
+            src="posts/networkflows/assets/conclusion_Image.jpg"
+            alt="Conclusion visual"
+            loading="lazy"
+          />
+          <figcaption>Conclusion: monetary flows as signals for geopolitical strategy.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- SOURCES -->
+    <!-- =========================================================
+         SOURCES
+    ========================================================== -->
     <section id="sources" class="section section--alt">
       <div class="container narrow">
         <h2 class="caps">SOURCES</h2>
@@ -348,4 +452,3 @@
   </script>
 </body>
 </html>
-  
