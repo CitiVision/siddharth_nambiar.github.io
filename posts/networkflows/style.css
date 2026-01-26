@@ -257,16 +257,20 @@ a:hover{ color: #fff; }
   font-size: 12px;
 }
 
-/* Force equal-size media cards in side-by-side grids */
+/* Force equal-size media cards in side-by-side grids (caption-safe) */
 .grid.two .media {
-  aspect-ratio: 16 / 9;   /* you can try 3/2 or 4/3 if preferred */
   display: flex;
-  align-items: stretch;
+  flex-direction: column;
 }
 
 .grid.two .media img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;      /* fills the box evenly */
+  aspect-ratio: 16 / 9;  /* same height for both images */
+  object-fit: cover;      /* crop to fill consistently */
+  display: block;
 }
 
+/* Keep caption consistent */
+.grid.two .media figcaption {
+  margin-top: auto;
+}
