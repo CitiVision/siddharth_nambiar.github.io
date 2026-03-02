@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Simulation: Measuring Intervention Impact</title>
+  <meta name="description" content="Agent-based simulation of pedestrian movement in Viladecans, Spain, comparing pre- and post-intervention scenarios for a tactical urban intervention." />
+  <link rel="stylesheet" href="../networkflows/style.css" />
+</head>
+
+<body>
+  <!-- Sticky top nav -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#top">Agent Simulation</a>
+      <nav class="nav">
+        <a href="#brief">Brief</a>
+        <a href="#why-simulation">Why Simulation</a>
+        <a href="#location">Location</a>
+        <a href="#forces">Forces</a>
+        <a href="#simulation">Simulation</a>
+        <a href="#challenges">Challenges</a>
+        <a href="#improvements">Next Steps</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__bg">
+        <img
+          src="../assets/GIF_Rotate.gif"
+          alt="Agent-based simulation cover"
+          loading="eager"
+        />
+      </div>
+
+      <div class="hero__content">
+        <p class="kicker">Modified by Siddharth Nambiar on March 28, 2024</p>
+        <h1>Agent Simulation: Measuring Intervention Impact</h1>
+        <p class="subtitle">
+          Visualizing an urban simulation of free agents affected by a tactical intervention in Viladecans, Spain, comparing pre- and post-intervention movement patterns.
+        </p>
+
+        <div class="meta">
+          <div>
+            <div class="meta__label">Author(s)</div>
+            <div class="meta__value">Siddharth Nambiar</div>
+          </div>
+          <div>
+            <div class="meta__label">Summary</div>
+            <div class="meta__value">
+              Agent-based model of pedestrian flows that reveals how a central tactical intervention reshapes footfall and street-level exposure for local businesses.
+            </div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:18px;">
+          <p>
+            <strong>Note on provenance:</strong>
+            This article was originally published on IAAC’s blog as part of academic work. This version is republished here by the author for portfolio consolidation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRIEF -->
+    <section id="brief" class="section">
+      <div class="container narrow">
+        <h2>The Brief</h2>
+
+        <p>
+          The objective of the project is to simulate the movement of people within a specific neighborhood
+          in <strong>Viladecans, Spain</strong>, and visualize the difference in movement patterns of free
+          agents <strong>pre-intervention vs. post-intervention</strong>.
+        </p>
+        <p>
+          The focus is on understanding how a tactical urban intervention around a central public space can
+          redistribute flows, attract visitors from surrounding neighborhoods, and increase exposure for
+          local shops and edges surrounding the intervention area.
+        </p>
+      </div>
+    </section>
+
+    <!-- WHY SIMULATION -->
+    <section id="why-simulation" class="section section--alt">
+      <div class="container">
+        <div class="grid two">
+          <div>
+            <h2>Why an Agent Simulation?</h2>
+            <p>
+              Agent-based simulation is effective for planning urban interventions due to its ability to
+              model complex systems and capture emergent behavior at the scale of individual people moving
+              through the city.
+            </p>
+            <p>
+              Each agent represents a person navigating the environment, responding to attractions,
+              constraints, and other agents. This makes it possible to explore how small design decisions
+              in space can ripple into large-scale changes in movement and urban life.
+            </p>
+          </div>
+
+          <div>
+            <h3>Key Advantages</h3>
+            <ul class="bullets">
+              <li>
+                <strong>Granular representation</strong> — models individual entities and their interactions
+                within an environment, capturing behaviors, preferences, and decision-making.
+              </li>
+              <li>
+                <strong>Dynamic feedback loops</strong> — agents influence each other and their surroundings,
+                leading to emergent patterns such as clustering, congestion, or new desire paths.
+              </li>
+              <li>
+                <strong>Scenario exploration</strong> — rules and parameters can be adjusted to test multiple
+                design and policy options before implementation.
+              </li>
+              <li>
+                <strong>Spatialized decision-making</strong> — agents move in a virtual model of the real
+                neighborhood, so results are legible as maps and flows, not just statistics.
+              </li>
+              <li>
+                <strong>Adaptability and risk assessment</strong> — models can be iteratively refined with
+                new data, helping to anticipate risks and unintended consequences.
+              </li>
+              <li>
+                <strong>Participatory planning</strong> — animated flows and visual outputs help
+                stakeholders understand complex dynamics and engage in more informed dialogue.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION -->
+    <section id="location" class="section">
+      <div class="container">
+        <div class="grid two">
+          <div>
+            <h2>Location</h2>
+            <p>
+              The simulation is set in a <strong>specific neighborhood of Viladecans</strong>, on the
+              outskirts of Barcelona. The model distinguishes between walkable street space and non-walkable
+              building footprints, ensuring that simulated paths correspond to plausible routes on the ground.
+            </p>
+            <p>
+              This spatial grounding allows designers to directly relate agent movement to real streets,
+              public spaces, and frontages that might benefit from tactical interventions.
+            </p>
+          </div>
+
+          <figure class="media">
+            <img
+              src="../assets/viladecans.png"
+              alt="Map of Viladecans, Spain"
+              loading="lazy"
+            />
+            <figcaption>Study area in Viladecans, Spain, used as the sandbox for the agent simulation.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORCES AT PLAY -->
+    <section id="forces" class="section section--alt">
+      <div class="container">
+        <h2>The Forces at Play</h2>
+
+        <div class="block">
+          <div class="grid two">
+            <div>
+              <h3>Setting the Environment</h3>
+              <p>
+                Agents are first given random <strong>X &amp; Y movement vectors</strong>, but these are
+                constrained by an underlying binary raster that distinguishes between walkable and
+                non-walkable cells.
+              </p>
+              <p>
+                To ensure agents <strong>stick to streets</strong>, the base field encodes:
+              </p>
+              <ul class="bullets">
+                <li><strong>0</strong> — buildings and restricted spaces (non-walkable)</li>
+                <li><strong>1</strong> — streets and walkable public spaces</li>
+              </ul>
+              <p>
+                This keeps movement constrained to the street network and prevents agents from entering
+                interior building cells, maintaining spatial realism.
+              </p>
+            </div>
+
+            <figure class="media">
+              <img
+                src="../assets/gravityGIF.gif"
+                alt="Gravity-based attraction field for agent movement"
+                loading="lazy"
+              />
+              <figcaption>Gravity-like vector field guiding baseline agent movement.</figcaption>
+            </figure>
+          </div>
+
+          <div class="grid two" style="margin-top:22px;">
+            <figure class="media">
+              <img
+                src="../assets/Blac&whiteCode.JPG"
+                alt="Binary raster separating buildings and streets"
+                loading="lazy"
+              />
+              <figcaption>Binary raster encoding: buildings (0, white) vs streets (1, black).</figcaption>
+            </figure>
+
+            <figure class="media">
+              <img
+                src="../assets/Agents&Field.JPG"
+                alt="Agents interacting with the underlying movement field"
+                loading="lazy"
+              />
+              <figcaption>Agents following the field while remaining constrained to the street network.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="grid two">
+            <div>
+              <h3>Attractor Points and Vector Fields</h3>
+              <p>
+                On top of the base environment, <strong>attractor points</strong> are placed across the
+                neighborhood:
+              </p>
+              <ul class="bullets">
+                <li>
+                  In the <strong>baseline scenario</strong>, different shops and buildings along the
+                  central park are used as attractors.
+                </li>
+                <li>
+                  In the <strong>intervention scenario</strong>, the central space hosting the tactical
+                  intervention is given a stronger pull and larger reach.
+                </li>
+              </ul>
+              <p>
+                Agents are more likely to be drawn into the influence radius of these attractors, revealing
+                how a single intervention can reconfigure neighborhood-scale flows.
+              </p>
+            </div>
+
+            <div>
+              <h3>Weighted Average of Movement</h3>
+              <p>
+                The final step direction for each agent is computed as a
+                <strong>weighted average of multiple movement vectors</strong>: random drift, attraction
+                forces, and environmental constraints.
+              </p>
+              <p>
+                This blending creates smooth, plausible paths rather than abrupt, unnatural turns, and
+                captures how people continuously negotiate between multiple competing influences in space.
+              </p>
+
+              <figure class="media" style="margin-top:12px;">
+                <img
+                  src="../assets/WeightedAVG.JPG"
+                  alt="Weighted average of agent movement vectors"
+                  loading="lazy"
+                />
+                <figcaption>Weighted movement vectors defining each agent’s next step.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULATION IN ACTION -->
+    <section id="simulation" class="section">
+      <div class="container">
+        <h2>The Simulation in Action</h2>
+        <p class="lead">
+          Comparing pre- and post-intervention runs shows that people—even from other neighborhoods—are
+          drawn into the intervention area, increasing activity in and around the central space.
+        </p>
+
+        <div class="block">
+          <div class="grid two">
+            <div>
+              <p>
+                The increased attraction of the tactical center leads to:
+              </p>
+              <ul class="bullets">
+                <li>Higher flow along streets framing the intervention zone.</li>
+                <li>Greater <strong>exposure for local shops and edges</strong> adjacent to the space.</li>
+                <li>
+                  New paths emerging as agents reroute to include the intervention in their trajectories.
+                </li>
+              </ul>
+              <p>
+                Interpreted through an urban economics lens, this pattern indicates potential
+                <strong>uplift in business revenue</strong> and vibrancy in the immediate surroundings.
+              </p>
+            </div>
+
+            <figure class="media">
+              <img
+                src="../assets/Impact_Intervention.gif"
+                alt="Impact of urban intervention on agent flows"
+                loading="lazy"
+              />
+              <figcaption>Difference in footfall patterns pre- vs post-intervention.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section id="challenges" class="section section--alt">
+      <div class="container narrow">
+        <h2>Challenges Faced</h2>
+        <p>
+          While the prototype simulation reveals useful patterns, it also exposes limitations that would
+          need refinement in future iterations:
+        </p>
+        <ul class="bullets">
+          <li>
+            <strong>Corner clustering</strong> — agents sometimes group up and get stuck in corners or
+            dead-ends where forces compete.
+          </li>
+          <li>
+            <strong>Boundary leakage</strong> — under certain parameter settings, agents may drift into
+            buildings, indicating insufficient enforcement of non-walkable cells.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <section id="improvements" class="section">
+      <div class="container narrow">
+        <h2>Next Improvements</h2>
+        <p>
+          If the project is extended, several improvements can turn the prototype into a robust
+          decision-support tool for urban interventions:
+        </p>
+        <ul class="bullets">
+          <li>
+            <strong>Collision and avoidance tuning</strong> at corners and intersections to reduce
+            unrealistic clustering.
+          </li>
+          <li>
+            <strong>Stronger boundary constraints</strong> so agents never enter non-walkable cells,
+            regardless of attraction strength.
+          </li>
+          <li>
+            <strong>Navigation graphs</strong> (e.g., explicit street network graphs) instead of purely
+            field-based drift, enabling richer routing behaviors.
+          </li>
+          <li>
+            <strong>Goal-driven agents</strong> with routines (home → shop → park → home) rather than
+            purely random wandering, better matching everyday urban life.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SOURCES / FOOTER STYLE -->
+    <section class="section section--alt">
+      <div class="container narrow">
+        <h2 class="caps">PROJECT INFO</h2>
+        <ul class="bullets">
+          <li><strong>Context:</strong> IAAC academic project on urban simulation.</li>
+          <li><strong>Location:</strong> Viladecans, Spain.</li>
+          <li><strong>Method:</strong> Agent-based modeling with raster-constrained movement and attraction fields.</li>
+        </ul>
+
+        <div class="footerline">
+          <span>© <span id="year"></span> Siddharth Nambiar</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
