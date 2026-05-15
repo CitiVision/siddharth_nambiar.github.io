@@ -645,29 +645,40 @@
     .act-framework {
       position: relative;
       background: var(--surface-dim);
-      padding: 100px 24px;
     }
 
-    .framework-bg-art {
-      position: absolute;
-      inset: 0;
+    /* Two-column split: cards left, image right */
+    .framework-split {
+      display: grid;
+      grid-template-columns: 58% 42%;
+      align-items: start;
+    }
+
+    .framework-left {
+      padding: 100px 5vw 100px 6vw;
+    }
+
+    /* Sticky image panel — stays in view as user scrolls through cards */
+    .framework-right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      pointer-events: none;
+      justify-content: flex-end;
     }
-    .framework-bg-art img {
-      width: 100%; height: 100%;
+    .framework-right img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      opacity: 0.08;
+      object-position: center right;
+      opacity: 1;
     }
 
     .framework-inner {
       position: relative;
       z-index: 2;
-      max-width: 900px;
-      margin: 0 auto;
     }
 
     .framework-intro {
@@ -998,7 +1009,9 @@
       .stat-callout { max-width: 90vw; padding: 32px 22px; }
       .dual-stat-card { max-width: 90vw; padding: 28px 22px; }
       .scales-grid { grid-template-columns: 1fr; }
-      .framework-inner { padding: 0; }
+      .framework-split { grid-template-columns: 1fr; }
+      .framework-right { position: relative; height: 60vw; }
+      .framework-left { padding: 60px 24px; }
       .media-caption-overlay { padding: 20px 18px; }
       /* Act I mobile */
       .act-i-globe-wrap { display: none; }
@@ -1421,91 +1434,100 @@
   ============================================================ -->
   <section class="act-framework" aria-labelledby="framework-heading">
 
-    <div class="framework-bg-art" aria-hidden="true">
-      <img src="assets/Board4-1-570x1024.png" alt="" />
-    </div>
+    <div class="framework-split">
 
-    <div class="framework-inner">
+      <!-- LEFT: intro text + 5 intervention cards + resolution -->
+      <div class="framework-left">
+        <div class="framework-inner">
 
-      <div class="framework-intro reveal">
-        <p class="section-eyebrow">Multi-Scale Planning Framework</p>
-        <h2 id="framework-heading">Five Scales of Intervention</h2>
-        <p>
-          Understanding Rosario's vulnerability is just the first step. The goal goes beyond
-          simply identifying risks — it re-evaluates the tools used for urban planning in the
-          face of a new climatic reality. At each scale, a key question is raised:
-        </p>
+          <div class="framework-intro reveal">
+            <p class="section-eyebrow">Multi-Scale Planning Framework</p>
+            <h2 id="framework-heading">Five Scales of Intervention</h2>
+            <p>
+              Understanding Rosario's vulnerability is just the first step. The goal goes beyond
+              simply identifying risks — it re-evaluates the tools used for urban planning in the
+              face of a new climatic reality. At each scale, a key question is raised:
+            </p>
+          </div>
+
+          <div class="scales-grid">
+            <article class="scale-card" data-scale="0">
+              <div class="scale-badge">01</div>
+              <h3 class="scale-title">Regional Scale: Unfragmented Planning?</h3>
+              <p class="scale-desc">
+                Can we move towards a more unified regional vision, strategically densifying areas
+                less prone to flooding while considering potential migration patterns?
+              </p>
+            </article>
+
+            <article class="scale-card" data-scale="1">
+              <div class="scale-badge">02</div>
+              <h3 class="scale-title">City Scale: Strategic Public Space?</h3>
+              <p class="scale-desc">
+                Should we be designing multi-functional public spaces that can double as shelters
+                on high ground during extreme weather events?
+              </p>
+            </article>
+
+            <article class="scale-card" data-scale="2">
+              <div class="scale-badge">03</div>
+              <h3 class="scale-title">Neighbourhood Scale: De-Centralised Grids?</h3>
+              <p class="scale-desc">
+                Can we explore de-centralised models with neighbourhoods equipped with localised
+                resources and emergency preparedness plans?
+              </p>
+            </article>
+
+            <article class="scale-card" data-scale="3">
+              <div class="scale-badge">04</div>
+              <h3 class="scale-title">Street Scale: Nature Collaborations?</h3>
+              <p class="scale-desc">
+                Can we transition to permeable pavements and embrace 'sponge city' solutions
+                that mimic natural water management systems?
+              </p>
+            </article>
+
+            <article class="scale-card" data-scale="4">
+              <div class="scale-badge">05</div>
+              <h3 class="scale-title">Building Scale: Homes for All?</h3>
+              <p class="scale-desc">
+                Can we advocate for affordable, resilient building materials accessible to all,
+                alongside flexible codes that empower flood-resistant construction?
+              </p>
+            </article>
+          </div>
+
+          <div class="resolution-block reveal">
+            <p>
+              By posing these questions, the aim is to ignite a vital conversation. The future of our
+              cities depends on our ability to adapt urban planning to a more volatile climate. Let
+              this be the beginning of a collaborative effort to create resilient, thriving urban
+              centres in a changing world.
+            </p>
+            <p>
+              The story of Rosario is a stark reminder that climate change demands action at every
+              level. From regional planning that considers migration patterns to the design of
+              individual streets, a holistic approach is essential. This project doesn't offer a rigid
+              set of proposals, but rather serves as a conversation starter — a dialogue about the
+              future of urban planning in a world shaped by extreme weather events.
+            </p>
+          </div>
+
+          <figure class="compare-figure reveal">
+            <img src="assets/compare.png" alt="Comparative scenario analysis across planning scales" loading="lazy" />
+            <figcaption>Comparative Scenario Analysis · Multi-Scale Framework</figcaption>
+          </figure>
+
+        </div>
+      </div><!-- /.framework-left -->
+
+      <!-- RIGHT: foreground image (formerly background art) -->
+      <div class="framework-right" aria-hidden="true">
+        <img src="assets/Board4-1-570x1024.png" alt="Multi-scale planning framework diagram" />
       </div>
 
-      <div class="scales-grid">
-        <article class="scale-card" data-scale="0">
-          <div class="scale-badge">01</div>
-          <h3 class="scale-title">Regional Scale: Unfragmented Planning?</h3>
-          <p class="scale-desc">
-            Can we move towards a more unified regional vision, strategically densifying areas
-            less prone to flooding while considering potential migration patterns?
-          </p>
-        </article>
+    </div><!-- /.framework-split -->
 
-        <article class="scale-card" data-scale="1">
-          <div class="scale-badge">02</div>
-          <h3 class="scale-title">City Scale: Strategic Public Space?</h3>
-          <p class="scale-desc">
-            Should we be designing multi-functional public spaces that can double as shelters
-            on high ground during extreme weather events?
-          </p>
-        </article>
-
-        <article class="scale-card" data-scale="2">
-          <div class="scale-badge">03</div>
-          <h3 class="scale-title">Neighbourhood Scale: De-Centralised Grids?</h3>
-          <p class="scale-desc">
-            Can we explore de-centralised models with neighbourhoods equipped with localised
-            resources and emergency preparedness plans?
-          </p>
-        </article>
-
-        <article class="scale-card" data-scale="3">
-          <div class="scale-badge">04</div>
-          <h3 class="scale-title">Street Scale: Nature Collaborations?</h3>
-          <p class="scale-desc">
-            Can we transition to permeable pavements and embrace 'sponge city' solutions
-            that mimic natural water management systems?
-          </p>
-        </article>
-
-        <article class="scale-card" data-scale="4">
-          <div class="scale-badge">05</div>
-          <h3 class="scale-title">Building Scale: Homes for All?</h3>
-          <p class="scale-desc">
-            Can we advocate for affordable, resilient building materials accessible to all,
-            alongside flexible codes that empower flood-resistant construction?
-          </p>
-        </article>
-      </div>
-
-      <div class="resolution-block reveal">
-        <p>
-          By posing these questions, the aim is to ignite a vital conversation. The future of our
-          cities depends on our ability to adapt urban planning to a more volatile climate. Let
-          this be the beginning of a collaborative effort to create resilient, thriving urban
-          centres in a changing world.
-        </p>
-        <p>
-          The story of Rosario is a stark reminder that climate change demands action at every
-          level. From regional planning that considers migration patterns to the design of
-          individual streets, a holistic approach is essential. This project doesn't offer a rigid
-          set of proposals, but rather serves as a conversation starter — a dialogue about the
-          future of urban planning in a world shaped by extreme weather events.
-        </p>
-      </div>
-
-      <figure class="compare-figure reveal">
-        <img src="assets/compare.png" alt="Comparative scenario analysis across planning scales" loading="lazy" />
-        <figcaption>Comparative Scenario Analysis · Multi-Scale Framework</figcaption>
-      </figure>
-
-    </div>
   </section>
 
   <!-- ============================================================
