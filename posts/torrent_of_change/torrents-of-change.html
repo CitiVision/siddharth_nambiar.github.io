@@ -1,0 +1,1790 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="color-scheme: dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#131313" />
+  <title>Torrents of Change — IAAC MaCT 2023–24</title>
+  <meta name="description" content="A scrollytelling case study about Rosario, Argentina's climate vulnerability and future urban planning strategies." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM — NOCTURNE
+    ============================================================ */
+    :root {
+      --surface:       #131313;
+      --surface-dim:   #0e0e0e;
+      --accent:        #00ffc2;
+      --indigo:        #6366f1;
+      --text-high:     #f7f8fc;
+      --text-mid:      rgba(224,229,244,0.74);
+      --text-low:      rgba(224,229,244,0.48);
+      --border:        rgba(148,163,184,0.12);
+      --border-accent: rgba(0,255,194,0.24);
+      --ease-out:      cubic-bezier(0.23,1,0.32,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--surface);
+      color: var(--text-high);
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Skip link */
+    .skip-link {
+      position: fixed;
+      top: -100%;
+      left: 16px;
+      z-index: 9999;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: top 160ms var(--ease-out);
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* Focus visible */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    /* Touch targets */
+    button, a { touch-action: manipulation; }
+
+    /* Heading word-wrap */
+    h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+
+    /* Tabular numbers for stats */
+    .stat-number, .dual-stat-number { font-variant-numeric: tabular-nums; }
+
+    /* Anchor scroll offset (accounts for fixed topbar) */
+    [id] { scroll-margin-top: 80px; }
+
+    /* ============================================================
+       PROGRESS BAR
+    ============================================================ */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--indigo));
+      z-index: 9999;
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       TOPBAR
+    ============================================================ */
+    .topbar {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(13,13,13,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      white-space: nowrap;
+    }
+
+    .topbar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 160ms var(--ease-out);
+    }
+    .topbar-back:hover { color: var(--accent); }
+
+    .topbar-divider {
+      width: 1px; height: 16px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    .topbar-link {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      transition: color 160ms var(--ease-out), background 160ms var(--ease-out);
+    }
+    .topbar-link:hover { color: var(--text-high); background: rgba(255,255,255,0.06); }
+
+    /* ============================================================
+       CHAPTER DOT NAV
+    ============================================================ */
+    .chapter-nav {
+      position: fixed;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chapter-dot {
+      position: relative;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 1.5px solid rgba(148,163,184,0.3);
+      cursor: pointer;
+      transition: background 240ms var(--ease-out), transform 240ms var(--ease-out);
+    }
+    .chapter-dot.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.3);
+      box-shadow: 0 0 12px rgba(0,255,194,0.5);
+    }
+    .chapter-dot::after {
+      content: attr(data-label);
+      position: absolute;
+      right: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms var(--ease-out);
+    }
+    .chapter-dot:hover::after { opacity: 1; }
+
+    /* ============================================================
+       HERO — SCENE 0
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+      z-index: 2;
+    }
+
+    #rain-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      display: block;
+      opacity: 0.75;
+      transition: opacity 0.9s ease;
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(13,13,13,0.6) 100%),
+        linear-gradient(180deg, rgba(13,13,13,0.12) 0%, rgba(13,13,13,0.55) 85%, var(--surface) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 880px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      padding: 8px 16px;
+      border: 1px solid var(--border-accent);
+      border-radius: 999px;
+      background: rgba(0,255,194,0.06);
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(0,255,194,0.8);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text-high);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.6vw, 1.22rem);
+      line-height: 1.72;
+      color: var(--text-mid);
+      max-width: 56ch;
+      margin: 0 auto 36px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 52px;
+    }
+
+    .meta-pill {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .meta-pill strong {
+      color: var(--text-high);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .meta-pill span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+    }
+
+    .scroll-prompt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-low);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: float 2.4s ease-in-out infinite;
+    }
+    .scroll-prompt svg { opacity: 0.5; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ============================================================
+       SCROLLYTELLING PATTERN
+    ============================================================ */
+    .scrolly-act {
+      position: relative;
+    }
+
+    .act-bg {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      margin-bottom: -100vh;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 800ms var(--ease-out);
+    }
+    .bg-layer.is-active { opacity: 1; }
+
+    .bg-layer img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .bg-layer.contain img {
+      object-fit: contain;
+      background: var(--surface-dim);
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(13,13,13,0.45) 0%, rgba(13,13,13,0.62) 100%),
+        linear-gradient(90deg, rgba(13,13,13,0.7) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .bg-overlay.overlay-right {
+      background:
+        linear-gradient(180deg, rgba(13,13,13,0.45) 0%, rgba(13,13,13,0.62) 100%),
+        linear-gradient(270deg, rgba(13,13,13,0.7) 0%, transparent 60%);
+    }
+    .bg-overlay.overlay-center {
+      background: rgba(13,13,13,0.58);
+    }
+
+    .act-panels {
+      position: relative;
+      z-index: 2;
+    }
+
+    .scroll-panel {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 24px;
+    }
+    .scroll-panel.align-left  { justify-content: flex-start; }
+    .scroll-panel.align-right { justify-content: flex-end; }
+    .scroll-panel.align-center { justify-content: center; }
+
+    /* ============================================================
+       GLASS CARD
+    ============================================================ */
+    .glass-card {
+      max-width: 480px;
+      padding: 36px 40px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(13,13,13,0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .card-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .card-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+      color: var(--text-high);
+    }
+
+    .card-body {
+      font-size: 0.97rem;
+      line-height: 1.78;
+      color: var(--text-mid);
+    }
+
+    /* ============================================================
+       STAT CALLOUT
+    ============================================================ */
+    .stat-callout {
+      max-width: 1040px;
+      text-align: center;
+      padding: 96px 80px;
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      background: rgba(13,13,13,0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(4rem, 12vw, 8rem);
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 1.12rem;
+      line-height: 1.5;
+      color: var(--text-high);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .stat-source {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+    }
+
+    /* ============================================================
+       DUAL STAT CARD
+    ============================================================ */
+    .dual-stat-card {
+      max-width: 560px;
+      padding: 40px 44px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(13,13,13,0.78);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .dual-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 24px 0;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dual-stat-item { text-align: center; }
+
+    .dual-stat-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+    .dual-stat-number.teal  { color: var(--accent); }
+    .dual-stat-number.indigo { color: var(--indigo); }
+
+    .dual-stat-city {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+    }
+
+    /* ============================================================
+       BLOCKQUOTE
+    ============================================================ */
+    .pull-quote {
+      margin: 20px 0 0;
+      padding: 16px 20px;
+      border-left: 3px solid var(--accent);
+      background: rgba(0,255,194,0.05);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.92rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-mid);
+    }
+
+    /* ============================================================
+       CHAPTER MARKERS
+    ============================================================ */
+    .chapter-marker {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .chapter-marker-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .chapter-marker-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.28) saturate(0.6);
+    }
+    .chapter-marker-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,13,0.56);
+    }
+
+    .chapter-marker-content {
+      position: relative;
+      z-index: 2;
+      padding: 40px 24px;
+    }
+
+    .chapter-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .chapter-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text-high);
+    }
+
+    .chapter-desc {
+      max-width: 52ch;
+      margin: 0 auto;
+      font-size: clamp(1rem, 1.4vw, 1.16rem);
+      line-height: 1.72;
+      color: var(--text-mid);
+    }
+
+    /* ============================================================
+       MEDIA MOMENTS
+    ============================================================ */
+    .media-panorama {
+      position: relative;
+      width: 100%;
+    }
+    .media-panorama img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .media-caption-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px 36px;
+      background: linear-gradient(0deg, rgba(13,13,13,0.9) 0%, transparent 100%);
+    }
+    .media-caption-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .media-caption-text {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      max-width: 64ch;
+    }
+
+    .media-gif {
+      position: relative;
+      height: 65vh;
+      overflow: hidden;
+    }
+    .media-gif-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .media-gif-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .media-gif-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,13,0.42);
+    }
+    .media-gif-caption {
+      position: absolute;
+      bottom: 32px; left: 36px; right: 36px;
+    }
+
+    /* ============================================================
+       ACT IV — MULTI-SCALE FRAMEWORK
+    ============================================================ */
+    .act-framework {
+      position: relative;
+      background: var(--surface-dim);
+      padding: 100px 24px;
+    }
+
+    .framework-bg-art {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .framework-bg-art img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0.08;
+    }
+
+    .framework-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .framework-intro {
+      margin-bottom: 64px;
+    }
+
+    .framework-intro .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .framework-intro h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--text-high);
+    }
+
+    .framework-intro p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+      max-width: 68ch;
+    }
+
+    .scales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .scale-card {
+      padding: 28px 30px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.03);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out),
+                  border-color 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .scale-card.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    .scale-card:hover {
+      border-color: var(--border-accent);
+      background: rgba(0,255,194,0.04);
+    }
+
+    .scale-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(0,255,194,0.12);
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .scale-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.18rem;
+      line-height: 1.3;
+      color: var(--text-high);
+      margin-bottom: 12px;
+    }
+
+    .scale-desc {
+      font-size: 0.9rem;
+      line-height: 1.72;
+      color: var(--text-mid);
+    }
+
+    .resolution-block {
+      padding: 36px 40px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.02);
+      margin-bottom: 48px;
+    }
+
+    .resolution-block p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .resolution-block p:last-child { margin-bottom: 0; }
+
+    .compare-figure {
+      margin-top: 24px;
+    }
+    .compare-figure img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .compare-figure figcaption {
+      margin-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      text-align: center;
+    }
+
+    /* ============================================================
+       EPILOGUE / REFERENCES
+    ============================================================ */
+    .epilogue {
+      padding: 100px 24px;
+      background: var(--surface-dim);
+      border-top: 1px solid var(--border);
+    }
+
+    .epilogue-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .epilogue-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+      color: var(--text-high);
+    }
+
+    .references-list {
+      list-style: decimal;
+      padding-left: 1.4em;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 64px;
+    }
+
+    .references-list li {
+      font-size: 0.93rem;
+      line-height: 1.72;
+      color: var(--text-mid);
+    }
+
+    .references-list a {
+      color: var(--accent);
+      opacity: 0.85;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .references-list a:hover { opacity: 1; }
+
+    .footer-attribution {
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-attribution p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-low);
+      line-height: 1.9;
+    }
+
+    /* ============================================================
+       REVEAL ANIMATION
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       REDUCED MOTION
+    ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal, .scale-card { opacity: 1 !important; transform: none !important; }
+      .bg-layer { transition: none !important; }
+      .scroll-prompt { animation: none !important; }
+    }
+
+    /* ============================================================
+       ACT I — GLOBE OVERLAY LAYOUT
+       Globe is sticky + oversized (bleeds right); cards float above
+    ============================================================ */
+    #act-threat {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Scopes the sticky globe — ends before rain-graph, so globe stops there */
+    .act-i-scope {
+      position: relative;
+      overflow-x: clip; /* clips globe bleed without creating a scroll container */
+    }
+
+    /* Globe: sticky, fills viewport, anchored right and overflowing */
+    .act-i-globe-wrap {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .act-i-globe-img {
+      position: absolute;
+      left: 62%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 92vh;
+      height: 92vh;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.95;
+    }
+
+    /* Panels: pull up by 100vh so they overlay the sticky globe */
+    .act-i-panels {
+      position: relative;
+      margin-top: -100vh;
+      z-index: 2;
+    }
+
+    .act-i-panel {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 5vw;
+    }
+
+    /* Panel 1: intro text — far left */
+    .act-i-panel--intro  { justify-content: flex-start; }
+    .act-i-panel--intro .glass-card { max-width: 760px; padding: 72px 80px; }
+
+    /* Panel 2: cities card — left-aligned so globe remains visible on the right */
+    .act-i-panel--cities { justify-content: flex-start; }
+
+    /* Panel 3: stat — left-of-centre */
+    .act-i-panel--stat   { justify-content: flex-start; padding-left: 8vw; }
+
+    /* Cities foreground card — doubled from 520px */
+    .cities-fg-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 56px 56px 36px;
+      width: 100%;
+      max-width: 1040px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+    }
+    .cities-fg-card img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+    .cities-fg-caption {
+      margin-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Rain-graph full-width split panel */
+    .rain-graph-split {
+      display: grid;
+      grid-template-columns: 65% 35%;
+      min-height: 100vh;
+    }
+
+    .rain-graph-img {
+      background: #f7f8f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px;
+    }
+    .rain-graph-img img {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .rain-graph-text {
+      display: flex;
+      align-items: center;
+      padding: 64px 44px 64px 36px;
+      background: var(--surface);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .topbar { top: 10px; padding: 8px 14px; font-size: 0.78rem; }
+      .topbar-link { padding: 5px 10px; }
+      .chapter-nav { right: 10px; }
+      .glass-card { max-width: 90vw; padding: 24px 22px; }
+      .stat-callout { max-width: 90vw; padding: 32px 22px; }
+      .dual-stat-card { max-width: 90vw; padding: 28px 22px; }
+      .scales-grid { grid-template-columns: 1fr; }
+      .framework-inner { padding: 0; }
+      .media-caption-overlay { padding: 20px 18px; }
+      /* Act I mobile */
+      .act-i-globe-wrap { display: none; }
+      .act-i-panels { margin-top: 0; }
+      .act-i-panel { padding: 60px 24px; }
+      .cities-fg-card { max-width: 90vw; }
+      .rain-graph-split { grid-template-columns: 1fr; }
+      .rain-graph-img { min-height: 50vh; padding: 20px; }
+      .rain-graph-text { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- PROGRESS BAR -->
+  <div id="progress-bar" role="progressbar" aria-hidden="true"></div>
+
+  <!-- TOPBAR -->
+  <nav class="topbar" aria-label="Site navigation">
+    <a href="../../index.html" class="topbar-back">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Portfolio
+    </a>
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <a href="../../about.html" class="topbar-link">About</a>
+    <a href="#references" class="topbar-link">References</a>
+  </nav>
+
+  <!-- CHAPTER DOT NAV -->
+  <nav class="chapter-nav" aria-label="Chapter navigation">
+    <button class="chapter-dot is-active" data-chapter="threat"    data-label="The Threat"     onclick="document.getElementById('act-threat').scrollIntoView({behavior:'smooth'})"    aria-label="Act I: The Threat"></button>
+    <button class="chapter-dot"           data-chapter="rosario"   data-label="A City on the Edge" onclick="document.getElementById('act-rosario').scrollIntoView({behavior:'smooth'})"   aria-label="Act II: A City on the Edge"></button>
+    <button class="chapter-dot"           data-chapter="storm"     data-label="The Storm"      onclick="document.getElementById('act-storm').scrollIntoView({behavior:'smooth'})"      aria-label="Act III: The Storm"></button>
+    <button class="chapter-dot"           data-chapter="framework" data-label="Rethinking"     onclick="document.getElementById('act-framework').scrollIntoView({behavior:'smooth'})"  aria-label="Act IV: Rethinking the City"></button>
+  </nav>
+
+  <main id="main-content">
+
+  <!-- ============================================================
+       SCENE 0 — HERO
+  ============================================================ -->
+  <header class="hero">
+    <canvas id="rain-canvas" aria-hidden="true"></canvas>
+    <div class="hero-vignette" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">Master in City &amp; Technology · 2023–2024 · IAAC</p>
+
+      <h1 class="hero-title">Torrents of&nbsp;Change</h1>
+
+      <p class="hero-subtitle">
+        A climate scenario study exploring Rosario, Argentina's vulnerability to extreme rainfall events —
+        and the urban planning tools that may need rethinking in a changing world.
+      </p>
+
+      <div class="hero-meta" role="list">
+        <div class="meta-pill" role="listitem">
+          <span>By</span>
+          <strong>Azucena Ospina, Pruethicheth Lert-udompruksa, Nagendran Muthusamy Arumugam &amp; Siddharth Nambiar</strong>
+        </div>
+        <div class="meta-pill" role="listitem">
+          <span>Published</span>
+          <strong>April 19, 2024</strong>
+        </div>
+        <div class="meta-pill" role="listitem">
+          <span>Course</span>
+          <strong>MaCT01 23/24 · Landscapes in Transition</strong>
+        </div>
+      </div>
+
+      <div class="scroll-prompt" aria-hidden="true">
+        <span>Scroll to explore</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 4v12M4 11l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       ACT I — THE THREAT
+  ============================================================ -->
+  <section id="act-threat" data-chapter="threat" aria-labelledby="act1-heading">
+
+    <!-- Sticky-scope wrapper: globe sticks only within these three panels -->
+    <div class="act-i-scope">
+
+      <!-- Globe: sticky background, bleeds off right edge -->
+      <div class="act-i-globe-wrap" aria-hidden="true">
+        <img class="act-i-globe-img" src="assets/map03.png"
+             alt="Globe centred on South America showing river networks and flood-risk regions"
+             loading="eager" />
+      </div>
+
+      <!-- Scrolling panels float above the sticky globe -->
+      <div class="act-i-panels">
+
+        <!-- Panel 1: Shorter & Sharper -->
+        <div class="act-i-panel act-i-panel--intro">
+          <article class="glass-card reveal">
+            <p class="card-eyebrow">Act I · The Threat</p>
+            <h2 class="card-heading" id="act1-heading">Shorter &amp; Sharper Events</h2>
+            <p class="card-body">
+              Imagine the persistent drumming of rain against your window. Not the comforting tapping
+              of a spring shower, but a relentless torrent that seems to prolong for days. This isn't
+              science fiction, but a glimpse into the potential future of many Latin American cities.
+            </p>
+          </article>
+        </div>
+
+        <!-- Panel 2: Cities.png foreground card (wide, white, centered) -->
+        <div class="act-i-panel act-i-panel--cities">
+          <div class="cities-fg-card reveal">
+            <img src="assets/Cities.png" alt="Latin American cities at flood risk — Asunción, Guayaquil, São Paulo" loading="lazy" />
+            <p class="cities-fg-caption">Cities at risk · Asunción · Guayaquil · São Paulo</p>
+          </div>
+        </div>
+
+        <!-- Panel 3: 40% stat callout -->
+        <div class="act-i-panel act-i-panel--stat">
+          <div class="stat-callout reveal">
+            <div class="stat-number">40%</div>
+            <p class="stat-label">of Latin America is already at risk of flooding</p>
+            <p class="stat-source">Source: UNDRR Special Report on Latin America</p>
+          </div>
+        </div>
+
+      </div><!-- /.act-i-panels -->
+
+    </div><!-- /.act-i-scope -->
+
+    <!-- Panel 4: Rain-graph + Seasonal Extremes (full-width split, image at left) -->
+    <div class="rain-graph-split">
+      <div class="rain-graph-img" aria-hidden="true">
+        <img src="assets/Rain-Graph.png" alt="Average monthly rainfall heatmap for Argentinian cities" loading="lazy" />
+      </div>
+      <div class="rain-graph-text">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Seasonal Extremes</p>
+          <h2 class="card-heading">Heavier Wet. Harsher Dry.</h2>
+          <p class="card-body">
+            Now, take a look at Argentina's rainfall patterns. Notice how the precipitation
+            concentrates heavily at the beginning and end of the year, leaving the rest of the
+            months relatively dry. Climate change is projected to intensify these extremes — heavier
+            rain during the wet season, followed by longer, harsher droughts.
+            <br /><br />
+            This project explores the case of Rosario, Argentina, under an extreme weather event —
+            intense and prolonged rainfall — to see how it would cope. But the purpose isn't just
+            to paint a scary picture; this serves as a springboard to identify existing urban
+            planning and architectural tools that might become obsolete in the face of a
+            changing climate.
+          </p>
+        </article>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       CHAPTER MARKER — ACT II
+  ============================================================ -->
+  <div id="act-rosario" class="chapter-marker" data-chapter="rosario" aria-labelledby="act2-heading">
+    <div class="chapter-marker-bg" aria-hidden="true">
+      <img src="assets/Rosario-Map.png" alt="Map of Rosario, Argentina" loading="lazy" />
+      <div class="chapter-marker-bg-overlay"></div>
+    </div>
+    <div class="chapter-marker-content">
+      <p class="chapter-number">Act II</p>
+      <h2 class="chapter-title" id="act2-heading">A City on the Edge</h2>
+      <p class="chapter-desc">
+        Rosario sits on a slight natural elevation beside the Paraná River — a geographic quirk that
+        has historically shielded it from river overflows, but leaves it exposed to a different threat.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ACT II — A CITY ON THE EDGE
+  ============================================================ -->
+  <section class="scrolly-act" data-chapter="rosario" aria-labelledby="act2-panels-heading">
+
+    <div class="act-bg" aria-hidden="true">
+      <div class="bg-layer is-active" data-bg="rosario-map">
+        <img src="assets/Rosario-Map.png" alt="Rosario city map" loading="lazy" />
+        <div class="bg-overlay overlay-right"></div>
+      </div>
+      <div class="bg-layer" data-bg="elevation">
+        <img src="assets/Extra_Assets/1_RelativeELevationModel_Rosario_0002.png" alt="Relative elevation model of Rosario" loading="lazy" />
+        <div class="bg-overlay overlay-right"></div>
+      </div>
+      <div class="bg-layer" data-bg="parana">
+        <img src="assets/Extra_Assets/Parana River.png" alt="Paraná River render" loading="lazy" />
+        <div class="bg-overlay"></div>
+      </div>
+      <div class="bg-layer contain" data-bg="sentinel">
+        <img src="assets/Untitled-3-2.png" alt="Sentinel-1 flood detection map" loading="lazy" />
+        <div class="bg-overlay overlay-center"></div>
+      </div>
+    </div>
+
+    <div class="act-panels">
+      <!-- Panel 1 — city overview -->
+      <div class="scroll-panel align-right" data-bg-target="rosario-map">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Act II · A City on the Edge</p>
+          <h2 class="card-heading" id="act2-panels-heading">Rosario, Argentina</h2>
+          <p class="card-body">
+            Home to approximately one million people, Rosario is Argentina's third-largest city.
+            It sits at a slightly higher elevation relative to the Paraná River floodplain, which
+            has historically spared it from the river overflows that periodically inundate
+            neighbouring lowlands. Yet this advantage is only partial.
+          </p>
+        </article>
+      </div>
+
+      <!-- Panel 2 — pluvial flooding -->
+      <div class="scroll-panel align-right" data-bg-target="elevation">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Pluvial Flooding</p>
+          <h2 class="card-heading">When the Drains Overflow</h2>
+          <p class="card-body">
+            Rosario's primary flood risk is pluvial — caused by heavy downpours that overwhelm
+            the city's drainage infrastructure. The Saladillo and Ludueña streams, which flow
+            through the urban fabric, can transform into torrents during intense rainfall events,
+            inundating low-lying residential neighbourhoods with little warning.
+          </p>
+        </article>
+      </div>
+
+      <!-- Panel 3 — Paraná -->
+      <div class="scroll-panel align-left" data-bg-target="parana">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">The Great River</p>
+          <h2 class="card-heading">The Paraná River</h2>
+          <p class="card-body">
+            The Paraná is one of South America's great rivers, draining a basin second in size
+            only to the Amazon. It defines Rosario's western edge — a dynamic, ever-shifting
+            boundary between city and floodplain that has shaped the urban form, culture,
+            and economy of the region for centuries.
+          </p>
+        </article>
+      </div>
+
+      <!-- Panel 4 — Sentinel-1 -->
+      <div class="scroll-panel align-left" data-bg-target="sentinel">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Remote Sensing · Sentinel-1</p>
+          <h2 class="card-heading">Mapping the Floods</h2>
+          <p class="card-body">
+            Using Google Earth Engine with Sentinel-1 GRD SAR data from 2015 to 2021,
+            combined with speckle filtering and change-detection algorithms, the team
+            produced a time-series flood-detection analysis.
+            <br /><br />
+            "The data illustrates a discernible pattern of seasonal rainfall peaks in Rosario,
+            potentially coinciding with summer months. Notably, there's a clear correlation
+            between periods of intense precipitation and the incidence of floods."
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CHAPTER MARKER — ACT III
+  ============================================================ -->
+  <div id="act-storm" class="chapter-marker" data-chapter="storm" aria-labelledby="act3-heading">
+    <div class="chapter-marker-bg" aria-hidden="true">
+      <img src="assets/Picture4.png" alt="Rosario under extreme flooding" loading="lazy" />
+      <div class="chapter-marker-bg-overlay"></div>
+    </div>
+    <div class="chapter-marker-content">
+      <p class="chapter-number">Act III</p>
+      <h2 class="chapter-title" id="act3-heading">Torrents of Change</h2>
+      <p class="chapter-desc">
+        What happens when a century-scale rainfall event meets a city unprepared for it?
+        The scenario unfolds across scales — from regional migration to street-level survival.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ACT III — THE STORM
+  ============================================================ -->
+  <section class="scrolly-act" data-chapter="storm" aria-labelledby="act3-panels-heading">
+
+    <div class="act-bg" aria-hidden="true">
+      <div class="bg-layer is-active" data-bg="flooding">
+        <img src="assets/Picture4.png" alt="Rosario under extreme flooding" loading="lazy" />
+        <div class="bg-overlay overlay-right"></div>
+      </div>
+      <div class="bg-layer" data-bg="flooding-2">
+        <img src="assets/Picture4.png" alt="Rosario flood scenario" loading="lazy" />
+        <div class="bg-overlay overlay-center"></div>
+      </div>
+      <div class="bg-layer contain" data-bg="grasshopper">
+        <img src="assets/Picture2-2-1268x1536.png" alt="Grasshopper flood simulation" loading="lazy" />
+        <div class="bg-overlay overlay-center"></div>
+      </div>
+    </div>
+
+    <div class="act-panels">
+      <!-- Panel 1 — curious position -->
+      <div class="scroll-panel align-right" data-bg-target="flooding">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Act III · The Storm</p>
+          <h2 class="card-heading" id="act3-panels-heading">A Curious Position</h2>
+          <p class="card-body">
+            As climate change intensifies, rain events in Rosario might position it in a curious
+            position. While surrounding areas, like the lower-lying Buenos Aires, could face even
+            greater challenges, Rosario might become a relatively safe haven. This potential for
+            in-migration adds another layer of complexity to the city's flood risk equation.
+          </p>
+          <blockquote class="pull-quote">
+            Existing mitigation efforts — drainage improvements, flood control infrastructure,
+            and early warning systems — may be overwhelmed by the scale of a truly extreme event,
+            forcing a fundamental rethink of urban resilience.
+          </blockquote>
+        </article>
+      </div>
+
+      <!-- Panel 2 — population displacement -->
+      <div class="scroll-panel align-center" data-bg-target="flooding-2">
+        <div class="dual-stat-card reveal">
+          <p class="card-eyebrow" style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px;">
+            Regional Population at Risk
+          </p>
+          <h2 class="card-heading" style="font-size:1.3rem;margin-bottom:4px;">Displacement Pressures</h2>
+          <div class="dual-stat-grid">
+            <div class="dual-stat-item">
+              <div class="dual-stat-number teal">13M+</div>
+              <div class="dual-stat-city">Buenos Aires</div>
+            </div>
+            <div class="dual-stat-item">
+              <div class="dual-stat-number indigo">490K</div>
+              <div class="dual-stat-city">Santa Fe</div>
+            </div>
+          </div>
+          <p style="font-size:0.9rem;line-height:1.72;color:var(--text-mid);">
+            While Rosario may evade the brunt of the flooding, it must grapple with the strain
+            on resources and infrastructure while providing assistance to those in need from
+            the wider region.
+          </p>
+        </div>
+      </div>
+
+      <!-- Panel 3 — Grasshopper simulation -->
+      <div class="scroll-panel align-left" data-bg-target="grasshopper">
+        <article class="glass-card reveal">
+          <p class="card-eyebrow">Parametric Analysis</p>
+          <h2 class="card-heading">Mapping the Vulnerable Pockets</h2>
+          <p class="card-body">
+            Grasshopper parametric simulations were used to analyse the terrain in detail,
+            pinpointing the low-lying pockets most susceptible to waterlogging and inundation.
+            <br /><br />
+            River flood hazard across the study area is classified as <strong style="color:var(--accent);">high</strong> —
+            indicating a significant risk of potentially damaging and life-threatening flood events
+            at least once within the next decade under current climate trajectories.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANORAMA MEDIA MOMENT -->
+  <figure class="media-panorama" aria-label="Rosario 2050 scenario panorama">
+    <img src="assets/Picture3-2048x653.jpg" alt="Rosario and the Santa Fe region under projected extreme flooding conditions, 2050 scenario" loading="lazy" />
+    <figcaption class="media-caption-overlay">
+      <p class="media-caption-label">Scenario · 2050</p>
+      <p class="media-caption-text">Rosario and the Santa Fe region under projected extreme flooding conditions.</p>
+    </figcaption>
+  </figure>
+
+  <!-- EXISTING CONDITION IMAGE -->
+  <figure class="media-panorama" aria-label="Rosario existing flooding condition">
+    <img src="assets/Picture5-2048x680.png" alt="Rosario existing flooding condition" loading="lazy" />
+    <figcaption class="media-caption-overlay">
+      <p class="media-caption-label">Existing Condition</p>
+      <p class="media-caption-text">Current flooding patterns along Rosario's drainage network and stream corridors.</p>
+    </figcaption>
+  </figure>
+
+  <!-- GIF MEDIA MOMENT -->
+  <figure class="media-gif" aria-label="Inundated floodplain animation">
+    <div class="media-gif-bg">
+      <img src="assets/ezgif.com-crop.gif" alt="Animation showing progressive inundation of the Rosario floodplain" loading="lazy" />
+    </div>
+    <div class="media-gif-overlay" aria-hidden="true"></div>
+    <figcaption class="media-gif-caption">
+      <p class="media-caption-label">Simulation · Inundated Floodplain</p>
+      <p class="media-caption-text" style="color:var(--text-mid);font-size:0.95rem;">
+        A time-lapse simulation of the floodplain under progressive inundation — tracing the
+        sequential expansion of flood extent as rainfall accumulates beyond drainage capacity.
+      </p>
+    </figcaption>
+  </figure>
+
+  <!-- ============================================================
+       CHAPTER MARKER — ACT IV
+  ============================================================ -->
+  <div id="act-framework" class="chapter-marker" data-chapter="framework"
+       aria-labelledby="act4-heading"
+       style="background: var(--surface-dim); border-top: 1px solid var(--border);">
+    <div class="chapter-marker-content">
+      <p class="chapter-number">Act IV</p>
+      <h2 class="chapter-title" id="act4-heading">Rethinking the City</h2>
+      <p class="chapter-desc">
+        Understanding risk is only the first step. The deeper question is: which urban planning
+        tools must be re-evaluated — and reimagined — in the face of a new climatic reality?
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ACT IV — MULTI-SCALE FRAMEWORK
+  ============================================================ -->
+  <section class="act-framework" aria-labelledby="framework-heading">
+
+    <div class="framework-bg-art" aria-hidden="true">
+      <img src="assets/Board4-1-570x1024.png" alt="" />
+    </div>
+
+    <div class="framework-inner">
+
+      <div class="framework-intro reveal">
+        <p class="section-eyebrow">Multi-Scale Planning Framework</p>
+        <h2 id="framework-heading">Five Scales of Intervention</h2>
+        <p>
+          Understanding Rosario's vulnerability is just the first step. The goal goes beyond
+          simply identifying risks — it re-evaluates the tools used for urban planning in the
+          face of a new climatic reality. At each scale, a key question is raised:
+        </p>
+      </div>
+
+      <div class="scales-grid">
+        <article class="scale-card" data-scale="0">
+          <div class="scale-badge">01</div>
+          <h3 class="scale-title">Regional Scale: Unfragmented Planning?</h3>
+          <p class="scale-desc">
+            Can we move towards a more unified regional vision, strategically densifying areas
+            less prone to flooding while considering potential migration patterns?
+          </p>
+        </article>
+
+        <article class="scale-card" data-scale="1">
+          <div class="scale-badge">02</div>
+          <h3 class="scale-title">City Scale: Strategic Public Space?</h3>
+          <p class="scale-desc">
+            Should we be designing multi-functional public spaces that can double as shelters
+            on high ground during extreme weather events?
+          </p>
+        </article>
+
+        <article class="scale-card" data-scale="2">
+          <div class="scale-badge">03</div>
+          <h3 class="scale-title">Neighbourhood Scale: De-Centralised Grids?</h3>
+          <p class="scale-desc">
+            Can we explore de-centralised models with neighbourhoods equipped with localised
+            resources and emergency preparedness plans?
+          </p>
+        </article>
+
+        <article class="scale-card" data-scale="3">
+          <div class="scale-badge">04</div>
+          <h3 class="scale-title">Street Scale: Nature Collaborations?</h3>
+          <p class="scale-desc">
+            Can we transition to permeable pavements and embrace 'sponge city' solutions
+            that mimic natural water management systems?
+          </p>
+        </article>
+
+        <article class="scale-card" data-scale="4">
+          <div class="scale-badge">05</div>
+          <h3 class="scale-title">Building Scale: Homes for All?</h3>
+          <p class="scale-desc">
+            Can we advocate for affordable, resilient building materials accessible to all,
+            alongside flexible codes that empower flood-resistant construction?
+          </p>
+        </article>
+      </div>
+
+      <div class="resolution-block reveal">
+        <p>
+          By posing these questions, the aim is to ignite a vital conversation. The future of our
+          cities depends on our ability to adapt urban planning to a more volatile climate. Let
+          this be the beginning of a collaborative effort to create resilient, thriving urban
+          centres in a changing world.
+        </p>
+        <p>
+          The story of Rosario is a stark reminder that climate change demands action at every
+          level. From regional planning that considers migration patterns to the design of
+          individual streets, a holistic approach is essential. This project doesn't offer a rigid
+          set of proposals, but rather serves as a conversation starter — a dialogue about the
+          future of urban planning in a world shaped by extreme weather events.
+        </p>
+      </div>
+
+      <figure class="compare-figure reveal">
+        <img src="assets/compare.png" alt="Comparative scenario analysis across planning scales" loading="lazy" />
+        <figcaption>Comparative Scenario Analysis · Multi-Scale Framework</figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EPILOGUE — REFERENCES
+  ============================================================ -->
+  <footer id="references" class="epilogue" aria-labelledby="references-heading">
+    <div class="epilogue-inner">
+
+      <h2 class="epilogue-heading" id="references-heading">References</h2>
+
+      <ol class="references-list">
+        <li id="ref1">
+          UN Office for Disaster Risk Reduction (UNDRR). <em>Special Report on Urbanization and Disaster Risk in Latin America.</em>
+        </li>
+        <li>
+          <a href="https://www.zurich.com/en/knowledge/topics/flood-and-water-damage/three-common-types-of-flood" target="_blank" rel="noopener">Zurich: Three Common Types of Flood</a>
+        </li>
+        <li>
+          <a href="https://youtu.be/f6mnTvIKZK8?feature=shared" target="_blank" rel="noopener">Video Reference</a>
+        </li>
+      </ol>
+
+      <div class="footer-attribution">
+        <p>
+          Torrents of Change is a project of <strong>IAAC, Institute for Advanced Architecture of Catalonia</strong>
+          developed in the <em>Master in City &amp; Technology 01 — 2023–2024</em> by
+          Azucena Ospina, Pruethicheth Lert-udompruksa, Nagendran Muthusamy Arumugam and Siddharth Nambiar
+          during the course <em>MaCT01 23/24 Landscapes in Transition</em> with Felipe Vera and Matias Lince Marino.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       HERO RAIN CANVAS
+  ============================================================ -->
+  <script>
+  (function () {
+    const canvas = document.getElementById('rain-canvas');
+    if (!canvas) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) { canvas.style.display = 'none'; return; }
+
+    const ctx = canvas.getContext('2d');
+    let drops = [];
+    let frameId = 0;
+    let isVisible = true;
+
+    /* ── Lightning state ── */
+    let lightningAlpha = 0;
+    let lightningBolt  = null;
+    let lastLightning  = performance.now();
+    let nextDelay      = randomLightningDelay();
+
+    function randomLightningDelay() { return 3500 + Math.random() * 5500; }
+
+    function buildBolt() {
+      const sx = canvas.width * (0.15 + Math.random() * 0.7);
+      const pts = [{ x: sx, y: 0 }];
+      let cx = sx;
+      const segs = 7 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < segs; i++) {
+        cx += (Math.random() - 0.5) * 140;
+        pts.push({ x: cx, y: (canvas.height / segs) * (i + 1) * (0.5 + Math.random() * 0.9) });
+      }
+      return pts;
+    }
+
+    function triggerLightning() {
+      /* double-flash effect */
+      lightningAlpha = 0.35 + Math.random() * 0.3;
+      lightningBolt  = buildBolt();
+      setTimeout(() => { lightningAlpha = 0.08; },                90);
+      setTimeout(() => { lightningAlpha = 0.25; lightningBolt = buildBolt(); }, 170);
+      setTimeout(() => { lightningAlpha = 0; lightningBolt = null; },           320);
+    }
+
+    /* ── Drops ── */
+    function createDrop(randomY) {
+      return {
+        x:       Math.random() * canvas.width,
+        y:       randomY ? Math.random() * canvas.height : -50,
+        speed:   14 + Math.random() * 22,
+        len:     22 + Math.random() * 55,
+        opacity: 0.18 + Math.random() * 0.50,
+        w:       0.5 + Math.random() * 1.6,
+        drift:   -2.5 + Math.random() * 0.8,  /* wind from right */
+      };
+    }
+
+    function initDrops() {
+      const count = Math.max(500, Math.floor((canvas.width * canvas.height) / 2200));
+      drops = Array.from({ length: count }, () => createDrop(true));
+    }
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initDrops();
+    }
+
+    function tick() {
+      if (!isVisible) { frameId = 0; return; }
+      frameId = requestAnimationFrame(tick);
+
+      const now = performance.now();
+      if (now - lastLightning > nextDelay) {
+        lastLightning = now;
+        nextDelay = randomLightningDelay();
+        triggerLightning();
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      /* Lightning sky flash */
+      if (lightningAlpha > 0) {
+        ctx.fillStyle = `rgba(180,215,255,${lightningAlpha})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      /* Lightning bolt */
+      if (lightningBolt && lightningBolt.length > 1) {
+        ctx.save();
+        ctx.shadowColor = '#88ccff';
+        ctx.shadowBlur  = 18;
+        ctx.strokeStyle = 'rgba(230,245,255,0.95)';
+        ctx.lineWidth   = 1.5 + Math.random();
+        ctx.lineJoin    = 'round';
+        ctx.beginPath();
+        ctx.moveTo(lightningBolt[0].x, lightningBolt[0].y);
+        for (let i = 1; i < lightningBolt.length; i++) {
+          ctx.lineTo(lightningBolt[i].x, lightningBolt[i].y);
+        }
+        ctx.stroke();
+        /* inner bright core */
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth   = 0.5;
+        ctx.shadowBlur  = 0;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      /* Rain streaks */
+      for (let i = 0; i < drops.length; i++) {
+        const d = drops[i];
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(160,215,255,${d.opacity})`;
+        ctx.lineWidth   = d.w;
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x + d.drift * (d.len * 0.18), d.y + d.len);
+        ctx.stroke();
+
+        d.y += d.speed;
+        d.x += d.drift * 0.55;
+
+        if (d.y - d.len > canvas.height || d.x < -60 || d.x > canvas.width + 60) {
+          drops[i] = createDrop(false);
+        }
+      }
+    }
+
+    function start() { if (!frameId) frameId = requestAnimationFrame(tick); }
+    function stop()  { if (frameId) { cancelAnimationFrame(frameId); frameId = 0; } }
+
+    /* Show rain only while hero OR #act-threat is visible in the viewport */
+    let heroVisible      = false;
+    let actThreatVisible = false;
+
+    function updateRain() {
+      const on = heroVisible || actThreatVisible;
+      isVisible = on;
+      canvas.style.opacity = on ? '0.75' : '0';
+      on ? start() : stop();
+    }
+
+    const obsOpts = { threshold: 0.01 };
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      new IntersectionObserver(entries => {
+        heroVisible = entries[0].isIntersecting;
+        updateRain();
+      }, obsOpts).observe(heroEl);
+    }
+
+    const actEl = document.getElementById('act-threat');
+    if (actEl) {
+      new IntersectionObserver(entries => {
+        actThreatVisible = entries[0].isIntersecting;
+        updateRain();
+      }, obsOpts).observe(actEl);
+    }
+
+    window.addEventListener('resize', resize, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : (isVisible && start());
+    });
+
+    resize();
+    /* updateRain() called by IntersectionObservers on load — no manual start() needed */
+  })();
+  </script>
+
+
+
+  <!-- ============================================================
+       MAIN SCRIPT
+  ============================================================ -->
+  <script>
+    // === PROGRESS BAR ===
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      progressBar.style.width = (Math.min(pct, 1) * 100) + '%';
+    }, { passive: true });
+
+    // === REVEAL ANIMATIONS ===
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reducedMotion) {
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObs.unobserve(e.target); }
+        });
+      }, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal:not(.is-visible)').forEach(el => revealObs.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    }
+
+    // === BACKGROUND LAYER SWITCHING ===
+    const bgSwitchObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const targetId = entry.target.dataset.bgTarget;
+        if (!targetId) return;
+        const act = entry.target.closest('.scrolly-act');
+        if (!act) return;
+        act.querySelectorAll('.bg-layer').forEach(layer => {
+          layer.classList.toggle('is-active', layer.dataset.bg === targetId);
+        });
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-bg-target]').forEach(panel => bgSwitchObs.observe(panel));
+
+    // === CHAPTER DOT NAVIGATION ===
+    const chapterDots = document.querySelectorAll('.chapter-dot[data-chapter]');
+    const chapterSections = document.querySelectorAll('[data-chapter]');
+
+    const chapterObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const chapter = entry.target.dataset.chapter;
+        chapterDots.forEach(dot => {
+          dot.classList.toggle('is-active', dot.dataset.chapter === chapter);
+        });
+      });
+    }, { threshold: 0.3, rootMargin: '-10% 0px -60% 0px' });
+    chapterSections.forEach(s => chapterObs.observe(s));
+
+    // === SCALE CARDS STAGGERED REVEAL ===
+    const scaleCards = document.querySelectorAll('.scale-card');
+    if (!reducedMotion) {
+      const scaleObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const delay = parseInt(entry.target.dataset.scale || '0') * 100;
+            setTimeout(() => entry.target.classList.add('is-visible'), delay);
+            scaleObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      scaleCards.forEach(card => scaleObs.observe(card));
+    } else {
+      scaleCards.forEach(card => card.classList.add('is-visible'));
+    }
+  </script>
+
+  </main><!-- /#main-content -->
+
+</body>
+</html>
