@@ -611,21 +611,43 @@
       display: block;
     }
 
-    /* Apocalyptic text interstitial */
+    /* Apocalyptic text interstitial — full-bleed image background */
     .apoc-text-block {
-      background: var(--surface-dim);
-      padding: 100px 8vw;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    .apoc-text-block p {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
-      line-height: 1.78;
-      color: var(--text-high);
-      max-width: 900px;
-      margin: 0 auto;
+    .apoc-text-block__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .apoc-text-block__bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .apoc-text-block__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 8, 8, 0.72);
+    }
+    .apoc-text-block__content {
+      position: relative;
+      z-index: 1;
+      padding: 80px 8vw;
+      max-width: 860px;
       text-align: center;
+    }
+    .apoc-text-block__content p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      line-height: 1.82;
+      color: rgba(255,255,255,0.88);
       font-style: italic;
     }
     .media-caption-overlay {
@@ -1429,13 +1451,18 @@
 
   <!-- APOCALYPTIC NARRATIVE — between simulation and panoramas -->
   <div class="apoc-text-block">
-    <p>Apocalyptic storms unleash havoc upon low-lying regions and river cities like Buenos Aires
-    and Rosario, transforming them into inundated flood zones. Feeble defenses are no match for
-    the torrents of water that inundate streets within mere minutes. As rivers burst their banks,
-    entire neighborhoods are swallowed by the deluge, leaving destruction in their wake. Despite
-    efforts to fortify defenses and issue warnings, the specter of flooding casts a dark and
-    ominous shadow over these vulnerable cities, perpetuating the imminent danger and uncertainty
-    that looms large.</p>
+    <div class="apoc-text-block__bg" aria-hidden="true">
+      <img src="assets/Picture4.png" alt="" loading="lazy" />
+    </div>
+    <div class="apoc-text-block__content">
+      <p>Apocalyptic storms unleash havoc upon low-lying regions and river cities like Buenos Aires
+      and Rosario, transforming them into inundated flood zones. Feeble defenses are no match for
+      the torrents of water that inundate streets within mere minutes. As rivers burst their banks,
+      entire neighborhoods are swallowed by the deluge, leaving destruction in their wake. Despite
+      efforts to fortify defenses and issue warnings, the specter of flooding casts a dark and
+      ominous shadow over these vulnerable cities, perpetuating the imminent danger and uncertainty
+      that looms large.</p>
+    </div>
   </div>
 
   <!-- EXISTING CONDITION IMAGE -->
