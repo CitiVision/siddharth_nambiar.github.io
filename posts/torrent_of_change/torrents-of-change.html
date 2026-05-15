@@ -465,6 +465,20 @@
       color: var(--text-low);
     }
 
+    .stat-desc {
+      font-size: 1rem;
+      line-height: 1.72;
+      color: var(--text-mid);
+      margin-top: 16px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    /* White-bg modifier for bg-layer — used in Parametric Analysis panel */
+    .bg-layer.contain.white-bg img {
+      background: #ffffff;
+    }
+
     /* ============================================================
        DUAL STAT CARD
     ============================================================ */
@@ -595,6 +609,24 @@
       width: 100%;
       height: auto;
       display: block;
+    }
+
+    /* Apocalyptic text interstitial */
+    .apoc-text-block {
+      background: var(--surface-dim);
+      padding: 100px 8vw;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .apoc-text-block p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+      line-height: 1.78;
+      color: var(--text-high);
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      font-style: italic;
     }
     .media-caption-overlay {
       position: absolute;
@@ -1145,12 +1177,18 @@
           </div>
         </div>
 
-        <!-- Panel 3: 40% stat callout -->
+        <!-- Panel 3: Latin America 40% rich card -->
         <div class="act-i-panel act-i-panel--stat">
           <div class="stat-callout reveal">
             <div class="stat-number">40%</div>
-            <p class="stat-label">of Latin America is already at risk of flooding</p>
-            <p class="stat-source">Source: UNDRR Special Report on Latin America</p>
+            <p class="stat-label">of the region is already at risk of flooding<sup>1</sup></p>
+            <p class="stat-desc">
+              Latin American cities face a stark reality — metropolises like
+              <strong>São Paulo</strong> (pluvial floods), <strong>Asunción</strong> (fluvial floods),
+              and <strong>Guayaquil</strong> (groundwater floods) are already grappling with this
+              harsh flooding crisis.
+            </p>
+            <p class="stat-source">¹ UNDRR Special Report on Latin America</p>
           </div>
         </div>
 
@@ -1321,9 +1359,8 @@
         <img src="assets/Picture4.png" alt="Rosario flood scenario" loading="lazy" />
         <div class="bg-overlay overlay-center"></div>
       </div>
-      <div class="bg-layer contain" data-bg="grasshopper">
+      <div class="bg-layer contain white-bg" data-bg="grasshopper">
         <img src="assets/Picture2-2-1268x1536.png" alt="Grasshopper flood simulation" loading="lazy" />
-        <div class="bg-overlay overlay-center"></div>
       </div>
     </div>
 
@@ -1390,14 +1427,16 @@
     </div>
   </section>
 
-  <!-- PANORAMA MEDIA MOMENT -->
-  <figure class="media-panorama" aria-label="Rosario 2050 scenario panorama">
-    <img src="assets/Picture3-2048x653.jpg" alt="Rosario and the Santa Fe region under projected extreme flooding conditions, 2050 scenario" loading="lazy" />
-    <figcaption class="media-caption-overlay">
-      <p class="media-caption-label">Scenario · 2050</p>
-      <p class="media-caption-text">Rosario and the Santa Fe region under projected extreme flooding conditions.</p>
-    </figcaption>
-  </figure>
+  <!-- APOCALYPTIC NARRATIVE — between simulation and panoramas -->
+  <div class="apoc-text-block">
+    <p>Apocalyptic storms unleash havoc upon low-lying regions and river cities like Buenos Aires
+    and Rosario, transforming them into inundated flood zones. Feeble defenses are no match for
+    the torrents of water that inundate streets within mere minutes. As rivers burst their banks,
+    entire neighborhoods are swallowed by the deluge, leaving destruction in their wake. Despite
+    efforts to fortify defenses and issue warnings, the specter of flooding casts a dark and
+    ominous shadow over these vulnerable cities, perpetuating the imminent danger and uncertainty
+    that looms large.</p>
+  </div>
 
   <!-- EXISTING CONDITION IMAGE -->
   <figure class="media-panorama" aria-label="Rosario existing flooding condition">
@@ -1405,6 +1444,24 @@
     <figcaption class="media-caption-overlay">
       <p class="media-caption-label">Existing Condition</p>
       <p class="media-caption-text">Current flooding patterns along Rosario's drainage network and stream corridors.</p>
+    </figcaption>
+  </figure>
+
+  <!-- PICTURE4 PANORAMA -->
+  <figure class="media-panorama" aria-label="Rosario extreme flooding scenario">
+    <img src="assets/Picture4.png" alt="Rosario under extreme flooding" loading="lazy" />
+    <figcaption class="media-caption-overlay">
+      <p class="media-caption-label">Scenario · Extreme Flooding</p>
+      <p class="media-caption-text">Rosario and the wider Paraná corridor under a century-scale extreme rainfall event.</p>
+    </figcaption>
+  </figure>
+
+  <!-- PANORAMA MEDIA MOMENT -->
+  <figure class="media-panorama" aria-label="Rosario 2050 scenario panorama">
+    <img src="assets/Picture3-2048x653.jpg" alt="Rosario and the Santa Fe region under projected extreme flooding conditions, 2050 scenario" loading="lazy" />
+    <figcaption class="media-caption-overlay">
+      <p class="media-caption-label">Scenario · 2050</p>
+      <p class="media-caption-text">Rosario and the Santa Fe region under projected extreme flooding conditions.</p>
     </figcaption>
   </figure>
 
