@@ -1,0 +1,1884 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Siddharth Nambiar | GIS Specialist and Urban Systems Analyst</title>
+  <meta
+    name="description"
+    content="Portfolio homepage for Siddharth Nambiar featuring geospatial analysis, urban systems strategy, climate resilience work, and selected projects."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #05050a;
+      --surface: #18181b;
+      --surface-strong: #10101a;
+      --surface-soft: rgba(24, 24, 27, 0.72);
+      --primary: #6366f1;
+      --accent: #4f46e5;
+      --text: #ffffff;
+      --text-muted: #a1a1aa;
+      --border: #27272a;
+      --shadow: 0 24px 80px rgba(5, 5, 10, 0.42);
+      --max-w: 1200px;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --nav-height: 88px;
+      --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(79, 70, 229, 0.18), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.12), transparent 26%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page-glow {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.12), transparent 22%),
+        radial-gradient(circle at 80% 32%, rgba(79, 70, 229, 0.1), transparent 24%);
+      z-index: -1;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-w));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 16px 0;
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      min-height: 76px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      background: linear-gradient(90deg, rgba(28, 28, 34, 0.9), rgba(20, 20, 24, 0.78));
+      box-shadow: 0 18px 48px rgba(5, 5, 10, 0.26);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      min-width: 0;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 56px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-copy strong,
+    .nav-links a,
+    .eyebrow,
+    .meta-label,
+    .project-tag,
+    .pill,
+    .mini-card span,
+    .footer-meta,
+    .button,
+    .hero-stat-label {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .brand-copy {
+      display: none;
+    }
+
+    .brand-copy strong {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .brand-copy span {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.78);
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 26px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--bg);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition), background var(--transition);
+      box-shadow: 0 18px 30px rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-cta:hover,
+    .nav-cta:focus-visible,
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .menu-button {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .mobile-menu {
+      display: none;
+      margin-top: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      background: rgba(10, 10, 18, 0.94);
+      backdrop-filter: blur(18px);
+    }
+
+    .mobile-menu.is-open {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mobile-menu a {
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a:focus-visible {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      padding-top: 18px;
+      padding-bottom: 76px;
+    }
+
+    .hero-effects {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-effects-webgl {
+      position: absolute;
+      inset: -6% -4% -8%;
+      opacity: 0.94;
+    }
+
+    .hero-effects-webgl canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-effects::before,
+    .hero-effects::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-effects::before {
+      background:
+        radial-gradient(circle at 18% 30%, rgba(138, 255, 200, 0.08), transparent 16%),
+        radial-gradient(circle at 72% 34%, rgba(95, 255, 204, 0.1), transparent 18%),
+        radial-gradient(circle at 80% 62%, rgba(99, 102, 241, 0.08), transparent 22%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.12), rgba(5, 5, 10, 0.42));
+      z-index: 1;
+    }
+
+    .hero-effects::after {
+      background:
+        radial-gradient(circle at 50% 32%, transparent 0, transparent 44%, rgba(5, 5, 10, 0.22) 80%, rgba(5, 5, 10, 0.68) 100%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.04), rgba(5, 5, 10, 0.16) 30%, rgba(5, 5, 10, 0.4) 100%);
+      z-index: 2;
+    }
+
+    .hero-grid {
+      display: block;
+      max-width: 1040px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 255, 191, 0.22);
+      background: rgba(28, 40, 33, 0.5);
+      color: #dfffea;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #43d887;
+      box-shadow: 0 0 18px rgba(67, 216, 135, 0.9);
+    }
+
+    .hero h1,
+    .section-title,
+    .footer-title,
+    .visual-heading {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      letter-spacing: -0.05em;
+    }
+
+    .hero h1 {
+      max-width: none;
+      font-size: clamp(4rem, 9vw, 7.2rem);
+      line-height: 0.94;
+      text-align: center;
+    }
+
+    .hero h1 .muted {
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 500;
+    }
+
+    .hero-copy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .hero-portrait-wrap {
+      margin-bottom: 26px;
+    }
+
+    .hero-portrait {
+      display: grid;
+      place-items: center;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.18);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(99, 102, 241, 0.4), transparent 34%),
+        radial-gradient(circle at 70% 72%, rgba(79, 70, 229, 0.38), transparent 32%),
+        linear-gradient(160deg, rgba(20, 20, 26, 0.95), rgba(6, 6, 10, 1));
+      box-shadow: 0 28px 70px rgba(5, 5, 10, 0.42);
+    }
+
+    .hero-portrait img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 18%;
+    }
+
+    .hero-copy p,
+    .about-copy p,
+    .card-copy p,
+    .timeline-body,
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 1.04rem;
+      line-height: 1.8;
+    }
+
+    .hero-copy .lede {
+      max-width: 40ch;
+      margin: 22px auto 34px;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      line-height: 1.55;
+      text-shadow: 0 10px 26px rgba(5, 5, 10, 0.45);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 56px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+      box-shadow: 0 16px 30px rgba(5, 5, 10, 0.2);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: var(--text);
+    }
+
+    .button-secondary {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero .button-primary {
+      background: #ffffff;
+      color: var(--bg);
+      box-shadow: 0 22px 36px rgba(255, 255, 255, 0.12);
+    }
+
+    .hero .button-secondary {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 34px;
+      width: min(100%, 620px);
+    }
+
+    .hero-stat,
+    .focus-card,
+    .project-card,
+    .about-shell,
+    .mini-card,
+    .timeline-card,
+    .footer-shell,
+    .contact-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-stat {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      border-radius: 0;
+      transition: transform var(--transition);
+    }
+
+    .hero-stat:hover,
+    .focus-card:hover,
+    .project-card:hover,
+    .mini-card:hover,
+    .timeline-card:hover,
+    .contact-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .hero-stat strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: clamp(2.3rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .hero-stat-label {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero h1,
+    .hero .eyebrow,
+    .hero .button-row,
+    .hero .hero-stats,
+    .hero .hero-portrait-wrap {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 680px;
+    }
+
+    .visual-card {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+      padding: 28px;
+      border-radius: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background:
+        linear-gradient(160deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.04) 42%, rgba(5, 5, 10, 0.8) 100%),
+        rgba(10, 10, 18, 0.92);
+      box-shadow: 0 32px 100px rgba(5, 5, 10, 0.45);
+      isolation: isolate;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.22), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+      z-index: -1;
+    }
+
+    .visual-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .availability {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #d8d9ff;
+    }
+
+    .availability::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #8bffbf;
+      box-shadow: 0 0 18px rgba(139, 255, 191, 0.8);
+    }
+
+    .hero-art {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .map-panel {
+      position: relative;
+      min-height: 400px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background:
+        linear-gradient(180deg, rgba(5, 5, 10, 0.15), rgba(5, 5, 10, 0.55)),
+        url("posts/assets/Pollution2Pollination/LocationBesos.png") center/cover no-repeat;
+      transform: translateZ(0);
+    }
+
+    .map-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(5, 5, 10, 0.02), rgba(5, 5, 10, 0.65)),
+        radial-gradient(circle at 30% 22%, rgba(99, 102, 241, 0.3), transparent 28%);
+    }
+
+    .map-panel .overlay-card {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      z-index: 1;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(5, 5, 10, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+    }
+
+    .overlay-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+    }
+
+    .overlay-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+
+    .portrait-rail {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      border-radius: 20px;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin: 10px 0 6px;
+      font-size: 1.1rem;
+      letter-spacing: -0.04em;
+    }
+
+    .mini-card p,
+    .mini-card span {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+
+    .portrait-sphere {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.34), transparent 20%),
+        radial-gradient(circle at 60% 40%, rgba(99, 102, 241, 0.48), transparent 36%),
+        linear-gradient(160deg, rgba(5, 5, 10, 0.2), rgba(5, 5, 10, 0.8));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .portrait-sphere::before {
+      content: "SN";
+      display: grid;
+      place-items: center;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: rgba(5, 5, 10, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.03);
+    }
+
+    .signature {
+      width: 100%;
+      max-width: 120px;
+      opacity: 0.9;
+      filter: brightness(1.2);
+    }
+
+    .visual-heading {
+      font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+      line-height: 1.02;
+    }
+
+    .visual-heading span {
+      display: block;
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 500;
+    }
+
+    .visual-note {
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-family: "Playfair Display", Georgia, serif;
+      line-height: 1.7;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      margin-bottom: 16px;
+      color: #c4c4fc;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .section-title {
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 1.02;
+    }
+
+    .section-title span {
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 400;
+    }
+
+    .section-copy {
+      max-width: 56ch;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .focus-grid,
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .focus-card,
+    .timeline-card,
+    .contact-card {
+      padding: 26px;
+      border-radius: 26px;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .card-index,
+    .project-tag {
+      color: #c4c4fc;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .focus-card h3,
+    .timeline-card h3,
+    .contact-card h3 {
+      margin: 14px 0 12px;
+      font-size: 1.55rem;
+      letter-spacing: -0.04em;
+    }
+
+    .focus-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .focus-list li {
+      display: flex;
+      gap: 10px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .focus-list li::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      margin-top: 8px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.44);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      display: grid;
+      grid-template-rows: 240px 1fr;
+      border-radius: 30px;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .project-card:hover .project-media img,
+    .project-card:focus-visible .project-media img {
+      transform: scale(1.06);
+    }
+
+    .project-media {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(5, 5, 10, 0.85));
+    }
+
+    .project-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 5, 10, 0), rgba(5, 5, 10, 0.64));
+    }
+
+    .project-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .project-media--torrents {
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.16), transparent 16%),
+        radial-gradient(circle at 60% 40%, rgba(79, 70, 229, 0.56), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.28), transparent 20%),
+        linear-gradient(155deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.95), rgba(37, 99, 235, 0.75));
+    }
+
+    .project-media--torrents::before {
+      content: "Rosario 2050";
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      z-index: 1;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(5, 5, 10, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .project-body {
+      display: grid;
+      gap: 16px;
+      padding: 24px 24px 26px;
+      background: rgba(12, 12, 20, 0.85);
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .project-body h3 {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+    }
+
+    .project-body p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #d4d4ff;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.15fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .about-shell {
+      border-radius: 34px;
+      padding: 26px;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.04) 22%, rgba(12, 12, 20, 0.88) 68%),
+        rgba(10, 10, 18, 0.9);
+    }
+
+    .about-visual {
+      display: grid;
+      gap: 16px;
+    }
+
+    .about-hero-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      min-height: 360px;
+      background:
+        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.66)),
+        url("posts/assets/Agent_cover_image.png") center/cover no-repeat;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .about-hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.12), transparent 40%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.72));
+    }
+
+    .about-hero-image .image-copy {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(5, 5, 10, 0.48);
+      backdrop-filter: blur(14px);
+    }
+
+    .about-hero-image .image-copy strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .about-hero-image .image-copy p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 0.94rem;
+      line-height: 1.7;
+    }
+
+    .about-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .about-copy {
+      padding: 34px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        rgba(12, 12, 20, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .about-copy p {
+      margin: 0 0 20px;
+    }
+
+    .about-copy p:last-of-type {
+      margin-bottom: 28px;
+    }
+
+    .about-copy h3 {
+      margin: 0 0 18px;
+      font-size: 1.9rem;
+      letter-spacing: -0.04em;
+    }
+
+    .meta-block {
+      display: grid;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .meta-item {
+      display: grid;
+      gap: 8px;
+    }
+
+    .meta-label {
+      color: #c4c4fc;
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .meta-value {
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .timeline-body {
+      margin: 0;
+    }
+
+    .timeline-meta {
+      color: #c4c4fc;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .footer-shell {
+      padding: 32px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.03) 24%, rgba(10, 10, 18, 0.92) 70%),
+        rgba(10, 10, 18, 0.92);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .footer-title {
+      font-size: clamp(2.4rem, 4vw, 4.1rem);
+      line-height: 1.02;
+    }
+
+    .footer-copy {
+      margin: 18px 0 30px;
+      max-width: 58ch;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .contact-card {
+      height: 100%;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .contact-card p,
+    .contact-card a {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .contact-card a:hover,
+    .contact-card a:focus-visible {
+      color: var(--text);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 {
+      transition-delay: 90ms;
+    }
+
+    .delay-2 {
+      transition-delay: 180ms;
+    }
+
+    .delay-3 {
+      transition-delay: 270ms;
+    }
+
+    .delay-4 {
+      transition-delay: 360ms;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .about-grid,
+      .footer-grid,
+      .focus-grid,
+      .timeline-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 560px;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-button {
+        display: inline-flex;
+      }
+
+      .section {
+        padding: 78px 0;
+      }
+
+      .hero {
+        padding-top: 12px;
+      }
+
+      .hero-effects-webgl {
+        inset: -10% -18% -12%;
+        opacity: 0.88;
+      }
+
+      .work-grid,
+      .about-mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(calc(100% - 24px), var(--max-w));
+      }
+
+      .nav-shell,
+      .footer-shell,
+      .about-shell,
+      .about-copy,
+      .focus-card,
+      .timeline-card,
+      .contact-card,
+      .hero-stat {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.1rem, 13vw, 4.6rem);
+      }
+
+      .hero-stats {
+        gap: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .hero-effects-webgl {
+        opacity: 0.42;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-shell">
+        <a class="brand" href="#top">
+          <span class="brand-badge">SN</span>
+          <span class="brand-copy">
+            <strong>Siddharth Nambiar</strong>
+            <span>GIS Specialist | Urban Systems Analyst</span>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="about.html">About</a>
+          <a href="about.html#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a class="nav-cta" href="mailto:sidnam97@gmail.com">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+          Let's connect
+        </a>
+
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="sr-only">Open menu</span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#work">Work</a>
+        <a href="about.html">About</a>
+        <a href="about.html#experience">Experience</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:sidnam97@gmail.com">Let's connect</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-effects" aria-hidden="true">
+        <div class="hero-effects-webgl" data-hero-webgl></div>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal is-visible">
+          <div class="hero-portrait-wrap reveal delay-1">
+            <div class="hero-portrait">
+              <img src="posts/assets/New_Main_Pfp.jpg" alt="Siddharth Nambiar portrait" />
+            </div>
+          </div>
+          <div class="eyebrow">Available for projects</div>
+          <h1>
+            GIS Specialist
+            <span class="muted">and urban systems analyst.</span>
+          </h1>
+          <p class="lede">
+            Working across geospatial analysis, climate resilience, and spatial strategy to turn complex
+            datasets into evidence-based decisions for cities, infrastructure, and the built environment.
+          </p>
+
+          <div class="button-row">
+            <a class="button button-primary" href="#work">
+              View my work
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </a>
+            <a class="button button-secondary" href="about.html">About me</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat reveal delay-1">
+              <strong>4</strong>
+              <div class="hero-stat-label">Projects</div>
+            </div>
+            <div class="hero-stat reveal delay-2">
+              <strong>2</strong>
+              <div class="hero-stat-label">Cities</div>
+            </div>
+            <div class="hero-stat reveal delay-3">
+              <strong>10</strong>
+              <div class="hero-stat-label">Core areas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="focus">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Focus areas</div>
+            <h2 class="section-title">
+              What I bring
+              <span>to spatial and urban strategy work.</span>
+            </h2>
+          </div>
+          <p class="section-copy">
+            The original homepage template used a service grid. Here it becomes a sharper overview of the
+            capabilities that define this portfolio: geospatial analysis, urban systems thinking, and
+            simulation-driven decision support.
+          </p>
+        </div>
+
+        <div class="focus-grid">
+          <article class="focus-card reveal delay-1">
+            <div class="card-index">01 / Geospatial analysis</div>
+            <h3>Spatial evidence that holds up.</h3>
+            <p class="card-copy">
+              GIS, remote sensing, and earth observation workflows that turn territorial complexity into
+              legible insights for planning, infrastructure, and environmental strategy.
+            </p>
+            <ul class="focus-list">
+              <li>QGIS / ArcGIS workflows for urban and environmental datasets</li>
+              <li>Google Earth Engine and satellite imagery interpretation</li>
+              <li>Risk metrics, environmental patterning, and spatial decision framing</li>
+            </ul>
+          </article>
+
+          <article class="focus-card reveal delay-2">
+            <div class="card-index">02 / Urban systems</div>
+            <h3>Strategy across the built environment.</h3>
+            <p class="card-copy">
+              Bringing together architecture, urban systems, mobility strategy, and climate resilience to
+              shape decisions that work at multiple scales.
+            </p>
+            <ul class="focus-list">
+              <li>Mobility, emissions, and infrastructure analysis for cities</li>
+              <li>Climate resilience and sustainable infrastructure positioning</li>
+              <li>Stakeholder translation from technical data to planning action</li>
+            </ul>
+          </article>
+
+          <article class="focus-card reveal delay-3">
+            <div class="card-index">03 / Simulations and systems</div>
+            <h3>Scenario thinking for urban futures.</h3>
+            <p class="card-copy">
+              Building analytical workflows and simulation logic that test interventions, reveal impacts,
+              and support more confident spatial decisions.
+            </p>
+            <ul class="focus-list">
+              <li>Agent-based simulations and environmental scenario testing</li>
+              <li>Python, SQL, and computational workflows for scalable analysis</li>
+              <li>Product thinking for decision-support tools and urban platforms</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Selected work</div>
+            <h2 class="section-title">
+              Projects that connect
+              <span>data, systems, and urban outcomes.</span>
+            </h2>
+          </div>
+          <p class="section-copy">
+            The current repository already contains four portfolio pieces. This homepage brings them
+            forward as the main entry points into the broader body of work.
+          </p>
+        </div>
+
+        <div class="work-grid">
+          <a class="project-card reveal delay-1" href="posts/pollution2pollination/index.html">
+            <div class="project-media">
+              <img src="posts/assets/Pollution2Pollination/CONTEXT-3.jpg" alt="From Pollution To Pollination cover image" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Urban ecology</span>
+                <span class="project-tag">Barcelona</span>
+              </div>
+              <h3>From Pollution To Pollination</h3>
+              <p>
+                Multi-scale GIS analysis linking emissions, wind fields, and morphology to frame
+                regenerative green corridors along the Besos basin.
+              </p>
+              <div class="pill-row">
+                <span class="pill">GIS</span>
+                <span class="pill">Air quality</span>
+                <span class="pill">Climate resilience</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal delay-2" href="posts/agentsim/index.html">
+            <div class="project-media">
+              <img src="posts/assets/GIF_Rotate.gif" alt="Agent Simulation cover animation" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Simulation</span>
+                <span class="project-tag">Viladecans</span>
+              </div>
+              <h3>Agent Simulation: Measuring Intervention Impact</h3>
+              <p>
+                A tactical urbanism simulation that compares pre- and post-intervention movement patterns
+                to understand how spatial changes reshape footfall and public life.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Agent based models</span>
+                <span class="pill">Urban flows</span>
+                <span class="pill">Scenario testing</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal delay-3" href="posts/networkflows/index.html">
+            <div class="project-media">
+              <img src="posts/networkflows/assets/hero.gif" alt="Network Flows project hero animation" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Data systems</span>
+                <span class="project-tag">Geopolitics</span>
+              </div>
+              <h3>Tracking Cross-Border Monetary Flows</h3>
+              <p>
+                A streamlined pipeline for visualizing financial flows and connecting them to
+                geo-specific information to study geopolitical insecurity.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Data pipelines</span>
+                <span class="pill">Visualization</span>
+                <span class="pill">Research</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal delay-4" href="posts/torrent_of_change/torrents-of-change.html">
+            <div class="project-media project-media--torrents"></div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Flood futures</span>
+                <span class="project-tag">Rosario</span>
+              </div>
+              <h3>Torrents of Change</h3>
+              <p>
+                Exploring extreme rainfall scenarios, flood detection, and future urban vulnerability in
+                Rosario through climate-focused spatial analysis.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Remote sensing</span>
+                <span class="pill">Flood risk</span>
+                <span class="pill">Urban resilience</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="section" id="contact">
+      <div class="container">
+        <div class="footer-shell reveal">
+          <div class="footer-grid">
+            <div>
+              <div class="section-kicker">Contact</div>
+              <h2 class="footer-title">Open to projects that need rigorous spatial thinking.</h2>
+              <p class="footer-copy">
+                If you are working on urban systems, mobility, geospatial products, climate resilience, or
+                research-led built environment work, I would be glad to connect.
+              </p>
+
+              <div class="footer-actions">
+                <a class="button button-primary" href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
+                <a class="button button-secondary" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
+              </div>
+
+              <div class="footer-meta">
+                <span>Barcelona / Chennai</span>
+                <span>GIS + urban systems</span>
+                <span>Climate resilience</span>
+              </div>
+            </div>
+
+            <div class="contact-grid">
+              <article class="contact-card">
+                <div class="card-index">Navigation</div>
+                <h3>Quick links</h3>
+                <p><a href="#focus">Focus areas</a></p>
+                <p><a href="#work">Selected work</a></p>
+                <p><a href="about.html">About</a></p>
+                <p><a href="about.html#experience">Experience</a></p>
+              </article>
+
+              <article class="contact-card">
+                <div class="card-index">Selected tools</div>
+                <h3>Technical stack</h3>
+                <p>Python</p>
+                <p>QGIS / ArcGIS</p>
+                <p>Google Earth Engine</p>
+                <p>SQL / PostGIS</p>
+              </article>
+
+              <article class="contact-card">
+                <div class="card-index">Practice lens</div>
+                <h3>Core themes</h3>
+                <p>Urban strategy</p>
+                <p>Mobility analytics</p>
+                <p>Climate and resilience analytics</p>
+                <p>Evidence-based decision support</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.165.0/build/three.module.js";
+
+    const heroElement = document.querySelector(".hero");
+    const heroWebglMount = document.querySelector("[data-hero-webgl]");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (heroElement && heroWebglMount && !reducedMotionQuery.matches && window.WebGLRenderingContext) {
+      let renderer;
+      let scene;
+      let camera;
+      let points;
+      let geometry;
+      let material;
+      let frameId = 0;
+      let isVisible = true;
+      let disposed = false;
+
+      const clock = new THREE.Clock();
+      const pointer = new THREE.Vector2();
+      const pointerTarget = new THREE.Vector2();
+      const viewport = new THREE.Vector2(1, 1);
+      const basePointer = new THREE.Vector2();
+
+      const vertexShader = `
+        uniform float uTime;
+        uniform vec2 uPointer;
+        uniform vec2 uViewport;
+        uniform float uMotion;
+
+        attribute float aSeed;
+
+        varying float vAlpha;
+        varying float vGlow;
+        varying float vTint;
+
+        void main() {
+          vec3 pos = position;
+          float radial = length(pos.xy / (uViewport * 0.5));
+          float wave =
+            sin((pos.x * 0.035) + (uTime * 0.34) + aSeed * 6.28318) * 0.55 +
+            cos((pos.y * 0.03) - (uTime * 0.2) + aSeed * 3.14159) * 0.45;
+
+          pos.y += wave * 7.0 * (1.0 - smoothstep(0.22, 1.2, radial)) * uMotion;
+          pos.x += sin(uTime * 0.16 + aSeed * 10.0) * 4.0 * uMotion;
+
+          vec2 pointerDelta = pos.xy - uPointer;
+          vec2 pointerScale = vec2(uViewport.x * 0.18, uViewport.y * 0.24);
+          vec2 pointerNorm = pointerDelta / pointerScale;
+          float pointerField = exp(-dot(pointerNorm, pointerNorm));
+
+          pos.xy += normalize(pointerDelta + 0.0001) * pointerField * 18.0 * uMotion;
+
+          vGlow = pointerField;
+          vTint = smoothstep(0.98, 0.18, radial);
+          vAlpha = mix(0.08, 0.26, vTint) + pointerField * 0.16;
+
+          float sparkle = 0.72 + 0.28 * sin(uTime * 0.72 + aSeed * 14.0);
+          gl_PointSize = mix(3.0, 8.8, vTint) * sparkle;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `;
+
+      const fragmentShader = `
+        varying float vAlpha;
+        varying float vGlow;
+        varying float vTint;
+
+        void main() {
+          vec2 centered = abs(gl_PointCoord - 0.5);
+          float edge = max(centered.x, centered.y);
+          float square = 1.0 - smoothstep(0.32, 0.5, edge);
+          float inner = 1.0 - smoothstep(0.06, 0.24, edge);
+
+          vec3 base = mix(vec3(0.26, 0.27, 0.34), vec3(0.62, 0.65, 0.78), vTint * 0.68);
+          vec3 accent = vec3(0.18, 0.86, 0.72);
+          vec3 color = mix(base, accent, vGlow * 0.78);
+          color += accent * inner * vGlow * 0.22;
+
+          float alpha = square * vAlpha;
+          if (alpha < 0.01) discard;
+
+          gl_FragColor = vec4(color, alpha);
+        }
+      `;
+
+      function buildGrid(width, height) {
+        const columns = Math.max(36, Math.min(72, Math.floor(width / 20)));
+        const rows = Math.max(20, Math.min(40, Math.floor(height / 20)));
+        const count = columns * rows;
+
+        const positions = new Float32Array(count * 3);
+        const seeds = new Float32Array(count);
+
+        const stepX = width / Math.max(columns - 1, 1);
+        const stepY = height / Math.max(rows - 1, 1);
+
+        let ptr = 0;
+        for (let y = 0; y < rows; y += 1) {
+          for (let x = 0; x < columns; x += 1) {
+            positions[ptr * 3] = x * stepX - width / 2;
+            positions[ptr * 3 + 1] = y * stepY - height / 2;
+            positions[ptr * 3 + 2] = 0;
+            seeds[ptr] = Math.random();
+            ptr += 1;
+          }
+        }
+
+        if (geometry) {
+          geometry.dispose();
+        }
+
+        geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+
+        if (points) {
+          scene.remove(points);
+        }
+
+        points = new THREE.Points(geometry, material);
+        scene.add(points);
+      }
+
+      function setHeroSize() {
+        const bounds = heroElement.getBoundingClientRect();
+        const width = Math.max(1, Math.floor(bounds.width));
+        const height = Math.max(1, Math.floor(bounds.height));
+
+        viewport.set(width, height);
+
+        renderer.setSize(width, height, false);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+        camera.left = -width / 2;
+        camera.right = width / 2;
+        camera.top = height / 2;
+        camera.bottom = -height / 2;
+        camera.near = -100;
+        camera.far = 100;
+        camera.position.z = 10;
+        camera.updateProjectionMatrix();
+
+        material.uniforms.uViewport.value.set(width, height);
+        buildGrid(width * 1.08, height * 1.08);
+
+        basePointer.set(-width * 0.16, height * 0.02);
+        pointer.copy(basePointer);
+        pointerTarget.copy(basePointer);
+      }
+
+      function renderFrame() {
+        if (disposed || !isVisible) {
+          frameId = 0;
+          return;
+        }
+
+        frameId = window.requestAnimationFrame(renderFrame);
+
+        const elapsed = clock.getElapsedTime();
+        pointer.lerp(pointerTarget, 0.045);
+
+        material.uniforms.uTime.value = elapsed;
+        material.uniforms.uPointer.value.copy(pointer);
+        renderer.render(scene, camera);
+      }
+
+      function startRendering() {
+        if (!frameId && !disposed) {
+          clock.start();
+          renderFrame();
+        }
+      }
+
+      function stopRendering() {
+        if (frameId) {
+          window.cancelAnimationFrame(frameId);
+          frameId = 0;
+        }
+      }
+
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: false,
+        powerPreference: "high-performance",
+      });
+      renderer.setClearColor(0x000000, 0);
+      heroWebglMount.appendChild(renderer.domElement);
+
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera();
+      material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        transparent: true,
+        depthWrite: false,
+        uniforms: {
+          uTime: { value: 0 },
+          uPointer: { value: pointer.clone() },
+          uViewport: { value: viewport.clone() },
+          uMotion: { value: 1 },
+        },
+      });
+
+      setHeroSize();
+
+      const heroObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              startRendering();
+            } else {
+              stopRendering();
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+      heroObserver.observe(heroElement);
+
+      function handlePointerMove(event) {
+        const bounds = heroElement.getBoundingClientRect();
+        const localX = event.clientX - bounds.left;
+        const localY = event.clientY - bounds.top;
+        pointerTarget.set(localX - bounds.width / 2, bounds.height / 2 - localY);
+      }
+
+      function handlePointerLeave() {
+        pointerTarget.copy(basePointer);
+      }
+
+      function handleVisibility() {
+        if (document.hidden) {
+          stopRendering();
+        } else if (isVisible) {
+          startRendering();
+        }
+      }
+
+      function handleResize() {
+        setHeroSize();
+      }
+
+      heroElement.addEventListener("pointermove", handlePointerMove, { passive: true });
+      heroElement.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+      window.addEventListener("resize", handleResize);
+      document.addEventListener("visibilitychange", handleVisibility);
+
+      startRendering();
+
+      window.addEventListener("beforeunload", () => {
+        disposed = true;
+        stopRendering();
+        heroObserver.disconnect();
+        heroElement.removeEventListener("pointermove", handlePointerMove);
+        heroElement.removeEventListener("pointerleave", handlePointerLeave);
+        window.removeEventListener("resize", handleResize);
+        document.removeEventListener("visibilitychange", handleVisibility);
+        if (geometry) geometry.dispose();
+        if (material) material.dispose();
+        if (renderer) renderer.dispose();
+      });
+    }
+  </script>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener("click", () => {
+        const isOpen = mobileMenu.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("is-open");
+          menuButton.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.16,
+          rootMargin: "0px 0px -40px 0px"
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element) => {
+        if (!element.classList.contains("is-visible")) {
+          observer.observe(element);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

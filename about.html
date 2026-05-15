@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Siddharth Nambiar | GIS Specialist and Urban Systems Analyst</title>
+  <meta
+    name="description"
+    content="About and experience page for Siddharth Nambiar covering geospatial analysis, urban systems strategy, and professional trajectory."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #05050a;
+      --text: #ffffff;
+      --text-muted: #a1a1aa;
+      --primary: #6366f1;
+      --accent: #4f46e5;
+      --shadow: 0 24px 80px rgba(5, 5, 10, 0.42);
+      --max-w: 1200px;
+      --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(79, 70, 229, 0.18), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.12), transparent 26%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page-glow {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.12), transparent 22%),
+        radial-gradient(circle at 80% 32%, rgba(79, 70, 229, 0.1), transparent 24%);
+      z-index: -1;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max-w));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 16px 0;
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      min-height: 76px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
+      background: linear-gradient(90deg, rgba(28, 28, 34, 0.9), rgba(20, 20, 24, 0.78));
+      box-shadow: 0 18px 48px rgba(5, 5, 10, 0.26);
+    }
+
+    .brand,
+    .button,
+    .section-kicker,
+    .meta-label,
+    .timeline-meta,
+    .footer-meta {
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 56px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 26px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition), background var(--transition);
+    }
+
+    .nav-cta,
+    .button-primary {
+      background: #ffffff;
+      color: var(--bg);
+      box-shadow: 0 18px 30px rgba(255, 255, 255, 0.12);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-cta:hover,
+    .nav-cta:focus-visible,
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .menu-button {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .mobile-menu {
+      display: none;
+      margin-top: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      background: rgba(10, 10, 18, 0.94);
+      backdrop-filter: blur(18px);
+    }
+
+    .mobile-menu.is-open {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mobile-menu a {
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .section { padding: 96px 0; }
+
+    .page-hero {
+      padding-top: 28px;
+      padding-bottom: 36px;
+      text-align: center;
+    }
+
+    .section-kicker {
+      margin-bottom: 18px;
+      color: #c4c4fc;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .page-title,
+    .section-title,
+    .footer-title {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      letter-spacing: -0.05em;
+    }
+
+    .page-title {
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      line-height: 0.96;
+    }
+
+    .page-title span,
+    .section-title span {
+      color: rgba(255, 255, 255, 0.72);
+      font-weight: 500;
+    }
+
+    .page-copy,
+    .section-copy,
+    .about-copy p,
+    .timeline-body,
+    .footer-copy,
+    .contact-card p,
+    .contact-card a,
+    .meta-value,
+    .mini-card p,
+    .mini-card span {
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .page-copy {
+      max-width: 56ch;
+      margin: 24px auto 0;
+      font-size: 1.16rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .section-title {
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      line-height: 1.02;
+    }
+
+    .section-copy { max-width: 56ch; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.15fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .about-shell,
+    .about-copy,
+    .timeline-card,
+    .footer-shell,
+    .contact-card,
+    .mini-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .about-shell {
+      padding: 26px;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.04) 22%, rgba(12, 12, 20, 0.88) 68%),
+        rgba(10, 10, 18, 0.9);
+    }
+
+    .about-visual { display: grid; gap: 16px; }
+
+    .about-hero-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      min-height: 420px;
+      background:
+        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.66)),
+        url("posts/assets/New_Main_Pfp.jpg") center 18%/cover no-repeat;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .about-hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.12), transparent 40%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.72));
+    }
+
+    .image-copy {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(5, 5, 10, 0.48);
+      backdrop-filter: blur(14px);
+    }
+
+    .image-copy strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .about-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .mini-card:hover,
+    .timeline-card:hover,
+    .contact-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(99, 102, 241, 0.42);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin: 10px 0 6px;
+      font-size: 1.1rem;
+      letter-spacing: -0.04em;
+    }
+
+    .about-copy {
+      padding: 34px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+        rgba(12, 12, 20, 0.88);
+    }
+
+    .about-copy h3 {
+      margin: 0 0 18px;
+      font-size: 1.9rem;
+      letter-spacing: -0.04em;
+    }
+
+    .about-copy p { margin: 0 0 20px; }
+    .about-copy p:last-of-type { margin-bottom: 28px; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #d4d4ff;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .meta-block { display: grid; gap: 18px; margin-top: 28px; }
+    .meta-item { display: grid; gap: 8px; }
+
+    .meta-label {
+      color: #c4c4fc;
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .timeline-card,
+    .contact-card {
+      padding: 26px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .timeline-card h3,
+    .contact-card h3 {
+      margin: 14px 0 12px;
+      font-size: 1.55rem;
+      letter-spacing: -0.04em;
+    }
+
+    .timeline-meta {
+      color: #c4c4fc;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-shell {
+      padding: 32px;
+      background:
+        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.03) 24%, rgba(10, 10, 18, 0.92) 70%),
+        rgba(10, 10, 18, 0.92);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .footer-title {
+      font-size: clamp(2.4rem, 4vw, 4.1rem);
+      line-height: 1.02;
+    }
+
+    .footer-copy {
+      margin: 18px 0 30px;
+      max-width: 58ch;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .contact-card {
+      height: 100%;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .contact-card a:hover,
+    .contact-card a:focus-visible { color: var(--text); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 90ms; }
+    .delay-2 { transition-delay: 180ms; }
+    .delay-3 { transition-delay: 270ms; }
+
+    @media (max-width: 1100px) {
+      .about-grid,
+      .footer-grid,
+      .timeline-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .nav-links,
+      .nav-cta { display: none; }
+      .menu-button { display: inline-flex; }
+      .section { padding: 78px 0; }
+      .about-mini-grid { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: start; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(calc(100% - 24px), var(--max-w)); }
+      .nav-shell,
+      .footer-shell,
+      .about-shell,
+      .about-copy,
+      .timeline-card,
+      .contact-card { padding-left: 18px; padding-right: 18px; }
+      .page-title { font-size: clamp(2.8rem, 13vw, 4.3rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-shell">
+        <a class="brand" href="index.html">SN</a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="index.html#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a class="nav-cta" href="mailto:sidnam97@gmail.com">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+          Let's connect
+        </a>
+
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="sr-only">Open menu</span>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="index.html#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:sidnam97@gmail.com">Let's connect</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container reveal is-visible">
+        <div class="section-kicker">About and experience</div>
+        <h1 class="page-title">
+          The background behind
+          <span>the geospatial and urban systems work.</span>
+        </h1>
+        <p class="page-copy">
+          A dedicated page for profile, trajectory, and professional context so the homepage stays focused
+          on the portfolio itself.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">About</div>
+            <h2 class="section-title">
+              A profile shaped by
+              <span>architecture, GIS, and city-scale systems.</span>
+            </h2>
+          </div>
+          <p class="section-copy">
+            Geospatial analysis, urban and mobility strategy, evidence-based climate work, and practical
+            experience across both consultancy and product contexts.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-shell reveal delay-1">
+            <div class="about-visual">
+              <div class="about-hero-image">
+                <div class="image-copy">
+                  <strong>Evidence-based urban decisions</strong>
+                  <p>
+                    Using geospatial simulations and analytical workflows to support climate resilience,
+                    sustainable infrastructure, and data-driven planning decisions.
+                  </p>
+                </div>
+              </div>
+
+              <div class="about-mini-grid">
+                <div class="mini-card">
+                  <span>Home base</span>
+                  <strong>Barcelona | Chennai</strong>
+                  <p>Working across European and Indian urban contexts.</p>
+                </div>
+                <div class="mini-card">
+                  <span>Languages</span>
+                  <strong>English, Tamil, Hindi, Spanish, French</strong>
+                  <p>Comfort moving between technical, strategic, and cross-cultural settings.</p>
+                </div>
+                <div class="mini-card">
+                  <span>Education</span>
+                  <strong>IAAC + SRM University</strong>
+                  <p>Master in City and Technology after a Bachelor of Architecture.</p>
+                </div>
+                <div class="mini-card">
+                  <span>Technical stack</span>
+                  <strong>Python, GIS, GEE, SQL, Rhino</strong>
+                  <p>Combined with simulation, analytics, and visual communication tools.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-copy reveal delay-2">
+            <h3>Curious about me?</h3>
+            <p>
+              I am a geospatial specialist with a background in architecture, urban strategy, mobility
+              analysis, and earth observation. My work focuses on translating spatial and environmental
+              data into strategies that support climate resilience, sustainable infrastructure, and
+              stronger urban decisions.
+            </p>
+            <p>
+              Across projects and roles, I use geospatial simulations, analytical workflows, and systems
+              thinking to help cities and institutions optimize infrastructure, understand risk, and make
+              the green and digital transition more actionable.
+            </p>
+            <p>
+              What motivates me is the bridge between technical analysis and strategy: turning complex
+              datasets into frameworks that are both rigorous and useful for the built environment.
+            </p>
+
+            <div class="pill-row">
+              <span class="pill">Urban strategy</span>
+              <span class="pill">Pre-construction analytics</span>
+              <span class="pill">Geospatial analysis</span>
+              <span class="pill">Remote sensing</span>
+              <span class="pill">Climate analytics</span>
+              <span class="pill">Transport planning</span>
+            </div>
+
+            <div class="meta-block">
+              <div class="meta-item">
+                <div class="meta-label">Currently</div>
+                <div class="meta-value">
+                  Strategy and computational systems on the founding team at Sentient Grid, building
+                  spatial automation logic and product direction for large-scale planning workflows.
+                </div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Previously</div>
+                <div class="meta-value">
+                  Urban Planner and Business Development Associate at Greenroads, connecting mobility and
+                  environmental datasets to planning and policy outcomes across partner cities.
+                </div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Contact</div>
+                <div class="meta-value">
+                  <a href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Recent trajectory</div>
+            <h2 class="section-title">
+              Work shaped by
+              <span>strategy, product thinking, and urban analysis.</span>
+            </h2>
+          </div>
+          <p class="section-copy">
+            A concise snapshot of the recent experience behind the portfolio, adapted from the resume to
+            support the broader narrative without crowding the homepage.
+          </p>
+        </div>
+
+        <div class="timeline-grid">
+          <article class="timeline-card reveal delay-1">
+            <div class="timeline-meta">Sentient Grid / Nov 2025 - Current</div>
+            <h3>Strategy and Computational Systems</h3>
+            <p class="timeline-body">
+              Developing spatial automation algorithms, shaping product modules, and helping position
+              planning technology for market fit, pricing, and scalable deployment.
+            </p>
+          </article>
+
+          <article class="timeline-card reveal delay-2">
+            <div class="timeline-meta">Greenroads / Feb 2025 - Jan 2026</div>
+            <h3>Urban Planner and Business Development Associate</h3>
+            <p class="timeline-body">
+              Analysed urban mobility and spatial datasets from AI-enabled traffic cameras to support
+              planning insights, emissions reduction, and data-driven policy conversations with cities.
+            </p>
+          </article>
+
+          <article class="timeline-card reveal delay-3">
+            <div class="timeline-meta">Earlier practice</div>
+            <h3>Architecture, operations, and delivery</h3>
+            <p class="timeline-body">
+              Led project delivery, technical detailing, and cross-functional coordination through
+              architecture and operations roles - grounding the analytical work in buildable realities.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="section" id="contact">
+      <div class="container">
+        <div class="footer-shell reveal">
+          <div class="footer-grid">
+            <div>
+              <div class="section-kicker">Contact</div>
+              <h2 class="footer-title">Open to projects that need rigorous spatial thinking.</h2>
+              <p class="footer-copy">
+                If you are working on urban systems, mobility, geospatial products, climate resilience, or
+                research-led built environment work, I would be glad to connect.
+              </p>
+
+              <div class="footer-actions">
+                <a class="button button-primary" href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
+                <a class="button button-secondary" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
+              </div>
+
+              <div class="footer-meta">
+                <span>Barcelona / Chennai</span>
+                <span>GIS + urban systems</span>
+                <span>Climate resilience</span>
+              </div>
+            </div>
+
+            <div class="contact-grid">
+              <article class="contact-card">
+                <div class="section-kicker">Navigation</div>
+                <h3>Quick links</h3>
+                <p><a href="index.html">Homepage</a></p>
+                <p><a href="index.html#work">Selected work</a></p>
+                <p><a href="#about">About</a></p>
+                <p><a href="#experience">Experience</a></p>
+              </article>
+
+              <article class="contact-card">
+                <div class="section-kicker">Selected tools</div>
+                <h3>Technical stack</h3>
+                <p>Python</p>
+                <p>QGIS / ArcGIS</p>
+                <p>Google Earth Engine</p>
+                <p>SQL / PostGIS</p>
+              </article>
+
+              <article class="contact-card">
+                <div class="section-kicker">Practice lens</div>
+                <h3>Core themes</h3>
+                <p>Urban strategy</p>
+                <p>Mobility analytics</p>
+                <p>Climate and resilience analytics</p>
+                <p>Evidence-based decision support</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener("click", () => {
+        const isOpen = mobileMenu.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("is-open");
+          menuButton.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.16,
+          rootMargin: "0px 0px -40px 0px"
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element) => {
+        if (!element.classList.contains("is-visible")) {
+          observer.observe(element);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
