@@ -776,6 +776,77 @@
       transition: transform var(--transition), border-color var(--transition), background var(--transition);
     }
 
+    .focus-card {
+      isolation: isolate;
+    }
+
+    .focus-card-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .focus-card-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(5, 5, 10, 0.22) 0%, rgba(5, 5, 10, 0.7) 58%, rgba(5, 5, 10, 0.92) 100%),
+        linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(5, 5, 10, 0.14));
+    }
+
+    .focus-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.06);
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .focus-card-media--geospatial img {
+      object-position: center 42%;
+    }
+
+    .focus-card-media--systems img {
+      object-position: center;
+    }
+
+    .focus-card-media--simulation img {
+      object-position: center 34%;
+    }
+
+    .focus-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .focus-card:hover,
+    .focus-card:focus-within {
+      border-color: rgba(255, 255, 255, 0.14);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+    }
+
+    .focus-card:hover .focus-card-media,
+    .focus-card:focus-within .focus-card-media {
+      opacity: 1;
+    }
+
+    .focus-card:hover .focus-card-media img,
+    .focus-card:focus-within .focus-card-media img {
+      transform: scale(1);
+    }
+
+    .focus-card:hover .card-copy,
+    .focus-card:hover .focus-list li,
+    .focus-card:focus-within .card-copy,
+    .focus-card:focus-within .focus-list li {
+      color: rgba(255, 255, 255, 0.82);
+    }
+
     .card-index,
     .project-tag {
       color: #c4c4fc;
@@ -1145,6 +1216,14 @@
       transition-delay: 360ms;
     }
 
+    .delay-5 {
+      transition-delay: 450ms;
+    }
+
+    .delay-6 {
+      transition-delay: 540ms;
+    }
+
     @media (max-width: 1100px) {
       .hero-grid,
       .about-grid,
@@ -1328,7 +1407,7 @@
 
           <div class="hero-stats">
             <div class="hero-stat reveal delay-1">
-              <strong>4</strong>
+              <strong>6</strong>
               <div class="hero-stat-label">Projects</div>
             </div>
             <div class="hero-stat reveal delay-2">
@@ -1363,45 +1442,78 @@
 
         <div class="focus-grid">
           <article class="focus-card reveal delay-1">
-            <div class="card-index">01 / Geospatial analysis</div>
-            <h3>Spatial evidence that holds up.</h3>
-            <p class="card-copy">
-              GIS, remote sensing, and earth observation workflows that turn territorial complexity into
-              legible insights for planning, infrastructure, and environmental strategy.
-            </p>
-            <ul class="focus-list">
-              <li>QGIS / ArcGIS workflows for urban and environmental datasets</li>
-              <li>Google Earth Engine and satellite imagery interpretation</li>
-              <li>Risk metrics, environmental patterning, and spatial decision framing</li>
-            </ul>
+            <div class="focus-card-media focus-card-media--geospatial" aria-hidden="true">
+              <img
+                src="posts/torrent_of_change/assets/Extra_Assets/1_RelativeELevationModel_Rosario_0002.png"
+                alt=""
+                width="3507"
+                height="2480"
+                loading="lazy"
+              />
+            </div>
+            <div class="focus-card-content">
+              <div class="card-index">01 / Geospatial analysis</div>
+              <h3>Spatial evidence that holds up.</h3>
+              <p class="card-copy">
+                GIS, remote sensing, and earth observation workflows that turn territorial complexity into
+                legible insights for planning, infrastructure, and environmental strategy.
+              </p>
+              <ul class="focus-list">
+                <li>QGIS / ArcGIS workflows for urban and environmental datasets</li>
+                <li>Google Earth Engine and satellite imagery interpretation</li>
+                <li>Risk metrics, environmental patterning, and spatial decision framing</li>
+              </ul>
+            </div>
           </article>
 
           <article class="focus-card reveal delay-2">
-            <div class="card-index">02 / Urban systems</div>
-            <h3>Strategy across the built environment.</h3>
-            <p class="card-copy">
-              Bringing together architecture, urban systems, mobility strategy, and climate resilience to
-              shape decisions that work at multiple scales.
-            </p>
-            <ul class="focus-list">
-              <li>Mobility, emissions, and infrastructure analysis for cities</li>
-              <li>Climate resilience and sustainable infrastructure positioning</li>
-              <li>Stakeholder translation from technical data to planning action</li>
-            </ul>
+            <div class="focus-card-media focus-card-media--systems" aria-hidden="true">
+              <img
+                src="posts/assets/Pollution2Pollination/ezgif.com-optimize-7.gif"
+                alt=""
+                width="2028"
+                height="1080"
+                loading="lazy"
+              />
+            </div>
+            <div class="focus-card-content">
+              <div class="card-index">02 / Urban systems</div>
+              <h3>Strategy across the built environment.</h3>
+              <p class="card-copy">
+                Bringing together architecture, urban systems, mobility strategy, and climate resilience to
+                shape decisions that work at multiple scales.
+              </p>
+              <ul class="focus-list">
+                <li>Mobility, emissions, and infrastructure analysis for cities</li>
+                <li>Climate resilience and sustainable infrastructure positioning</li>
+                <li>Stakeholder translation from technical data to planning action</li>
+              </ul>
+            </div>
           </article>
 
           <article class="focus-card reveal delay-3">
-            <div class="card-index">03 / Simulations and systems</div>
-            <h3>Scenario thinking for urban futures.</h3>
-            <p class="card-copy">
-              Building analytical workflows and simulation logic that test interventions, reveal impacts,
-              and support more confident spatial decisions.
-            </p>
-            <ul class="focus-list">
-              <li>Agent-based simulations and environmental scenario testing</li>
-              <li>Python, SQL, and computational workflows for scalable analysis</li>
-              <li>Product thinking for decision-support tools and urban platforms</li>
-            </ul>
+            <div class="focus-card-media focus-card-media--simulation" aria-hidden="true">
+              <img
+                src="Inspiration/HomePage_Pics/Sentient%20Grid_layers.jpg"
+                alt=""
+                width="1280"
+                height="720"
+                loading="lazy"
+              />
+            </div>
+            <div class="focus-card-content">
+              <div class="card-index">03 / Simulations and systems</div>
+              <h3>Scenario thinking for urban futures.</h3>
+              <p class="card-copy">
+                Building analytical workflows and simulation logic that test interventions, reveal impacts,
+                and support more confident spatial decisions.
+              </p>
+              <ul class="focus-list">
+                <li>Agent-based simulations and environmental scenario testing</li>
+                <li>Python, SQL, and computational workflows for scalable analysis</li>
+                <li>Product thinking for decision-support tools and urban platforms</li>
+              </ul>
+            </div>
           </article>
         </div>
       </div>
@@ -1418,7 +1530,7 @@
             </h2>
           </div>
           <p class="section-copy">
-            The current repository already contains four portfolio pieces. This homepage brings them
+            The current repository now contains six portfolio pieces. This homepage brings them
             forward as the main entry points into the broader body of work.
           </p>
         </div>
@@ -1506,6 +1618,50 @@
                 <span class="pill">Remote sensing</span>
                 <span class="pill">Flood risk</span>
                 <span class="pill">Urban resilience</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal delay-5" href="posts/PanoramicVision/index.html">
+            <div class="project-media">
+              <img src="posts/PanoramicVision/assets/pano_T00305O.png" alt="Panoramic Vision streetscape image" width="1024" height="512" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Streetscape AI</span>
+                <span class="project-tag">Barcelona</span>
+              </div>
+              <h3>Panoramic Vision: Computational Streetscape Analysis</h3>
+              <p>
+                A scrollytelling case study that uses street panoramas, depth mapping, and clustering
+                to compare urban street conditions and interpret street quality at scale.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Street view</span>
+                <span class="pill">Machine learning</span>
+                <span class="pill">Urban analysis</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal delay-6" href="posts/bicing_ML/index.html">
+            <div class="project-media">
+              <img src="posts/bicing_ML/assets/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur-1.png" alt="Bicing machine learning project overview" width="960" height="540" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Mobility ML</span>
+                <span class="project-tag">Barcelona</span>
+              </div>
+              <h3>Bicing Prediction Models with Machine Learning</h3>
+              <p>
+                A scrollytelling case study on forecasting bike-share availability through temporal
+                filtering, feature engineering, and ensemble model comparison.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Forecasting</span>
+                <span class="pill">Bike share</span>
+                <span class="pill">Time series</span>
               </div>
             </div>
           </a>

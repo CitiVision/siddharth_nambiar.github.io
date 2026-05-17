@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bicing Prediction Models with Machine Learning</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5f2ed;
+      --surface:   #ffffff;
+      --ink:       #1a1a18;
+      --ink-muted: #6b6b60;
+      --accent:    #1d4e89;
+      --green:     #2e7d32;
+      --amber:     #b45309;
+      --red:       #b91c1c;
+      --rule:      #d6d0c4;
+      --max-w:     780px;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+    }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background: var(--accent);
+      color: #fff;
+      padding: 80px 24px 64px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur.png') center/cover no-repeat;
+      opacity: 0.14;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 600px;
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+    .hero-meta {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+    }
+    .hero-meta a { color: rgba(255,255,255,0.82); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.28); }
+    .hero-meta a:hover { border-bottom-color: #fff; }
+
+    /* ── Article ── */
+    article {
+      max-width: var(--max-w);
+      margin: 64px auto 100px;
+      padding: 0 24px;
+    }
+
+    section { margin-bottom: 64px; }
+
+    /* ── Section heading ── */
+    .section-header {
+      border-top: 2px solid var(--accent);
+      padding-top: 10px;
+      margin-bottom: 26px;
+    }
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .section-header .sub {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    h3 {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 32px 0 12px;
+    }
+
+    p { margin-bottom: 20px; font-size: 1rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { font-weight: 500; }
+    em { font-style: italic; }
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      background: rgba(29,78,137,0.08);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--accent);
+    }
+
+    /* ── Abstract / TL;DR box ── */
+    .abstract {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--accent);
+      padding: 26px 30px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 40px;
+    }
+    .abstract-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .abstract p { font-size: 0.95rem; margin-bottom: 12px; }
+    .abstract p:last-child { margin-bottom: 0; }
+
+    /* ── Inline callout ── */
+    .callout {
+      background: rgba(29,78,137,0.05);
+      border: 1px solid rgba(29,78,137,0.15);
+      border-radius: 6px;
+      padding: 18px 22px;
+      margin: 24px 0;
+      font-size: 0.93rem;
+      font-style: italic;
+      color: var(--accent);
+      line-height: 1.65;
+    }
+    .callout.amber {
+      background: rgba(180,83,9,0.05);
+      border-color: rgba(180,83,9,0.2);
+      color: var(--amber);
+    }
+    .callout.red {
+      background: rgba(185,28,28,0.05);
+      border-color: rgba(185,28,28,0.2);
+      color: var(--red);
+    }
+
+    /* ── Feature table ── */
+    .feature-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 20px 0 28px;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+    }
+    .feature-table thead tr {
+      background: var(--accent);
+      color: #fff;
+    }
+    .feature-table thead th {
+      padding: 11px 16px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .feature-table tbody tr { border-bottom: 1px solid var(--rule); }
+    .feature-table tbody tr:last-child { border-bottom: none; }
+    .feature-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.015); }
+    .feature-table td {
+      padding: 11px 16px;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .feature-table td:first-child { font-weight: 500; white-space: nowrap; color: var(--accent); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge.high { background: rgba(46,125,50,0.12); color: var(--green); }
+    .badge.med  { background: rgba(180,83,9,0.12);  color: var(--amber); }
+    .badge.low  { background: rgba(185,28,28,0.1);  color: var(--red); }
+
+    /* ── Model cards ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+    .model-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .model-card.winner { border-color: rgba(46,125,50,0.4); box-shadow: 0 0 0 1px rgba(46,125,50,0.15); }
+    .model-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .model-card h3 {
+      margin: 0 0 10px;
+      font-size: 0.88rem;
+      color: var(--ink);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .model-card p {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .mse-block { border-top: 1px solid var(--rule); padding-top: 12px; }
+    .mse-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.75rem;
+      margin-bottom: 5px;
+    }
+    .mse-label { color: var(--ink-muted); }
+    .mse-val { font-family: monospace; font-size: 0.88rem; font-weight: 500; }
+    .mse-val.good  { color: var(--green); }
+    .mse-val.bad   { color: var(--red); }
+    .mse-val.plain { color: var(--ink); }
+    .winner-badge {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(46,125,50,0.08);
+      border-radius: 4px;
+      padding: 5px 0;
+    }
+    @media (max-width: 560px) { .model-grid { grid-template-columns: 1fr; } }
+
+    /* ── Stats bar ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 28px 0;
+    }
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-val.green { color: var(--green); }
+    .stat-val.red   { color: var(--red); }
+    .stat-lbl { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
+
+    /* ── Numbered insight list ── */
+    .insight-list {
+      list-style: none;
+      counter-reset: ins;
+      padding: 0;
+      margin: 20px 0;
+    }
+    .insight-list li {
+      counter-increment: ins;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .insight-list li:last-child { border-bottom: none; }
+    .insight-list li::before {
+      content: counter(ins);
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.2;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .insight-list li .ins-title {
+      font-weight: 500;
+      font-size: 0.97rem;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .insight-list li p { font-size: 0.95rem; margin-bottom: 10px; color: var(--ink-muted); }
+    .insight-list li p:last-child { margin-bottom: 0; }
+
+    /* ── Image blocks ── */
+    .img-block { margin: 32px 0; }
+    .img-block img { width: 100%; display: block; border-radius: 6px; background: var(--rule); }
+    figcaption {
+      margin-top: 10px;
+      font-size: 0.77rem;
+      color: var(--ink-muted);
+      font-style: italic;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 32px 0; }
+    .img-pair img { width: 100%; display: block; border-radius: 6px; background: var(--rule); }
+    .img-triple { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 28px 0; }
+    .img-triple img { width: 100%; display: block; border-radius: 6px; background: var(--rule); }
+    @media (max-width: 500px) {
+      .img-pair   { grid-template-columns: 1fr; }
+      .img-triple { grid-template-columns: 1fr; }
+      .stat-row   { grid-template-columns: 1fr; }
+    }
+
+    /* ── Tags ── */
+    .tags {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 99px;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Attribution ── */
+    .attribution {
+      margin-top: 56px;
+      padding: 28px 32px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.9;
+    }
+    .attribution strong { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Master in City &amp; Technology · 2023–2024 · IAAC</p>
+      <h1>Bicing Prediction Models<br>with Machine Learning</h1>
+      <p class="hero-sub">
+        Forecasting bike-share availability across Barcelona's Bicing network using ensemble tree-based regressors trained on spatiotemporal, meteorological, and sociodemographic features.
+      </p>
+      <p class="hero-meta">
+        By
+        <a href="#">Sharon Megan Wong</a>,
+        <a href="#">Diederik de Vries</a>,
+        <a href="#">Nupur Sircar</a> and
+        <a href="#">Siddharth Nambiar</a>
+        &nbsp;·&nbsp; Published May 24, 2024
+      </p>
+    </div>
+  </header>
+
+  <!-- ── Article ── -->
+  <article>
+
+    <!-- Hero image -->
+    <figure class="img-block">
+      <img
+        src="https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur.png"
+        alt="Bicing Prediction Models overview"
+        loading="lazy"
+      />
+    </figure>
+
+    <!-- Abstract -->
+    <section>
+      <div class="abstract">
+        <p class="abstract-label">Abstract</p>
+        <p>
+          This project constructs a supervised regression pipeline to predict real-time bike availability across the Bicing network — Barcelona's public bike-share system — at hourly resolution. Three decision tree–based models (Decision Tree, Random Forest, and Gradient Boosting Regressor) were trained on a curated feature set spanning spatial coordinates, temporal signals, near-surface air temperature, station capacity, and neighbourhood population density. Training was constrained to 2021–2023 data to exclude structurally anomalous years caused by the Bicing 2.0 platform launch and the COVID-19 pandemic. On unseen Q1 2024 data, the Gradient Boosting Regressor achieved the lowest mean squared error at 0.074 — though all models exhibited signs of overfitting, pointing to a need for stronger feature selection and regularisation before deployment.
+        </p>
+      </div>
+    </section>
+
+    <!-- 1. Context -->
+    <section>
+      <div class="section-header">
+        <h2>1. Context &amp; Problem Definition</h2>
+        <p class="sub">Why bike-share availability prediction is a non-trivial geospatial problem</p>
+      </div>
+
+      <p>
+        Launched in 2007 and expanded to its current electric-assisted 2.0 fleet in 2019, Bicing is Barcelona's public bike-share system, operated as a monthly subscription service for residents rather than a tourist rental scheme. Distributed across a city with highly variable topography — from the flat Eixample grid to the steep inclines of Gràcia and Sarrià — the system faces a chronic rebalancing problem: bikes accumulate at downhill stations in the morning and uphill stations empty rapidly. The current Smou app offers a 15–30 minute availability forecast, which is insufficient for trip planning across cross-city commutes.
+      </p>
+      <p>
+        The objective of this project was to develop a machine learning regression model capable of predicting the <strong>proportional availability</strong> (available bikes ÷ total capacity) at any station at any hour during the first quarter of 2024 — a period not seen during training. This is a fundamentally geospatial problem: availability at any given station is not independent of its neighbours, its position in the city's slope gradient, or the density of competing transport infrastructure nearby. A purely tabular model trained on station-level features ignores these spatial dependencies, which we discuss as a key limitation.
+      </p>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur-1.png"
+          alt="Bicing network overview"
+          loading="lazy"
+        />
+        <figcaption>Overview of the Bicing station network and modelling framework across Barcelona</figcaption>
+      </figure>
+    </section>
+
+    <!-- 2. Data audit -->
+    <section>
+      <div class="section-header">
+        <h2>2. Training Data Audit &amp; Temporal Filtering</h2>
+        <p class="sub">Why 2019–2020 data was excluded from training</p>
+      </div>
+
+      <p>
+        Before any model training, a longitudinal audit of availability data from 2019 to 2023 revealed two structurally anomalous periods that would have corrupted the training distribution if included.
+      </p>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/newplot-2.png"
+          alt="Bicing availability 2019–2023 time series"
+          loading="lazy"
+        />
+        <figcaption>
+          Bicing mean availability ratio across all stations, 2019–2023. Two structural breaks are clearly visible:
+          the Bicing 2.0 rollout (early 2019) and the COVID-19 lockdown and rebound cycle (2020).
+        </figcaption>
+      </figure>
+
+      <p>
+        The time series exposes two distinct structural breaks that would introduce serious distributional shift into any model trained on the full range:
+      </p>
+
+      <p>
+        <strong>2019 — Platform transition noise.</strong> The migration from Bicing 1.0 to the 2.0 system, which introduced electric docks and a new app, generated atypically low usage data. The new application suffered from critical UX failures at launch — incorrect station capacity reporting, broken real-time sync, and poor route suggestions — causing a significant and artificial depression in recorded availability. Training on this data would teach the model to treat low availability as a normal baseline condition, systematically biasing predictions downward.
+      </p>
+
+      <p>
+        <strong>2020 — COVID-19 demand shock and rebound.</strong> The March–May 2020 lockdown in Barcelona reduced Bicing trips to near zero, followed by an anomalous surge in August–October 2020 as residents deliberately shifted away from enclosed public transport (metro, bus) to open-air cycling. This creates a bimodal distribution within a single year — no model trained on this period can generalise to normal operating conditions, since neither the demand collapse nor the rebound reflects typical usage patterns.
+      </p>
+
+      <div class="callout amber">
+        Decision: Training data was constrained to January 2021 – December 2023, representing three full years of post-pandemic, post-platform-stabilisation operations. This window contains sufficient seasonal variation (summer demand peaks, winter dips, public holiday effects) while avoiding structural distributional outliers.
+      </div>
+
+      <p>
+        This temporal filtering step is arguably the most consequential data decision in the project. In production ML systems, it is standard practice to audit your label distribution over time before selecting a training window, precisely to avoid training on regime-change periods that do not reflect the deployment environment.
+      </p>
+    </section>
+
+    <!-- 3. Feature engineering -->
+    <section>
+      <div class="section-header">
+        <h2>3. Feature Engineering</h2>
+        <p class="sub">Spatial, temporal, meteorological, and sociodemographic signals</p>
+      </div>
+
+      <p>
+        The feature set was designed around four distinct signal categories. Each was chosen based on a theoretical relationship with bike availability — though, as the results show, not all of them ultimately contributed predictive signal.
+      </p>
+
+      <table class="feature-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Features</th>
+            <th>Source</th>
+            <th>Expected Importance</th>
+            <th>Actual Utility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Spatial</td>
+            <td>Latitude, Longitude, Altitude</td>
+            <td>Competition dataset / OSM</td>
+            <td>High — topography drives directional flow</td>
+            <td><span class="badge med">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Temporal</td>
+            <td>Month, Day type (workday/holiday), Hour of day</td>
+            <td>Competition dataset</td>
+            <td>High — commuting patterns dominate demand</td>
+            <td><span class="badge high">High</span></td>
+          </tr>
+          <tr>
+            <td>Meteorological</td>
+            <td>Hourly air temperature</td>
+            <td>Meteostat Python library</td>
+            <td>Medium — rain and cold suppress cycling</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Supply &amp; Demand</td>
+            <td>Station capacity, Population density</td>
+            <td>Dataset + Barcelona Census</td>
+            <td>Medium — density proxies for demand pressure</td>
+            <td><span class="badge med">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Spatial features: altitude as the missing signal</h3>
+      <p>
+        Latitude and longitude provide the model with approximate neighbourhood-level context, but they do not encode the directional flow dynamics that make Bicing a genuinely geospatial problem. Altitude is the most physically meaningful spatial feature: Barcelona's terrain creates a consistent morning drain from uphill stations (Gràcia, Sarrià, Horta) toward downhill stations (Barceloneta, Eixample, Sant Martí). Without encoding altitude differentials between neighbouring stations, the model has no mechanism to learn this asymmetric flow. A station at 120m ASL behaves fundamentally differently from one at 15m ASL, even if they are 400m apart horizontally.
+      </p>
+
+      <h3>Temporal features: the dominant signal</h3>
+      <p>
+        Hour of day and day type (working day vs weekend/holiday) are almost certainly the features with the strongest predictive signal in this dataset. Bicing usage follows a highly structured bimodal weekday distribution — a sharp morning peak around 08:00–09:00 as commuters take bikes from residential to commercial zones, a smaller lunchtime peak, and an evening peak at 18:00–19:00. Weekends show a broader, later single-peak distribution centred around midday leisure use. Encoding these as raw integers (hour = 14) is suboptimal: hour is a <strong>cyclical feature</strong>, and the distance between hour 23 and hour 0 is 1 minute, not 23 hours. Sine/cosine encoding of hour and month should have been applied.
+      </p>
+
+      <h3>Meteorological features: temperature alone is insufficient</h3>
+      <p>
+        Temperature has an intuitive correlation with cycling — fewer people cycle in cold weather — but it is a weak proxy for the actual deterrent, which is <strong>precipitation</strong>. Barcelona's climate is Mediterranean: winter temperatures rarely drop below 8°C, a level at which cycling remains comfortable. The city's rain events, however, are characteristically intense and sudden. A model with access to hourly precipitation data, wind speed, and humidity would be substantially better equipped to capture weather-driven demand suppression. By using only temperature from Meteostat, the model likely absorbed very little meteorological signal.
+      </p>
+
+      <h3>Population density: absolute vs density-normalised</h3>
+
+      <div class="img-pair">
+        <img
+          src="https://lh7-us.googleusercontent.com/85HTEEgXR2IW3_B5dJlqlwI96hbbru8otocTPBDdlwzRnaSZ6TSwkHrrtdavEo5azcObDo2CsKCRy8wUdwDBRdeKV5AOjS5v9bYB_sJbZTvK5umguUjqITZMI_z7soWoFR7YZCNlwW-FePjnu1n3mS8VZA=s2048"
+          alt="Barcelona absolute population per neighbourhood"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/SBxXHTwqxc94XpUkEtBGgN5bERvgNinJoM3S12LSqtLWH1xmAu-wxXdUx1Etmq2qkcUcIz_SrlHUzeU5cyy2m6m1pcjzj-sz9tU7-d6YhQmjWcyzAmrqLPavSQ2yV0AiCAQCRRSdczY-E6SSquoOHaiMQA=s2048"
+          alt="Barcelona population density by area"
+          loading="lazy"
+        />
+      </div>
+      <figcaption>
+        Left: Absolute population count per neighbourhood — larger districts like Sant Martí and Eixample register the highest totals.<br>
+        Right: Population per km² — density-normalised values reveal that compact inner-city barrios like Sant Pere and Gràcia are far more intensely occupied than their raw headcount suggests. The right-hand map is the operationally meaningful input.
+      </figcaption>
+
+      <p>
+        The decision to derive population density (residents per km²) from raw census counts rather than using absolute population numbers was methodologically sound. As the two maps above illustrate, absolute counts are dominated by the physical size of the neighbourhood rather than its intensity of occupation. Gràcia — one of the densest and most active cycling neighbourhoods in Barcelona — has a lower absolute population than the sprawling Sant Martí district but nearly double the density per unit area. Using the density-normalised figure is the correct approach for modelling demand pressure on shared infrastructure.
+      </p>
+
+      <p>
+        However, population density as a static feature is a blunt instrument. A more powerful proxy for demand would be a <strong>Points of Interest (POI) density score</strong> derived from OpenStreetMap — counting the number of offices, schools, universities, supermarkets, and transit connections within a 300m radius of each station. This would capture not just who lives near a station, but the functional attractors that generate cycling demand throughout the day.
+      </p>
+
+      <div class="img-pair">
+        <img
+          src="https://lh7-us.googleusercontent.com/56qazwgVKpWGYOjRNOxAXq6c2oJbHWjkw_gykRkGBhasJprFHvByYhKO1VnCC4T-YTpLut1yOhX9YWy0k0V-LQUpRJy7bAbEW7Fdm-eKDvSOIPYgo4jI-iBI0RBlliCPflB9CzFSSi-9CEhAAWY-uVLIsA=s2048"
+          alt="Station capacity and feature distribution"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/_DCRgKW9w2bHvzToKGgDPsvx4n3skooZPsM3Ih6uLoYUfp42VsWbPBV5B7JysrrftIZgKYIMTgX6NS6nwjt6itsPeSFQZ4hihNZnuq0XzI7MfNC3YjE0KhZM_ORKan1lUeIr4E48vtcA9gndKu3URsRNKQ=s2048"
+          alt="Station feature distributions"
+          loading="lazy"
+        />
+      </div>
+      <figcaption>Feature distribution and station capacity profiles used as model inputs</figcaption>
+    </section>
+
+    <!-- 4. Model selection -->
+    <section>
+      <div class="section-header">
+        <h2>4. Model Selection &amp; Architecture</h2>
+        <p class="sub">Decision tree ensembles and their trade-offs for tabular geospatial regression</p>
+      </div>
+
+      <p>
+        All three models selected belong to the decision tree family — a deliberate choice for tabular data with non-linear, non-Gaussian feature interactions. Decision tree–based regressors are well-suited to this problem for several reasons: they handle mixed feature types natively (categorical day-type, continuous temperature, integer hour), they do not require feature scaling, and they can approximate the sharp discontinuities in availability that occur at peak commuting transitions (07:30 → 09:00 being the critical window).
+      </p>
+
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-num">1</div>
+          <h3>Decision Tree Regressor</h3>
+          <p>
+            A single tree that recursively partitions the feature space by selecting the split that minimises MSE at each node. Highly interpretable — feature importance scores can be read directly from node impurity values — but prone to deep overfitting because there is no mechanism to generalise beyond the training splits.
+          </p>
+          <div class="mse-block">
+            <div class="mse-row">
+              <span class="mse-label">MSE — training</span>
+              <span class="mse-val plain">0.064</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE — 2024 actual</span>
+              <span class="mse-val bad">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-num">2</div>
+          <h3>Random Forest Regressor</h3>
+          <p>
+            An ensemble of decorrelated decision trees, each trained on a bootstrap sample of the data with a random subset of features available at each split. Averaging across many trees reduces variance significantly — hence the lowest training MSE of 0.023 — but can still overfit when the training data is not representative of the deployment distribution.
+          </p>
+          <div class="mse-block">
+            <div class="mse-row">
+              <span class="mse-label">MSE — training</span>
+              <span class="mse-val good">0.023</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE — 2024 actual</span>
+              <span class="mse-val bad">Overfitted</span>
+            </div>
+          </div>
+        </div>
+        <div class="model-card winner">
+          <div class="model-num">3</div>
+          <h3>Gradient Boosting Regressor</h3>
+          <p>
+            Builds trees sequentially, with each successive tree fitting the residual errors of the previous one via gradient descent in function space. The iterative error-correction mechanism acts as a form of implicit regularisation, allowing the model to generalise slightly better than a random forest when hyperparameters (learning rate, depth, n_estimators) are controlled.
+          </p>
+          <div class="mse-block">
+            <div class="mse-row">
+              <span class="mse-label">MSE — training</span>
+              <span class="mse-val plain">0.057</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE — 2024 actual</span>
+              <span class="mse-val good">0.074</span>
+            </div>
+          </div>
+          <div class="winner-badge">★ Best on unseen data</div>
+        </div>
+      </div>
+
+      <div class="img-triple">
+        <img
+          src="https://lh7-us.googleusercontent.com/34gk-Lt0okju298NyKJfcStwYrNfo5_levOC4_m3n7cyh9cCt9Jx4BE98HBhVRtVsOnVetDZ0sTRtg90eCAibB7K1MmSwyQBoL6ZjaKwmywguX3yyUSte5i_91vBVqKEj-TBJ5K0odaR2HDLq5xCdchYww=s2048"
+          alt="Decision Tree model diagram"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/E5lE1jmJgB1InBkAuBZN9Egm1P-rAHRlvoy9Z_qmhpEQw2fZjQZMbqQBmB-dr5iF75NQ1A9gYslsPJlEvHAmAFU8_-xrJydEpgCrrzzibmSjWiNasROE8XTOyg7nKfJBtdXCjSCRVLyPI7VlGvPRGQ0AIg=s2048"
+          alt="Random Forest model diagram"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/l7-0ShbxBeAxGJy__KlJ-xaLEkvy6y6MULKxh1OStR63mOW8kUebJOn_jKk2wzV0DRvC7iv2QVWOheqBlqW3s4qQ4Aca73TYR6_StzBcBY8TmY9UDzRov4Qu4uD-lfpfSMMFBSbleIh__ZePfZBBxeKGUg=s2048"
+          alt="Gradient Boosting Regressor model diagram"
+          loading="lazy"
+        />
+      </div>
+      <figcaption>Left: Decision Tree · Centre: Random Forest · Right: Gradient Boosting Regressor — structural comparison of the three model architectures</figcaption>
+    </section>
+
+    <!-- 5. Results -->
+    <section>
+      <div class="section-header">
+        <h2>5. Results &amp; Diagnosis</h2>
+        <p class="sub">Understanding what the MSE scores actually tell us</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="stat-val">0.064</span>
+          <span class="stat-lbl">Decision Tree<br>Training MSE</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">0.023</span>
+          <span class="stat-lbl">Random Forest<br>Training MSE (lowest)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val green">0.074</span>
+          <span class="stat-lbl">Gradient Booster<br>Best on Q1 2024 ★</span>
+        </div>
+      </div>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/newplot-1.png"
+          alt="Gradient Booster prediction vs actual Bicing availability 2024"
+          loading="lazy"
+        />
+        <figcaption>
+          Gradient Boosting Regressor predictions (orange) overlaid on actual Bicing availability (blue), Q1 2024.
+          The model tracks broad seasonal and weekly trends but struggles with intra-day peak sharpness and atypical demand events.
+        </figcaption>
+      </figure>
+
+      <p>
+        The results plot surfaces the central problem: the model has learned the average shape of availability — the weekly rhythm, the gradual seasonal trend — but its predictions are <strong>systematically smoothed</strong>. The sharp intra-day peaks and troughs caused by morning and evening commuting spikes are dampened in the prediction output. This is the canonical signature of an overfitted model that has memorised training-set variance but cannot reproduce it on new data.
+      </p>
+
+      <div class="callout red">
+        The Random Forest achieved the best training MSE (0.023) but was not the best performer on 2024 data — a textbook demonstration of the bias-variance trade-off. Lower training error in a high-variance model indicates memorisation, not learning.
+      </div>
+
+      <p>
+        The Gradient Boosting Regressor performed best on unseen data (MSE 0.074) not because it was more complex, but because its sequential, error-correcting training mechanism implicitly penalises overfit more aggressively than averaging in a Random Forest. However, a gap of 0.074 training-to-test is still substantial, suggesting the feature set contains noise that inflates apparent training accuracy without generalising.
+      </p>
+
+      <h3>Why did the models overfit?</h3>
+      <p>
+        Three contributing factors are identifiable in retrospect. First, <strong>no cross-validation strategy</strong> was employed to estimate generalisation performance during development — a time-series cross-validation scheme (e.g., expanding window or blocked k-fold) would have detected the overfitting gap before evaluation on 2024 data. Second, <strong>no regularisation</strong> was applied: tree depth, minimum samples per leaf, and learning rate were likely left at default values, allowing the models to grow arbitrarily complex. Third, as discussed in the feature section, some features likely contributed noise rather than signal — particularly raw temperature and raw latitude/longitude without any spatial lag or neighbourhood-aggregation features.
+      </p>
+    </section>
+
+    <!-- 6. What should have been done -->
+    <section>
+      <div class="section-header">
+        <h2>6. What Should Have Been Done Differently</h2>
+        <p class="sub">A retrospective from a geospatial ML perspective</p>
+      </div>
+
+      <ol class="insight-list">
+        <li>
+          <div>
+            <p class="ins-title">Pearson / Spearman correlation screening before model training</p>
+            <p>
+              Before fitting any model, each candidate feature should be correlated against the target variable (availability ratio) across the training set. Features with |r| &lt; 0.05 provide negligible linear signal and should be investigated or dropped. A feature importance plot from even a shallow decision tree run as an exploratory step would have immediately flagged which inputs were doing work and which were adding noise. This is basic feature audit practice and takes under an hour to execute.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="ins-title">Cyclical encoding of temporal features</p>
+            <p>
+              Hour of day and month of year are cyclical variables. Encoding hour as a raw integer from 0 to 23 tells the model that hour 23 is 23 units away from hour 0, when in reality it is 1 hour away. The correct approach is to encode these as paired sine/cosine features: <code>hour_sin = sin(2π × hour / 24)</code>, <code>hour_cos = cos(2π × hour / 24)</code>. This preserves the circular topology of time and allows the model to correctly represent the continuity between late night and early morning — the period when availability patterns transition most sharply.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="ins-title">Spatial lag features and network graph encoding</p>
+            <p>
+              Bike availability at a station is not independent of its neighbours — a station that empties rapidly is drawing bikes from surrounding stations through user behaviour. Encoding the mean availability of the 3–5 nearest stations (by geodesic distance) as additional features would inject spatial autocorrelation into the model explicitly, rather than expecting it to infer spatial relationships from raw lat/lon coordinates. A more sophisticated approach would model the Bicing network as a directed graph and use graph-based features (degree, betweenness centrality) alongside tabular inputs.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="ins-title">Precipitation and humidity from Meteostat, not just temperature</p>
+            <p>
+              The Meteostat Python library provides hourly precipitation, wind speed, and relative humidity at no additional cost — the same API used to retrieve temperature. Precipitation (mm/hr) has a substantially stronger effect on cycling demand than temperature across Mediterranean climates where temperature variance is low. Adding these two features, alongside a binary <code>is_raining</code> flag derived from a precipitation threshold, would significantly improve the meteorological signal.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="ins-title">Time-series cross-validation instead of a single train/test split</p>
+            <p>
+              Splitting time-series data into a single training window and a single test window makes model evaluation sensitive to the particular characteristics of the held-out period. A blocked k-fold cross-validation approach — where the data is split into k consecutive time blocks and the model is trained on all-but-one and evaluated on the remaining block, cycling through all combinations — produces a more robust estimate of generalisation performance and would have surfaced the overfitting gap months before the competition deadline.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="ins-title">Hyperparameter tuning with explicit regularisation targets</p>
+            <p>
+              Running a grid search or Bayesian optimisation over tree depth (<code>max_depth</code>), minimum samples per leaf (<code>min_samples_leaf</code>), and — for the Gradient Booster — learning rate and subsampling fraction, with cross-validated MSE as the optimisation target, would have produced substantially better-regularised models. Deep trees with small leaf sizes memorise training data; constraining these parameters is the most direct lever for reducing overfitting in tree-based ensembles.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 7. Forward path -->
+    <section>
+      <div class="section-header">
+        <h2>7. Forward Path</h2>
+        <p class="sub">What a production-grade version of this system would look like</p>
+      </div>
+
+      <p>
+        A production deployment of Bicing availability forecasting at city scale would depart significantly from this prototype in three key dimensions.
+      </p>
+      <p>
+        <strong>Model architecture.</strong> The approach best suited to this problem is a spatiotemporal graph neural network — specifically, a Graph Attention Network (GAT) or a Temporal Graph Convolutional Network (TGCN) in which each station is a node, edges encode proximity and altitude differential, and the model learns to propagate availability signals across the network over time. This is the approach taken in state-of-the-art bike-share literature. Failing that, a well-tuned XGBoost or LightGBM model with spatial lag features, cyclical time encodings, and a rich meteorological feature set would outperform the models tested here by a meaningful margin.
+      </p>
+      <p>
+        <strong>Rebalancing events as training noise.</strong> The Bicing operator dispatches trucks to manually rebalance stations throughout the day — transporting bikes from overflow stations to empty ones. These rebalancing events create step-change discontinuities in availability that are unlearnable from historical patterns alone. A production model should either receive a rebalancing event flag as a real-time input, or use anomaly detection to identify and mask rebalancing events in training data so the model learns only demand-driven transitions.
+      </p>
+      <p>
+        <strong>Continuous learning.</strong> A static model trained on 2021–2023 data will degrade as the city changes — new stations are added, neighbourhoods gentrify, new metro lines alter commuting patterns. A production system requires a retraining schedule (at minimum monthly) against a rolling training window, with automated data quality checks and drift detection to flag when the deployment distribution diverges from the training distribution.
+      </p>
+    </section>
+
+    <!-- Tags -->
+    <nav class="tags" aria-label="Post tags">
+      <a class="tag" href="#">Machine Learning</a>
+      <a class="tag" href="#">Geospatial</a>
+      <a class="tag" href="#">Urban Mobility</a>
+      <a class="tag" href="#">Python</a>
+      <a class="tag" href="#">Bike Share</a>
+      <a class="tag" href="#">Barcelona</a>
+      <a class="tag" href="#">Gradient Boosting</a>
+      <a class="tag" href="#">Time Series</a>
+    </nav>
+
+    <!-- Attribution -->
+    <footer class="attribution">
+      <strong>Bicing Prediction Models with Machine Learning</strong> is a project of
+      <strong>IAAC, Institute for Advanced Architecture of Catalonia</strong>
+      developed in the <em>Master in City &amp; Technology — 2023–2024</em>
+      by Sharon Megan Wong, Diederik de Vries, Nupur Sircar and Siddharth Nambiar
+      during the course <em>MaCT01 23/24 Digital Tools &amp; Big Data III</em>
+      with Andre Resende.
+    </footer>
+
+  </article>
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bicing Prediction Models with Machine Learning</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5f2ed;
+      --surface:   #ffffff;
+      --ink:       #1a1a18;
+      --ink-muted: #6b6b60;
+      --accent:    #1d4e89;
+      --accent-2:  #2e7d32;
+      --rule:      #d6d0c4;
+      --max-w:     780px;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+    }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background: var(--accent);
+      color: #fff;
+      padding: 80px 24px 64px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur.png') center/cover no-repeat;
+      opacity: 0.14;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.12;
+      margin-bottom: 32px;
+    }
+    .hero-meta {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+    }
+    .hero-meta a {
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+    }
+    .hero-meta a:hover { border-bottom-color: #fff; }
+
+    /* ── Article ── */
+    article {
+      max-width: var(--max-w);
+      margin: 64px auto 100px;
+      padding: 0 24px;
+    }
+
+    /* ── Sections ── */
+    section { margin-bottom: 60px; }
+
+    /* ── Section headings ── */
+    .section-header {
+      border-top: 2px solid var(--accent);
+      padding-top: 10px;
+      margin-bottom: 24px;
+    }
+    .section-header h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    /* ── Body text ── */
+    p { margin-bottom: 20px; font-size: 1rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { font-weight: 500; }
+
+    /* ── Intro highlight box ── */
+    .intro-box {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--accent);
+      padding: 24px 28px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 36px;
+    }
+    .intro-box p { font-size: 0.97rem; margin-bottom: 14px; }
+    .intro-box p:last-child { margin-bottom: 0; }
+
+    /* ── Data types pill list ── */
+    .data-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 28px;
+      list-style: none;
+      padding: 0;
+    }
+    .data-pills li {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .data-pills li span {
+      display: block;
+      font-weight: 300;
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      margin-top: 1px;
+    }
+
+    /* ── Model comparison cards ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .model-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 20px 18px;
+    }
+    .model-card .model-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.25;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .model-card h3 {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .model-card p {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+    .model-card .mse {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .model-card .mse-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+    }
+    .model-card .mse-label { color: var(--ink-muted); }
+    .model-card .mse-val {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--ink);
+      font-family: monospace;
+    }
+    .model-card .mse-val.best { color: var(--accent-2); }
+    @media (max-width: 580px) {
+      .model-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Stat callout ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .stat-box .val {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .stat-box .val.best { color: var(--accent-2); }
+    .stat-box .lbl {
+      font-size: 0.74rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .stat-box .sub {
+      font-size: 0.7rem;
+      color: var(--ink-muted);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+    @media (max-width: 480px) {
+      .stat-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Lessons learned list ── */
+    .lessons-list {
+      list-style: none;
+      counter-reset: lesson;
+      padding: 0;
+      margin: 20px 0;
+    }
+    .lessons-list li {
+      counter-increment: lesson;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .lessons-list li:last-child { border-bottom: none; }
+    .lessons-list li::before {
+      content: counter(lesson);
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.25;
+      line-height: 1;
+    }
+    .lessons-list li p { margin-bottom: 0; font-size: 0.97rem; }
+
+    /* ── Images ── */
+    .img-block { margin: 32px 0; }
+    .img-block img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+      background: var(--rule);
+    }
+    .img-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 32px 0;
+    }
+    .img-pair img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+      background: var(--rule);
+    }
+    @media (max-width: 500px) {
+      .img-pair { grid-template-columns: 1fr; }
+    }
+    .img-triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 32px 0;
+    }
+    .img-triple img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+      background: var(--rule);
+    }
+    @media (max-width: 580px) {
+      .img-triple { grid-template-columns: 1fr; }
+    }
+    figcaption {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-style: italic;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Tags ── */
+    .tags {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 99px;
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Attribution ── */
+    .attribution {
+      margin-top: 56px;
+      padding: 28px 32px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      line-height: 1.9;
+    }
+    .attribution strong { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Master in City &amp; Technology · 2023–2024 · IAAC</p>
+      <h1>Bicing Prediction Models with Machine Learning</h1>
+      <p class="hero-meta">
+        By
+        <a href="#">Sharon Megan Wong</a>,
+        <a href="#">Diederik de Vries</a>,
+        <a href="#">Nupur Sircar</a> and
+        <a href="#">Siddharth Nambiar</a>
+        &nbsp;·&nbsp; Published May 24, 2024
+      </p>
+    </div>
+  </header>
+
+  <!-- ── Article ── -->
+  <article>
+
+    <!-- Hero image -->
+    <figure class="img-block">
+      <img
+        src="https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur.png"
+        alt="Bicing Prediction Models overview graphic"
+        loading="lazy"
+      />
+    </figure>
+
+    <!-- Introduction -->
+    <section>
+      <div class="intro-box">
+        <p>
+          Bicing was launched in 2007 as a viable eco-friendly alternative or complement to traditional private and public transportation. The mobility network has allowed for increased physical activity and better connectivity between neighbourhoods of Barcelona. It is aimed at anyone with a NIE, over the age of 16. The Bicing 2.0 models were released in 2019 to include electrical charging docks. Currently, <em>Smou</em> is the mobile interface for Barcelona's mobility sharing. The forecast for availability of bicycles is limited to a future prediction within the next 15–30 minutes.
+        </p>
+        <p>
+          The task of this project was to predict the <strong>availability</strong> of Bicing bikes at any given station in Barcelona at any given time during the first three months of 2024, using machine learning algorithms in Python.
+        </p>
+      </div>
+    </section>
+
+    <!-- Availability -->
+    <section>
+      <div class="section-header">
+        <h2>Availability</h2>
+      </div>
+
+      <p>
+        The investigation began by examining how availability had varied over time in the period 2019–2023.
+      </p>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/newplot-2.png"
+          alt="Bicing availability over time 2019–2023"
+          loading="lazy"
+        />
+        <figcaption>Bicing availability pattern, 2019–2023</figcaption>
+      </figure>
+
+      <p>
+        The graph shows that the availability pattern deviated from typical behaviour in the first two years, 2019 and 2020. This can be attributed to a number of causes:
+      </p>
+      <ul style="list-style:none;padding:0;margin:0 0 20px;">
+        <li style="padding:12px 0 12px 18px;border-bottom:1px solid var(--rule);position:relative;font-size:.97rem;">
+          <span style="position:absolute;left:0;color:var(--accent);font-weight:500;">→</span>
+          <strong>2019</strong> — Bicing 2.0 launched alongside a new app that initially had many flaws, leading people to avoid using the service.
+        </li>
+        <li style="padding:12px 0 12px 18px;position:relative;font-size:.97rem;">
+          <span style="position:absolute;left:0;color:var(--accent);font-weight:500;">→</span>
+          <strong>2020</strong> — The Covid pandemic and lockdown caused a sharp dip, followed by a peak in August–October 2020 as residents chose Bicing over crowded public transport once restrictions lifted.
+        </li>
+      </ul>
+      <p>
+        As a consequence of this analysis, the training data for the machine learning model was limited to the years <strong>2021–2023</strong>.
+      </p>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/Bicing-Prediction_Diederik_Sharon_Siddharth_Nupur-1.png"
+          alt="Bicing availability data overview"
+          loading="lazy"
+        />
+      </figure>
+    </section>
+
+    <!-- Training data -->
+    <section>
+      <div class="section-header">
+        <h2>Training Data</h2>
+      </div>
+
+      <p>The model was trained on four distinct categories of data:</p>
+
+      <ul class="data-pills">
+        <li>Spatial <span>Latitude · Longitude · Altitude</span></li>
+        <li>Temporal <span>Month · Day · Hour</span></li>
+        <li>Weather <span>Temperature (Meteostat)</span></li>
+        <li>Supply &amp; Demand <span>Population density · Station capacity</span></li>
+      </ul>
+
+      <p>
+        Spatial and temporal data were retrieved from or produced from datasets given as defaults in the competition. Hourly temperature data was downloaded from the Meteostat Python library.
+      </p>
+
+      <div class="img-pair">
+        <img
+          src="https://lh7-us.googleusercontent.com/56qazwgVKpWGYOjRNOxAXq6c2oJbHWjkw_gykRkGBhasJprFHvByYhKO1VnCC4T-YTpLut1yOhX9YWy0k0V-LQUpRJy7bAbEW7Fdm-eKDvSOIPYgo4jI-iBI0RBlliCPflB9CzFSSi-9CEhAAWY-uVLIsA=s2048"
+          alt="Bicing training data chart A"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/_DCRgKW9w2bHvzToKGgDPsvx4n3skooZPsM3Ih6uLoYUfp42VsWbPBV5B7JysrrftIZgKYIMTgX6NS6nwjt6itsPeSFQZ4hihNZnuq0XzI7MfNC3YjE0KhZM_ORKan1lUeIr4E48vtcA9gndKu3URsRNKQ=s2048"
+          alt="Bicing training data chart B"
+          loading="lazy"
+        />
+      </div>
+
+      <p>
+        Population data was downloaded by censal neighbourhood from the Barcelona census. The number was then divided by the area of each neighbourhood to calculate population density. The maps below show (1) absolute population numbers and (2) population by area — an important distinction for understanding expected usage patterns.
+      </p>
+
+      <div class="img-pair">
+        <img
+          src="https://lh7-us.googleusercontent.com/85HTEEgXR2IW3_B5dJlqlwI96hbbru8otocTPBDdlwzRnaSZ6TSwkHrrtdavEo5azcObDo2CsKCRy8wUdwDBRdeKV5AOjS5v9bYB_sJbZTvK5umguUjqITZMI_z7soWoFR7YZCNlwW-FePjnu1n3mS8VZA=s2048"
+          alt="Barcelona absolute population map"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/SBxXHTwqxc94XpUkEtBGgN5bERvgNinJoM3S12LSqtLWH1xmAu-wxXdUx1Etmq2qkcUcIz_SrlHUzeU5cyy2m6m1pcjzj-sz9tU7-d6YhQmjWcyzAmrqLPavSQ2yV0AiCAQCRRSdczY-E6SSquoOHaiMQA=s2048"
+          alt="Barcelona population density map"
+          loading="lazy"
+        />
+      </div>
+      <figcaption style="margin-top:-20px;margin-bottom:32px;">Left: absolute population per neighbourhood · Right: population density by area</figcaption>
+    </section>
+
+    <!-- Training models -->
+    <section>
+      <div class="section-header">
+        <h2>Training Models</h2>
+      </div>
+
+      <p>
+        Three different machine learning models were tested, all based on the principle of the decision tree. A decision tree builds a prediction by dividing the dataset into halves across several iterations, based on logical patterns in the numerical values of the training data. Once constructed, a new dataset can be run through the model to predict availability based on other correlated inputs.
+      </p>
+
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-num">1</div>
+          <h3>Decision Tree</h3>
+          <p>Divides the dataset into halves in several iterations based on logical patterns in the numerical training data, to produce a single prediction tree.</p>
+          <div class="mse">
+            <div class="mse-row">
+              <span class="mse-label">MSE (training)</span>
+              <span class="mse-val">0.064</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE (2024)</span>
+              <span class="mse-val">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-num">2</div>
+          <h3>Random Forest</h3>
+          <p>Builds several decision trees simultaneously and calculates the average prediction across all trees, reducing variance.</p>
+          <div class="mse">
+            <div class="mse-row">
+              <span class="mse-label">MSE (training)</span>
+              <span class="mse-val">0.023</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE (2024)</span>
+              <span class="mse-val">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="model-card">
+          <div class="model-num">3</div>
+          <h3>Gradient Booster</h3>
+          <p>Functions similarly to a random forest, but runs an iterative process during training where each tree improves on the errors of its predecessor.</p>
+          <div class="mse">
+            <div class="mse-row">
+              <span class="mse-label">MSE (training)</span>
+              <span class="mse-val">0.057</span>
+            </div>
+            <div class="mse-row">
+              <span class="mse-label">MSE (2024)</span>
+              <span class="mse-val best">0.074 ★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-triple">
+        <img
+          src="https://lh7-us.googleusercontent.com/34gk-Lt0okju298NyKJfcStwYrNfo5_levOC4_m3n7cyh9cCt9Jx4BE98HBhVRtVsOnVetDZ0sTRtg90eCAibB7K1MmSwyQBoL6ZjaKwmywguX3yyUSte5i_91vBVqKEj-TBJ5K0odaR2HDLq5xCdchYww=s2048"
+          alt="Decision tree model"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/E5lE1jmJgB1InBkAuBZN9Egn1P-rAHRlvoy9Z_qmhpEQw2fZjQZMbqQBmB-dr5iF75NQ1A9gYslsPJlEvHAmAFU8_-xrJydEpgCrrzzibmSjWiNasROE8XTOyg7nKfJBtdXCjSCRVLyPI7VlGvPRGQ0AIg=s2048"
+          alt="Random forest model"
+          loading="lazy"
+        />
+        <img
+          src="https://lh7-us.googleusercontent.com/l7-0ShbxBeAxGJy__KlJ-xaLEkvy6y6MULKxh1OStR63mOW8kUebJOn_jKk2wzV0DRvC7iv2QVWOheqBlqW3s4qQ4Aca73TYR6_StzBcBY8TmY9UDzRov4Qu4uD-lfpfSMMFBSbleIh__ZePfZBBxeKGUg=s2048"
+          alt="Gradient booster model"
+          loading="lazy"
+        />
+      </div>
+      <figcaption style="margin-top:-16px;margin-bottom:32px;">Left: Decision Tree · Centre: Random Forest · Right: Gradient Booster</figcaption>
+    </section>
+
+    <!-- Results -->
+    <section>
+      <div class="section-header">
+        <h2>Results &amp; Lessons Learned</h2>
+      </div>
+
+      <p>Mean squared error was calculated across all three models, both on training data and against actual 2024 data:</p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <span class="val">0.064</span>
+          <span class="lbl">Decision Tree</span>
+          <span class="sub">Training MSE</span>
+        </div>
+        <div class="stat-box">
+          <span class="val">0.023</span>
+          <span class="lbl">Random Forest</span>
+          <span class="sub">Training MSE</span>
+        </div>
+        <div class="stat-box">
+          <span class="val best">0.074</span>
+          <span class="lbl">Gradient Booster</span>
+          <span class="sub">Best on 2024 data ★</span>
+        </div>
+      </div>
+
+      <p>
+        When compared to actual 2024 data, the gradient booster performed best at <strong>0.074</strong>. This revealed that all three models were overfitted, giving an illusion of predictive precision. Below, the best prediction is plotted alongside the existing training data.
+      </p>
+
+      <figure class="img-block">
+        <img
+          src="https://blog.iaac.net/wp-content/uploads/2024/05/newplot-1.png"
+          alt="Best prediction (gradient booster) vs training data"
+          loading="lazy"
+        />
+        <figcaption>Gradient booster prediction plotted against existing training data</figcaption>
+      </figure>
+
+      <p>During peer presentations, two key lessons were identified for improving future predictions:</p>
+
+      <ol class="lessons-list">
+        <li>
+          <p>
+            <strong>Interrogate your data choices.</strong> The question should always be asked: <em>why are we using the data that we are using?</em> Understanding the correlation between chosen datasets and the target parameter would have allowed selection of data with higher predictive power. Some data added noise rather than signal. Concretely, a deeper understanding of how availability behaves in relation to spatial, temporal, weather, and supply/demand datasets would have helped identify which variables truly mattered.
+          </p>
+        </li>
+        <li>
+          <p>
+            <strong>Motivate model choice with data patterns.</strong> The training data displayed nonlinear patterns in availability over the course of a day — a finding learned from peer presentations. This pattern motivates the use of a decision tree–based model over a linear regression variant, and should be a deliberate, reasoned choice rather than an incidental one.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Tags -->
+    <nav class="tags" aria-label="Post tags">
+      <a class="tag" href="#">Python</a>
+      <a class="tag" href="#">Machine Learning</a>
+      <a class="tag" href="#">Urban Mobility</a>
+      <a class="tag" href="#">Data Science</a>
+      <a class="tag" href="#">Barcelona</a>
+    </nav>
+
+    <!-- Attribution -->
+    <footer class="attribution">
+      <strong>Bicing Prediction Models with Machine Learning</strong> is a project of
+      <strong>IAAC, Institute for Advanced Architecture of Catalonia</strong>
+      developed in the <em>Master in City &amp; Technology — 2023–2024</em>
+      by Sharon Megan Wong, Diederik de Vries, Nupur Sircar and Siddharth Nambiar
+      during the course <em>MaCT01 23/24 Digital Tools &amp; Big Data III</em>
+      with Andre Resende.
+    </footer>
+
+  </article>
+
+</body>
+</html>

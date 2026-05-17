@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#131313" />
+  <title>Panoramic Vision | Computational Streetscape Analysis</title>
+  <meta
+    name="description"
+    content="A Nocturne-style scrollytelling case study on using street panoramas, depth mapping, and clustering to read urban street quality."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --surface: #131313;
+      --surface-dim: #0e0e0e;
+      --surface-bright: #3a3939;
+      --accent: #00ffc2;
+      --accent-2: #6366f1;
+      --text-high: #f7f8fc;
+      --text-mid: rgba(224, 229, 244, 0.74);
+      --text-low: rgba(224, 229, 244, 0.48);
+      --border: rgba(148, 163, 184, 0.14);
+      --border-accent: rgba(0, 255, 194, 0.24);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --page-max: 1180px;
+      --copy-max: 70ch;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--text-high);
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.14), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(0, 255, 194, 0.08), transparent 24%),
+        var(--surface);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition:
+        color 200ms var(--ease-out),
+        background-color 200ms var(--ease-out),
+        border-color 200ms var(--ease-out),
+        transform 200ms var(--ease-out);
+    }
+
+    a:active,
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    a,
+    button {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(0, 255, 194, 0.18);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    [id] {
+      scroll-margin-top: 84px;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -120%;
+      z-index: 9999;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #061110;
+      font-weight: 700;
+      transition: top 160ms var(--ease-out);
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    #progress-bar {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 3px;
+      z-index: 9999;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(13, 13, 13, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      white-space: nowrap;
+    }
+
+    .topbar-back,
+    .topbar-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .topbar-back {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+
+    .topbar-link {
+      color: var(--text-mid);
+      font-size: 0.88rem;
+    }
+
+    .topbar-back:hover,
+    .topbar-link:hover {
+      color: var(--text-high);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .topbar-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    .chapter-nav {
+      position: fixed;
+      right: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chapter-dot {
+      position: relative;
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(224, 229, 244, 0.12);
+      border: 1px solid rgba(224, 229, 244, 0.24);
+    }
+
+    .chapter-dot::after {
+      content: attr(data-label);
+      position: absolute;
+      right: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      white-space: nowrap;
+      transition: opacity 200ms var(--ease-out);
+    }
+
+    .chapter-dot:hover::after,
+    .chapter-dot:focus-visible::after,
+    .chapter-dot.is-active::after {
+      opacity: 1;
+    }
+
+    .chapter-dot.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(0, 255, 194, 0.48);
+      transform: scale(1.25);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-media,
+    .hero-media img,
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.84) brightness(0.56);
+    }
+
+    .hero-vignette {
+      background:
+        linear-gradient(180deg, rgba(10, 10, 12, 0.24) 0%, rgba(10, 10, 12, 0.68) 82%, var(--surface) 100%),
+        radial-gradient(circle at center, transparent 20%, rgba(10, 10, 12, 0.42) 100%);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(calc(100% - 40px), 980px);
+      padding: 110px 0 60px;
+      text-align: center;
+    }
+
+    .hero-kicker,
+    .section-kicker,
+    .card-eyebrow,
+    .reference-label,
+    .meta-copy strong {
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-accent);
+      background: rgba(0, 255, 194, 0.06);
+      color: var(--accent);
+      font-size: 0.72rem;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(0, 255, 194, 0.72);
+    }
+
+    .hero-title {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(3.6rem, 8vw, 7rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 26px;
+    }
+
+    .hero-subtitle {
+      max-width: 58ch;
+      margin: 0 auto 24px;
+      font-size: clamp(1rem, 1.5vw, 1.24rem);
+      line-height: 1.82;
+      color: var(--text-mid);
+    }
+
+    .hero-quote {
+      max-width: 46ch;
+      margin: 0 auto 36px;
+      padding: 18px 22px;
+      border-left: 3px solid rgba(0, 255, 194, 0.54);
+      border-radius: 0 16px 16px 0;
+      background: rgba(8, 8, 10, 0.36);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.08rem, 2vw, 1.38rem);
+      font-style: italic;
+      line-height: 1.72;
+      color: rgba(247, 248, 252, 0.88);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 44px;
+    }
+
+    .meta-pill {
+      display: grid;
+      gap: 4px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .meta-pill strong {
+      font-size: 0.76rem;
+      color: var(--text-high);
+    }
+
+    .meta-pill span {
+      color: var(--text-low);
+      font-size: 0.75rem;
+    }
+
+    .scroll-prompt {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-low);
+    }
+
+    .scroll-prompt svg {
+      opacity: 0.56;
+    }
+
+    .intro-band,
+    .resolution-shell,
+    .references-shell {
+      width: min(calc(100% - 40px), var(--page-max));
+      margin: 0 auto;
+    }
+
+    .intro-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 26px;
+      padding: 84px 0 110px;
+    }
+
+    .intro-card,
+    .meta-card,
+    .glass-card,
+    .reading-card,
+    .takeaway-card,
+    .references-card {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: rgba(19, 19, 19, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .intro-card,
+    .meta-card,
+    .reading-card,
+    .takeaway-card,
+    .references-card {
+      padding: 30px 32px;
+    }
+
+    .section-kicker {
+      font-size: 0.7rem;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .intro-card h2,
+    .resolution-heading,
+    .references-card h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .intro-card p,
+    .meta-copy,
+    .card-body,
+    .reading-card p,
+    .takeaway-card p,
+    .references-list li,
+    .credits-copy {
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    .meta-card {
+      display: grid;
+      gap: 20px;
+      align-content: start;
+    }
+
+    .meta-copy strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-high);
+      font-size: 0.68rem;
+    }
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .pipeline-step {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .pipeline-step strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-high);
+      font-size: 1rem;
+    }
+
+    .pipeline-step span {
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .chapter-marker {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .chapter-marker-bg,
+    .chapter-marker-bg img,
+    .chapter-marker-bg-overlay {
+      position: absolute;
+      inset: 0;
+    }
+
+    .chapter-marker-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.28) saturate(0.72);
+    }
+
+    .chapter-marker-bg-overlay {
+      background: rgba(13, 13, 13, 0.56);
+    }
+
+    .chapter-marker-content {
+      position: relative;
+      z-index: 2;
+      width: min(calc(100% - 40px), 820px);
+      padding: 40px 0;
+    }
+
+    .chapter-number {
+      margin-bottom: 20px;
+      color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .chapter-title {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .chapter-desc {
+      max-width: 54ch;
+      margin: 0 auto;
+      font-size: clamp(1rem, 1.5vw, 1.18rem);
+      line-height: 1.76;
+      color: var(--text-mid);
+    }
+
+    .scrolly-act {
+      position: relative;
+      overflow-x: clip;
+    }
+
+    .act-bg {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      margin-bottom: -100vh;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 560ms var(--ease-out);
+    }
+
+    .bg-layer.is-active {
+      opacity: 1;
+    }
+
+    .bg-layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bg-layer.contain img {
+      object-fit: contain;
+      background: var(--surface-dim);
+    }
+
+    .bg-layer.contain.white-bg img {
+      background: #ffffff;
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(13, 13, 13, 0.48) 0%, rgba(13, 13, 13, 0.7) 100%),
+        linear-gradient(90deg, rgba(13, 13, 13, 0.72) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .bg-overlay.overlay-right {
+      background:
+        linear-gradient(180deg, rgba(13, 13, 13, 0.48) 0%, rgba(13, 13, 13, 0.7) 100%),
+        linear-gradient(270deg, rgba(13, 13, 13, 0.72) 0%, transparent 60%);
+    }
+
+    .bg-overlay.overlay-center {
+      background: rgba(13, 13, 13, 0.58);
+    }
+
+    .act-panels {
+      position: relative;
+      z-index: 2;
+    }
+
+    .scroll-panel {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 24px;
+    }
+
+    .scroll-panel.align-left {
+      justify-content: flex-start;
+    }
+
+    .scroll-panel.align-right {
+      justify-content: flex-end;
+    }
+
+    .scroll-panel.align-center {
+      justify-content: center;
+    }
+
+    .glass-card {
+      max-width: 520px;
+      padding: 34px 36px;
+    }
+
+    .card-eyebrow {
+      margin-bottom: 14px;
+      font-size: 0.68rem;
+      color: var(--accent);
+    }
+
+    .card-heading {
+      margin-bottom: 16px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+    }
+
+    .card-body p + p {
+      margin-top: 14px;
+    }
+
+    .card-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .card-list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text-mid);
+      line-height: 1.74;
+    }
+
+    .card-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+
+    .callout-card {
+      max-width: 720px;
+      padding: 46px 48px;
+      border: 1px solid var(--border-accent);
+      border-radius: 28px;
+      background: rgba(13, 13, 13, 0.76);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      text-align: center;
+    }
+
+    .callout-number {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(4rem, 10vw, 7rem);
+      line-height: 0.95;
+      color: var(--accent);
+      letter-spacing: -0.05em;
+      margin-bottom: 14px;
+    }
+
+    .callout-title {
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .callout-text {
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 52ch;
+      margin: 0 auto;
+    }
+
+    .framework-shell {
+      position: relative;
+      background: linear-gradient(180deg, rgba(14, 14, 14, 0.6), rgba(14, 14, 14, 1));
+      overflow-x: clip;
+    }
+
+    .framework-split {
+      width: min(calc(100% - 40px), var(--page-max));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
+      gap: 30px;
+      align-items: start;
+      padding: 100px 0 84px;
+    }
+
+    .framework-left {
+      display: grid;
+      gap: 18px;
+    }
+
+    .framework-right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .framework-figure {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+    }
+
+    .framework-figure img {
+      width: 100%;
+      height: auto;
+    }
+
+    .framework-caption {
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.98);
+      color: #111827;
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .framework-caption strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+    }
+
+    .framework-caption span {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+
+    .reading-card h3,
+    .takeaway-card h3 {
+      margin-bottom: 12px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .reading-card strong,
+    .takeaway-card strong,
+    .credits-copy strong {
+      color: var(--text-high);
+    }
+
+    .resolution-shell {
+      padding: 0 0 110px;
+    }
+
+    .resolution-head {
+      max-width: var(--copy-max);
+      margin-bottom: 28px;
+    }
+
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .credits-card {
+      padding: 28px 32px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .credits-copy {
+      max-width: 76ch;
+    }
+
+    .references-shell {
+      padding: 0 0 90px;
+    }
+
+    .references-card {
+      display: grid;
+      gap: 24px;
+    }
+
+    .references-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .references-list {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .reference-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.68rem;
+      color: var(--accent);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 560ms var(--ease-out),
+        transform 560ms var(--ease-out);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 1100px) {
+      .intro-band,
+      .framework-split,
+      .takeaway-grid,
+      .references-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .framework-right {
+        position: relative;
+        top: auto;
+        height: auto;
+      }
+
+      .framework-figure {
+        max-width: 760px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        top: 10px;
+        padding: 8px 14px;
+      }
+
+      .topbar-link {
+        display: none;
+      }
+
+      .chapter-nav {
+        display: none;
+      }
+
+      .hero-content {
+        padding-top: 104px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.8rem, 16vw, 4.2rem);
+      }
+
+      .intro-band,
+      .framework-split,
+      .resolution-shell,
+      .references-shell {
+        width: min(calc(100% - 28px), var(--page-max));
+      }
+
+      .scroll-panel {
+        padding: 56px 16px;
+      }
+
+      .glass-card,
+      .callout-card,
+      .intro-card,
+      .meta-card,
+      .reading-card,
+      .takeaway-card,
+      .references-card,
+      .credits-card {
+        padding: 24px 22px;
+      }
+
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .act-bg {
+        top: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div id="progress-bar" aria-hidden="true"></div>
+
+  <nav class="topbar" aria-label="Site navigation">
+    <a href="../../index.html" class="topbar-back">Back to home</a>
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <a href="../../about.html" class="topbar-link">About</a>
+    <a href="#references" class="topbar-link">References</a>
+  </nav>
+
+  <nav class="chapter-nav" aria-label="Chapter navigation">
+    <a class="chapter-dot is-active" href="#hero" data-label="Intro" aria-label="Jump to intro"></a>
+    <a class="chapter-dot" href="#act-sampling" data-label="Sampling" aria-label="Jump to sampling act"></a>
+    <a class="chapter-dot" href="#act-depth" data-label="Depth" aria-label="Jump to depth act"></a>
+    <a class="chapter-dot" href="#act-clusters" data-label="Clusters" aria-label="Jump to clusters act"></a>
+    <a class="chapter-dot" href="#act-reading" data-label="Reading" aria-label="Jump to reading act"></a>
+  </nav>
+
+  <header id="hero" class="hero" data-chapter-section="hero">
+    <div class="hero-media" aria-hidden="true">
+      <img src="assets/pano_T00305O.png" alt="" width="1024" height="512" fetchpriority="high" />
+    </div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-kicker reveal is-visible">IAAC MaCT 01 · 2023–2024</div>
+      <h1 class="hero-title reveal is-visible">Panoramic Vision</h1>
+      <p class="hero-subtitle reveal is-visible">
+        A computational streetscape analysis that turns panoramic street imagery into an urban
+        reading system: sampling streets, estimating depth, clustering visual patterns, and using
+        those groupings to interpret street quality at city scale.
+      </p>
+      <p class="hero-quote reveal is-visible">
+        “Can we understand urban environments and street characteristics from Google Street View
+        panorama images using machine learning and Stable Diffusion techniques?”
+      </p>
+      <div class="hero-meta reveal is-visible">
+        <div class="meta-pill">
+          <strong>Computational design</strong>
+          <span>Python + Grasshopper</span>
+        </div>
+        <div class="meta-pill">
+          <strong>Street imagery</strong>
+          <span>Barcelona panoramas</span>
+        </div>
+        <div class="meta-pill">
+          <strong>ML workflow</strong>
+          <span>Depth + clustering</span>
+        </div>
+      </div>
+      <div class="scroll-prompt">
+        <span>Scroll to enter the pipeline</span>
+        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" aria-hidden="true">
+          <path d="M8 2V22M8 22L2 16M8 22L14 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="intro-band">
+      <article class="intro-card reveal">
+        <div class="section-kicker">Narrative Audit</div>
+        <h2>From street snapshots to an urban typology.</h2>
+        <p>
+          Street quality is often described qualitatively and site by site. This project reframes
+          that task as a repeatable computational pipeline: identify a study area, gather panoramic
+          street views, convert them into depth readings, cluster the resulting patterns, and map
+          those groups back onto the city.
+        </p>
+        <div class="pipeline-grid">
+          <div class="pipeline-step">
+            <strong>1. Sample</strong>
+            <span>Bound the study area, extract street centerlines, and locate panorama capture points.</span>
+          </div>
+          <div class="pipeline-step">
+            <strong>2. Translate</strong>
+            <span>Use Stable Diffusion depth estimation to turn color panoramas into spatial readings.</span>
+          </div>
+          <div class="pipeline-step">
+            <strong>3. Cluster</strong>
+            <span>Reduce dimensionality with t-SNE and compare groups with clustering analysis.</span>
+          </div>
+          <div class="pipeline-step">
+            <strong>4. Interpret</strong>
+            <span>Read distance distributions to infer openness, clutter, edge conditions, and street quality.</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="meta-card reveal" aria-label="Project metadata">
+        <div class="meta-copy">
+          <strong>Project overview</strong>
+          Developed as part of the Master in City &amp; Technology at IAAC by Pruethicheth
+          Lert-udompruksa, Siddharth Nambiar, Sharon Megan Wong, and Soham Bhanushali.
+        </div>
+        <div class="meta-copy">
+          <strong>Why it matters</strong>
+          The workflow makes streets comparable as image-driven spatial systems rather than isolated
+          screenshots, helping urban analysis move from anecdotal observation toward repeatable
+          evidence.
+        </div>
+        <div class="meta-copy">
+          <strong>Primary media</strong>
+          All visuals on this page are drawn from the local project assets: panoramic imagery,
+          methodology diagrams, depth outputs, clustering grids, and analytical charts.
+        </div>
+      </aside>
+    </section>
+
+    <section id="act-sampling" class="chapter-marker" data-chapter-section="sampling">
+      <div class="chapter-marker-bg" aria-hidden="true">
+        <img src="assets/Artboard-2.png" alt="" width="1920" height="1080" loading="lazy" />
+        <div class="chapter-marker-bg-overlay"></div>
+      </div>
+      <div class="chapter-marker-content">
+        <div class="chapter-number">Act I</div>
+        <h2 class="chapter-title">Sampling the street</h2>
+        <p class="chapter-desc">
+          The first challenge is not analysis but framing: deciding where the city begins for the
+          study, which streets matter, and how each panorama becomes a comparable urban sample.
+        </p>
+      </div>
+    </section>
+
+    <section class="scrolly-act" aria-label="Sampling workflow">
+      <div class="act-bg" aria-hidden="true">
+        <div class="bg-layer is-active" data-bg="sample-box">
+          <img src="assets/animate-1.gif" alt="" width="2245" height="1298" loading="lazy" />
+          <div class="bg-overlay"></div>
+        </div>
+        <div class="bg-layer" data-bg="sample-grid">
+          <img src="assets/Artboard-2.png" alt="" width="1920" height="1080" loading="lazy" />
+          <div class="bg-overlay overlay-center"></div>
+        </div>
+        <div class="bg-layer" data-bg="sample-panorama">
+          <img src="assets/pano_T00305O.png" alt="" width="1024" height="512" loading="lazy" />
+          <div class="bg-overlay overlay-right"></div>
+        </div>
+      </div>
+
+      <div class="act-panels">
+        <div class="scroll-panel align-left" data-bg-target="sample-box">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Structural Mapping</div>
+            <h3 class="card-heading">Define the study area before reading the image.</h3>
+            <div class="card-body">
+              <p>
+                The workflow starts with a Python script that defines the boundary of the site and
+                extracts street center points from OpenStreetMap. Each point becomes a potential
+                panorama sample tied to the street network rather than an isolated picture.
+              </p>
+            </div>
+            <ul class="card-list">
+              <li>Boundary selection anchors the analysis to a precise geographic scope.</li>
+              <li>Street center points become the bridge between GIS geometry and image capture.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-right" data-bg-target="sample-grid">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Input stack</div>
+            <h3 class="card-heading">Three inputs keep the street view pipeline spatially grounded.</h3>
+            <div class="card-body">
+              <p>
+                Panorama images, a shapefile of streets, and a coordinate CSV are connected inside
+                Grasshopper. That lets the team crop a target area, review the image coverage, and
+                pass the selected file paths into the next depth-processing step.
+              </p>
+            </div>
+            <ul class="card-list">
+              <li>Panorama filenames preserve traceability between image and location.</li>
+              <li>Street geometry keeps the visual dataset tied to the urban network.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-center" data-bg-target="sample-panorama">
+          <div class="callout-card reveal">
+            <div class="callout-number">1</div>
+            <div class="callout-title">One panorama becomes a measurable street section.</div>
+            <p class="callout-text">
+              Instead of treating imagery as mood-board material, the project treats each panorama
+              as a spatial observation that can be translated, compared, and clustered across the
+              city.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="act-depth" class="chapter-marker" data-chapter-section="depth">
+      <div class="chapter-marker-bg" aria-hidden="true">
+        <img src="assets/ScreenshotsSD2-2048x1152.png" alt="" width="2048" height="1152" loading="lazy" />
+        <div class="chapter-marker-bg-overlay"></div>
+      </div>
+      <div class="chapter-marker-content">
+        <div class="chapter-number">Act II</div>
+        <h2 class="chapter-title">Translating image into depth</h2>
+        <p class="chapter-desc">
+          The tension in the workflow is that a panorama is still a flat image. Depth estimation is
+          the moment where the street starts behaving less like a photograph and more like a
+          measurable spatial field.
+        </p>
+      </div>
+    </section>
+
+    <section class="scrolly-act" aria-label="Depth workflow">
+      <div class="act-bg" aria-hidden="true">
+        <div class="bg-layer is-active contain white-bg" data-bg="depth-method">
+          <img src="assets/Screenshot-22-2048x1152.png" alt="" width="2048" height="1152" loading="lazy" />
+        </div>
+        <div class="bg-layer" data-bg="depth-output">
+          <img src="assets/ScreenshotsSD2-2048x1152.png" alt="" width="2048" height="1152" loading="lazy" />
+          <div class="bg-overlay overlay-center"></div>
+        </div>
+        <div class="bg-layer" data-bg="depth-map">
+          <img src="assets/animate-2-4-2048x1184.gif" alt="" width="2048" height="1184" loading="lazy" />
+          <div class="bg-overlay"></div>
+        </div>
+      </div>
+
+      <div class="act-panels">
+        <div class="scroll-panel align-right" data-bg-target="depth-method">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Methodology</div>
+            <h3 class="card-heading">The pipeline stays explicit from image collection to analysis.</h3>
+            <div class="card-body">
+              <p>
+                The methodology diagram makes the sequence legible: site definition, panorama
+                gathering, depth transformation, clustering, and interpretation. Keeping this chain
+                visible is what lets the project read as a coherent analytical system instead of a
+                collage of outputs.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-left" data-bg-target="depth-output">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Reveal</div>
+            <h3 class="card-heading">Stable Diffusion depth estimation converts texture into distance.</h3>
+            <div class="card-body">
+              <p>
+                With the ControlNet Midas workflow, lighter pixels indicate nearer objects and darker
+                values represent deeper space. The result is not a photorealistic reconstruction; it
+                is a consistent distance proxy that can be compared from one panorama to another.
+              </p>
+            </div>
+            <ul class="card-list">
+              <li>Near-field clutter becomes legible as bright, dense depth information.</li>
+              <li>Open or recessed spaces appear as darker, more distant fields.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-center" data-bg-target="depth-map">
+          <div class="callout-card reveal">
+            <div class="callout-number">4</div>
+            <div class="callout-title">Four linked stages keep the workflow interpretable.</div>
+            <p class="callout-text">
+              Sampling, depth estimation, clustering, and reading each depend on the previous stage.
+              Removing one collapses the story and the analytical usefulness of the page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="act-clusters" class="chapter-marker" data-chapter-section="clusters">
+      <div class="chapter-marker-bg" aria-hidden="true">
+        <img src="assets/grid-tSNE-3-2048x2048.jpg" alt="" width="2048" height="2048" loading="lazy" />
+        <div class="chapter-marker-bg-overlay"></div>
+      </div>
+      <div class="chapter-marker-content">
+        <div class="chapter-number">Act III</div>
+        <h2 class="chapter-title">Clustering the urban field</h2>
+        <p class="chapter-desc">
+          Once each street view has been translated into a depth signature, the project can search
+          for families of similar conditions rather than interpreting every scene by hand.
+        </p>
+      </div>
+    </section>
+
+    <section class="scrolly-act" aria-label="Clustering workflow">
+      <div class="act-bg" aria-hidden="true">
+        <div class="bg-layer is-active contain white-bg" data-bg="cluster-features">
+          <img src="assets/CUD3-Panels.jpg" alt="" width="1920" height="1080" loading="lazy" />
+        </div>
+        <div class="bg-layer contain white-bg" data-bg="cluster-pano">
+          <img src="assets/grid-tSNE-3-2048x2048.jpg" alt="" width="2048" height="2048" loading="lazy" />
+        </div>
+        <div class="bg-layer contain white-bg" data-bg="cluster-depth">
+          <img src="assets/grid-tSNE-2-1536x1536.jpg" alt="" width="1536" height="1536" loading="lazy" />
+        </div>
+        <div class="bg-layer contain white-bg" data-bg="cluster-groups">
+          <img src="assets/Screenshot-2024-05-26-052050.png" alt="" width="1547" height="777" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="act-panels">
+        <div class="scroll-panel align-left" data-bg-target="cluster-features">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Feature extraction</div>
+            <h3 class="card-heading">Depth mapping changes what the model notices.</h3>
+            <div class="card-body">
+              <p>
+                The side-by-side feature panels show the shift from appearance-driven similarity to
+                geometry-driven similarity. That matters because the project is trying to read street
+                conditions, not simply group images with similar colors or lighting.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-right" data-bg-target="cluster-pano">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">t-SNE on panoramas</div>
+            <h3 class="card-heading">Original images still carry strong visual neighborhoods.</h3>
+            <div class="card-body">
+              <p>
+                t-SNE helps compress high-dimensional imagery into a readable field, showing which
+                panoramas share related visual traits. It becomes a first pass at city-scale pattern
+                recognition.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-left" data-bg-target="cluster-depth">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">t-SNE on depth</div>
+            <h3 class="card-heading">Depth clusters reveal spatial likeness across different scenes.</h3>
+            <div class="card-body">
+              <p>
+                Running the same reduction on depth outputs exposes comparable street sections even
+                when facades, materials, or weather conditions differ. The grouping is driven by
+                distance structure rather than image surface.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="scroll-panel align-right" data-bg-target="cluster-groups">
+          <article class="glass-card reveal">
+            <div class="card-eyebrow">Directory output</div>
+            <h3 class="card-heading">Cluster folders turn model output into an operational urban atlas.</h3>
+            <div class="card-body">
+              <p>
+                Saving clustered images into grouped directories makes the results usable by humans.
+                The project does not stop at algorithmic output; it organizes the material so teams
+                can inspect recurring street conditions and compare them across neighborhoods.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="act-reading" class="chapter-marker" data-chapter-section="reading">
+      <div class="chapter-marker-bg" aria-hidden="true">
+        <img src="assets/Analysis-chart-2048x1152.png" alt="" width="2048" height="1152" loading="lazy" />
+        <div class="chapter-marker-bg-overlay"></div>
+      </div>
+      <div class="chapter-marker-content">
+        <div class="chapter-number">Act IV</div>
+        <h2 class="chapter-title">Reading street quality</h2>
+        <p class="chapter-desc">
+          The resolution of the project is interpretive: using depth distributions and cluster
+          differences to infer openness, enclosure, clutter, and the spatial character of a street.
+        </p>
+      </div>
+    </section>
+
+    <section class="framework-shell">
+      <div class="framework-split">
+        <div class="framework-left">
+          <article class="reading-card reveal">
+            <div class="section-kicker">Interpretation framework</div>
+            <h3>X-axis: where the street edge sits.</h3>
+            <p>
+              Depth value bins describe how close or distant the dominant scene elements are. Lower
+              ranges hint at tight edges, nearby furniture, or close building fronts; longer ranges
+              suggest wider setbacks, deeper vistas, and greater openness.
+            </p>
+          </article>
+
+          <article class="reading-card reveal">
+            <h3>Y-axis: how often that condition appears.</h3>
+            <p>
+              Frequency indicates how consistently a depth condition repeats through the panorama. A
+              dense count in short ranges can point to clutter or compression, while lower, more
+              distributed values can indicate roomier pedestrian conditions.
+            </p>
+          </article>
+
+          <article class="reading-card reveal">
+            <h3>Clusters become decision-support, not decoration.</h3>
+            <p>
+              Once grouped, similar streets can be compared as recurring urban types. That gives the
+              workflow value for urban planning: it helps identify which neighborhoods share narrow,
+              open, dense, or balanced street characteristics without auditing every street manually.
+            </p>
+          </article>
+        </div>
+
+        <div class="framework-right">
+          <figure class="framework-figure reveal">
+            <img
+              src="assets/Analysis-chart-2048x1152.png"
+              alt="Analytical chart comparing 3D texturization and street distribution across clusters"
+              width="2048"
+              height="1152"
+              loading="lazy"
+            />
+            <figcaption class="framework-caption">
+              <strong>Analytical reading</strong>
+              <span>
+                The chart acts as the bridge from model output to urban interpretation, comparing how
+                each cluster distributes near and far spatial readings.
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="resolution-shell">
+        <div class="resolution-head reveal">
+          <div class="section-kicker">Resolution</div>
+          <h2 class="resolution-heading">Three ways the project reads street quality.</h2>
+          <p class="card-body">
+            The conclusion is not that one cluster is universally better. It is that different depth
+            distributions point to different spatial conditions, each with implications for
+            accessibility, comfort, openness, and street life.
+          </p>
+        </div>
+
+        <div class="takeaway-grid">
+          <article class="takeaway-card reveal">
+            <h3>Even distributions suggest balance.</h3>
+            <p>
+              When depth values spread more evenly, the street often reads as coherent and legible:
+              setbacks, edge conditions, and furniture feel more consistent across the scene.
+            </p>
+          </article>
+
+          <article class="takeaway-card reveal">
+            <h3>Short-range peaks suggest compression.</h3>
+            <p>
+              High counts near the camera can indicate narrow corridors, heavy furniture, or closely
+              packed edges. That can mean lower pedestrian comfort, but it can also signal intense
+              urban activity.
+            </p>
+          </article>
+
+          <article class="takeaway-card reveal">
+            <h3>Long-range peaks suggest openness.</h3>
+            <p>
+              Higher counts at longer depths point toward wider streets, larger setbacks, or more
+              open public space. The tradeoff is that openness can sometimes reduce street intensity.
+            </p>
+          </article>
+        </div>
+
+        <div class="credits-card reveal">
+          <p class="credits-copy">
+            <strong>Panoramic Vision: Computational Streetscape Analysis</strong> was developed at
+            the <strong>Institute for Advanced Architecture of Catalonia</strong> in the
+            <em>Master in City &amp; Technology 01</em> by Pruethicheth Lert-udompruksa, Siddharth
+            Nambiar, Sharon Megan Wong, and Soham Bhanushali during
+            <em>Computational Urban Design III</em> with Iacopo Neri and Eugenio Bettucchi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="references" class="references-shell">
+      <div class="references-card reveal">
+        <div>
+          <div class="section-kicker">Final Compliance</div>
+          <h2>References and source logic</h2>
+          <p class="card-body">
+            This version preserves the original project narrative in semantic HTML while rebuilding it
+            as a paced scrollytelling case study. Motion is limited to narrative reveals and sticky
+            image transitions, with reduced-motion fallbacks and local media throughout.
+          </p>
+        </div>
+
+        <div class="references-grid">
+          <div>
+            <span class="reference-label">Core methods</span>
+            <ol class="references-list">
+              <li>Study area definition using street geometries and coordinate-based selection.</li>
+              <li>Panorama collection and mapping through Python and Grasshopper workflows.</li>
+              <li>Depth translation using Stable Diffusion and ControlNet Midas.</li>
+              <li>Dimensionality reduction and grouping with t-SNE and clustering analysis.</li>
+            </ol>
+          </div>
+          <div>
+            <span class="reference-label">Project assets used</span>
+            <ol class="references-list">
+              <li>`pano_T00305O.png`, `Artboard-2.png`, and `animate-1.gif` for sampling scenes.</li>
+              <li>`Screenshot-22-2048x1152.png`, `ScreenshotsSD2-2048x1152.png`, and `animate-2-4-2048x1184.gif` for methodology and depth.</li>
+              <li>`CUD3-Panels.jpg`, `grid-tSNE-3-2048x2048.jpg`, `grid-tSNE-2-1536x1536.jpg`, and `Screenshot-2024-05-26-052050.png` for clustering.</li>
+              <li>`Analysis-chart-2048x1152.png` for interpretive reading and resolution.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const progressBar = document.getElementById("progress-bar");
+    const setProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      progressBar.style.width = Math.min(100, Math.max(0, progress)) + "%";
+    };
+
+    setProgress();
+    window.addEventListener("scroll", setProgress, { passive: true });
+
+    const revealItems = document.querySelectorAll(".reveal");
+    if (reducedMotion) {
+      revealItems.forEach((element) => element.classList.add("is-visible"));
+    } else {
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      );
+
+      revealItems.forEach((element) => revealObserver.observe(element));
+    }
+
+    document.querySelectorAll(".scrolly-act").forEach((act) => {
+      const layers = act.querySelectorAll(".bg-layer");
+      const panels = act.querySelectorAll("[data-bg-target]");
+      const showLayer = (id) => {
+        layers.forEach((layer) => layer.classList.toggle("is-active", layer.dataset.bg === id));
+      };
+
+      const bgObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              showLayer(entry.target.dataset.bgTarget);
+            }
+          });
+        },
+        { threshold: 0.45 }
+      );
+
+      panels.forEach((panel) => bgObserver.observe(panel));
+    });
+
+    const chapterDots = Array.from(document.querySelectorAll(".chapter-dot"));
+    const chapterTargets = {
+      hero: chapterDots[0],
+      sampling: chapterDots[1],
+      depth: chapterDots[2],
+      clusters: chapterDots[3],
+      reading: chapterDots[4]
+    };
+
+    const chapterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          chapterDots.forEach((dot) => dot.classList.remove("is-active"));
+          const activeDot = chapterTargets[entry.target.dataset.chapterSection];
+          if (activeDot) {
+            activeDot.classList.add("is-active");
+          }
+        });
+      },
+      { threshold: 0.55 }
+    );
+
+    document
+      .querySelectorAll("[data-chapter-section]")
+      .forEach((section) => chapterObserver.observe(section));
+  </script>
+</body>
+</html>

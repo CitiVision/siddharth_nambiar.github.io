@@ -1,0 +1,5 @@
+The workflow for replicating the blog was ;
+- download the html file from the website (do this thrrough Claude
+- Using the design.md file as a guide by the look.
+-now use the skills from scrollytelling, the 3js animations and the design engineer skill for the interface.
+- build
