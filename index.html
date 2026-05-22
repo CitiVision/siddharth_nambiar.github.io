@@ -889,6 +889,122 @@
       box-shadow: 0 0 18px rgba(99, 102, 241, 0.44);
     }
 
+    .skills-header {
+      max-width: 52ch;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+
+    .skills-board {
+      padding: 20px;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.1), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
+        rgba(10, 11, 20, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+    }
+
+    .skills-group {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+      padding: 16px 18px 14px;
+      min-width: 0;
+    }
+
+    .skills-group + .skills-group {
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .skills-group-head {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-height: 60px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .skills-group-index {
+      color: rgba(255, 255, 255, 0.42);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .skills-group h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .skills-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0;
+      align-content: start;
+    }
+
+    .skill-tile {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      padding: 12px 0;
+      border-radius: 0;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: transparent;
+      transition:
+        border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .skill-tile:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .skill-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      opacity: 0.92;
+    }
+
+    .skill-icon-wrap img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      filter: brightness(0) invert(1) grayscale(1);
+    }
+
+    .skill-name {
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+
+    .skill-tile:last-child {
+      border-bottom: 0;
+    }
+
     .work-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -928,11 +1044,11 @@
     }
 
     .project-media--torrents {
-      background:
-        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.16), transparent 16%),
-        radial-gradient(circle at 60% 40%, rgba(79, 70, 229, 0.56), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.28), transparent 20%),
-        linear-gradient(155deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.95), rgba(37, 99, 235, 0.75));
+      background: linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.5));
+    }
+
+    .project-media--torrents img {
+      object-position: center 42%;
     }
 
     .project-media--torrents::before {
@@ -1129,52 +1245,86 @@
     }
 
     .footer-shell {
-      padding: 32px;
-      border-radius: 34px;
+      padding: 30px;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       background:
-        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.03) 24%, rgba(10, 10, 18, 0.92) 70%),
+        radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.14), transparent 34%),
+        linear-gradient(180deg, rgba(99, 102, 241, 0.12), rgba(255, 255, 255, 0.02) 22%, rgba(10, 10, 18, 0.94) 72%),
         rgba(10, 10, 18, 0.92);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-      gap: 28px;
-      align-items: start;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 32px;
+      align-items: center;
     }
 
     .footer-title {
-      font-size: clamp(2.4rem, 4vw, 4.1rem);
-      line-height: 1.02;
+      max-width: 12ch;
+      font-size: clamp(2.35rem, 4vw, 3.9rem);
+      line-height: 1.04;
     }
 
     .footer-copy {
-      margin: 18px 0 30px;
-      max-width: 58ch;
+      margin: 18px 0 24px;
+      max-width: 44ch;
     }
 
     .footer-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
+      align-items: center;
     }
 
     .footer-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 22px;
       color: var(--text-muted);
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
+    .footer-meta span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-note {
+      margin: 18px 0 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .contact-grid {
+      display: grid;
+      align-items: stretch;
+    }
+
     .contact-card {
       height: 100%;
       display: grid;
-      gap: 14px;
+      gap: 16px;
       align-content: start;
+      padding: 28px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+        rgba(20, 20, 28, 0.76);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(5, 5, 10, 0.24);
     }
 
     .contact-card p,
@@ -1187,6 +1337,59 @@
     .contact-card a:hover,
     .contact-card a:focus-visible {
       color: var(--text);
+    }
+
+    .contact-card--links h3 {
+      margin-bottom: 0;
+    }
+
+    .contact-card-intro {
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.7;
+    }
+
+    .quick-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 24px;
+    }
+
+    .quick-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 1rem;
+      line-height: 1.4;
+      transition: color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+
+    .quick-link::after {
+      content: "↗";
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.92rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .quick-link:hover,
+    .quick-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateX(2px);
+    }
+
+    .quick-link:hover::after,
+    .quick-link:focus-visible::after {
+      color: rgba(255, 255, 255, 0.72);
+      transform: translate(2px, -1px);
+    }
+
+    .quick-link:last-child,
+    .quick-link:nth-last-child(2) {
+      border-bottom: 0;
     }
 
     .reveal {
@@ -1237,6 +1440,10 @@
       .hero-visual {
         min-height: 560px;
       }
+
+      .footer-title {
+        max-width: none;
+      }
     }
 
     @media (max-width: 880px) {
@@ -1267,6 +1474,27 @@
         grid-template-columns: 1fr;
       }
 
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+      }
+
+      .skills-group {
+        padding: 16px 18px;
+      }
+
+      .skills-group + .skills-group {
+        border-left: none;
+      }
+
+      .skills-group:nth-child(n + 3) {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .skills-group:nth-child(2n) {
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
       .section-head {
         flex-direction: column;
         align-items: start;
@@ -1282,6 +1510,7 @@
       .footer-shell,
       .about-shell,
       .about-copy,
+      .skills-board,
       .focus-card,
       .timeline-card,
       .contact-card,
@@ -1296,6 +1525,357 @@
 
       .hero-stats {
         gap: 18px;
+      }
+
+      .footer-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .contact-card {
+        padding: 22px;
+      }
+
+      .quick-links-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-link:nth-last-child(2) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-board {
+        padding: 18px;
+      }
+
+      .skills-group {
+        padding: 14px 0;
+      }
+
+      .skills-group:nth-child(n + 2) {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .skills-group:nth-child(2n) {
+        border-left: none;
+      }
+
+      .skills-group-head {
+        min-height: auto;
+      }
+    }
+
+    /* ── Flipbook section ───────────────────────────────────────── */
+    .flipbook-outer {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;   /* A3 landscape: height < width */
+      margin: 0 auto 32px;
+    }
+
+    #flipbook {
+      display: flex;
+      justify-content: center;
+    }
+
+    .fb-cover-btn {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 0;
+      overflow: hidden;
+      background: rgba(10, 10, 18, 0.92);
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), opacity 0.4s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .fb-cover-btn:hover,
+    .fb-cover-btn:focus-visible {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .fb-cover-btn.fb-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .fb-cover-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .fb-cover-overlay {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 18px 20px;
+      background: linear-gradient(180deg, transparent, rgba(5, 5, 10, 0.9));
+      color: rgba(255, 255, 255, 0.95);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .flipbook-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-family: "JetBrains Mono", monospace;
+      z-index: 2;
+      transition: opacity 0.4s ease;
+      padding: 0 32px;
+    }
+
+    .flipbook-loading.fb-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fb-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .fb-spinner {
+      animation: fb-spin 1.4s linear infinite;
+      color: var(--primary);
+    }
+
+    .fb-progress-bar-wrap {
+      width: min(380px, 80%);
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fb-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    #fbProgressLabel {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    .flipbook-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .fb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition), border-color var(--transition);
+    }
+
+    .fb-btn:hover,
+    .fb-btn:focus-visible {
+      background: rgba(99, 102, 241, 0.18);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .fb-btn:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .fb-page-info {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      min-width: 110px;
+      text-align: center;
+    }
+
+    /* StPageFlip shadow override for dark theme */
+    .stf__item {
+      box-shadow: none !important;
+    }
+
+    @media (max-width: 880px) {
+      .flipbook-outer {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .flipbook-outer {
+        min-height: 260px;
+      }
+
+      .flipbook-controls {
+        gap: 12px;
+      }
+
+      .fb-btn {
+        padding: 10px 16px;
+        font-size: 0.88rem;
+      }
+    }
+
+    /* ── Fullscreen expand button ───────────────────────────────── */
+    .fb-expand-btn {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(10, 10, 18, 0.78);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition), border-color var(--transition), opacity var(--transition);
+      letter-spacing: 0.03em;
+    }
+
+    .fb-expand-btn:hover,
+    .fb-expand-btn:focus-visible {
+      background: rgba(99, 102, 241, 0.28);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    /* ── Fullscreen modal ───────────────────────────────────────── */
+    .fb-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fb-modal[hidden] {
+      display: none;
+    }
+
+    .fb-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(5, 5, 10, 0.92);
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+    }
+
+    .fb-modal-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 16px 16px;
+      max-height: 100vh;
+    }
+
+    .fb-modal-close {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(24, 24, 27, 0.92);
+      color: var(--text);
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      z-index: 2;
+    }
+
+    .fb-modal-close:hover,
+    .fb-modal-close:focus-visible {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.5);
+      transform: scale(1.1);
+      outline: none;
+    }
+
+    .fb-modal-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .fb-modal-hint {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      color: rgba(161, 161, 170, 0.55);
+      text-align: center;
+    }
+
+    .fb-modal-hint kbd {
+      display: inline-block;
+      padding: 1px 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.06);
+      font-family: inherit;
+      font-size: 0.72rem;
+    }
+
+    @media (max-width: 640px) {
+      .fb-modal-controls {
+        gap: 10px;
+      }
+
+      .fb-modal-hint {
+        display: none;
       }
     }
 
@@ -1339,6 +1919,7 @@
 
         <nav class="nav-links" aria-label="Primary">
           <a href="#work">Work</a>
+          <a href="#portfolio-book">Portfolio</a>
           <a href="about.html">About</a>
           <a href="about.html#experience">Experience</a>
           <a href="#contact">Contact</a>
@@ -1364,6 +1945,7 @@
 
       <div class="mobile-menu" id="mobileMenu">
         <a href="#work">Work</a>
+        <a href="#portfolio-book">Portfolio</a>
         <a href="about.html">About</a>
         <a href="about.html#experience">Experience</a>
         <a href="#contact">Contact</a>
@@ -1430,14 +2012,9 @@
             <div class="section-kicker">Focus areas</div>
             <h2 class="section-title">
               What I bring
-              <span>to spatial and urban strategy work.</span>
+              <span>to spatial and urban strategy.</span>
             </h2>
           </div>
-          <p class="section-copy">
-            The original homepage template used a service grid. Here it becomes a sharper overview of the
-            capabilities that define this portfolio: geospatial analysis, urban systems thinking, and
-            simulation-driven decision support.
-          </p>
         </div>
 
         <div class="focus-grid">
@@ -1461,7 +2038,7 @@
               <ul class="focus-list">
                 <li>QGIS / ArcGIS workflows for urban and environmental datasets</li>
                 <li>Google Earth Engine and satellite imagery interpretation</li>
-                <li>Risk metrics, environmental patterning, and spatial decision framing</li>
+                <li>Risk metrics, ETL frameworks and narrative building</li>
               </ul>
             </div>
           </article>
@@ -1480,7 +2057,7 @@
               <div class="card-index">02 / Urban systems</div>
               <h3>Strategy across the built environment.</h3>
               <p class="card-copy">
-                Bringing together architecture, urban systems, mobility strategy, and climate resilience to
+                Bringing together architecture, urban systems, regulatory insight and climate resilience to
                 shape decisions that work at multiple scales.
               </p>
               <ul class="focus-list">
@@ -1505,7 +2082,7 @@
               <div class="card-index">03 / Simulations and systems</div>
               <h3>Scenario thinking for urban futures.</h3>
               <p class="card-copy">
-                Building analytical workflows and simulation logic that test interventions, reveal impacts,
+                Building analytical workflows, creative dashboards & simulation logic that test interventions, reveal impacts,
                 and support more confident spatial decisions.
               </p>
               <ul class="focus-list">
@@ -1515,6 +2092,136 @@
               </ul>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="skills-header reveal">
+          <div class="section-kicker">Technical skills</div>
+          <h2 class="section-title">
+            A concise toolkit
+            <span>for mapping, modeling, data, and delivery.</span>
+          </h2>
+        </div>
+
+        <div class="skills-board reveal delay-1">
+          <div class="skills-grid">
+            <article class="skills-group">
+              <div class="skills-group-head">
+                <div class="skills-group-index">01</div>
+                <h3>Geospatial &amp; Mapping</h3>
+              </div>
+              <ul class="skills-list">
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/qgis.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">QGIS</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/arcgis.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">ArcGIS</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/googleearthengine.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Google Earth Engine</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/postgresql.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">PostgreSQL / PostGIS</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="skills-group">
+              <div class="skills-group-head">
+                <div class="skills-group-index">02</div>
+                <h3>Modeling &amp; Design</h3>
+              </div>
+              <ul class="skills-list">
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/rhinoceros.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Rhino</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/grasshopper3d.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Grasshopper</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/autocad.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">AutoCAD</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/adobe.ico" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Adobe Creative Suite</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="skills-group">
+              <div class="skills-group-head">
+                <div class="skills-group-index">03</div>
+                <h3>Data &amp; Machine Learning</h3>
+              </div>
+              <ul class="skills-list">
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/python.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Python</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/pytorch.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">PyTorch</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/machine-learning.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Machine Learning</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="skills-group">
+              <div class="skills-group-head">
+                <div class="skills-group-index">04</div>
+                <h3>Delivery &amp; Workflow</h3>
+              </div>
+              <ul class="skills-list">
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/cicd.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">CI/CD</span>
+                </li>
+                <li class="skill-tile">
+                  <span class="skill-icon-wrap" aria-hidden="true">
+                    <img src="posts/assets/skills/microsoft365.svg" alt="" width="18" height="18" loading="lazy" />
+                  </span>
+                  <span class="skill-name">Microsoft Office</span>
+                </li>
+              </ul>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -1529,10 +2236,7 @@
               <span>data, systems, and urban outcomes.</span>
             </h2>
           </div>
-          <p class="section-copy">
-            The current repository now contains six portfolio pieces. This homepage brings them
-            forward as the main entry points into the broader body of work.
-          </p>
+
         </div>
 
         <div class="work-grid">
@@ -1603,7 +2307,9 @@
           </a>
 
           <a class="project-card reveal delay-4" href="posts/torrent_of_change/torrents-of-change.html">
-            <div class="project-media project-media--torrents"></div>
+            <div class="project-media project-media--torrents">
+              <img src="posts/torrent_of_change/assets/Extra_Assets/RelativeELevationModel_LaCapita_NOBLUE.png" alt="Relative elevation model for Torrents of Change" />
+            </div>
             <div class="project-body">
               <div class="project-meta">
                 <span class="project-tag">Flood futures</span>
@@ -1669,56 +2375,135 @@
       </div>
     </section>
 
+    <!-- ── GIS Portfolio Flipbook ──────────────────────────────────── -->
+    <section class="section" id="portfolio-book">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">GIS Portfolio</div>
+            <h2 class="section-title">
+              Maps of Meaning
+              <span>a visual GIS portfolio.</span>
+            </h2>
+          </div>
+          <p class="section-copy">
+            Flip through a curated collection of maps, spatial analyses, and
+            urban systems work presented as a visual book.
+          </p>
+        </div>
+
+        <div class="flipbook-outer reveal delay-1">
+          <button class="fb-cover-btn" id="fbCover" type="button" aria-label="Open Maps of Meaning portfolio">
+            <img class="fb-cover-image" src="posts/maps_of_meaning/FrontCover.jpg" alt="Maps of Meaning portfolio cover" loading="lazy" />
+            <span class="fb-cover-overlay">Click cover to open portfolio</span>
+          </button>
+          <div class="flipbook-loading fb-hidden" id="fbLoading">
+            <svg aria-hidden="true" class="fb-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="32" height="32">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            <div class="fb-progress-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="fb-progress-bar" id="fbProgressBar"></div>
+            </div>
+            <span id="fbProgressLabel">Preparing portfolio…</span>
+          </div>
+          <div id="flipbook"></div>
+          <!-- expand to fullscreen button, revealed after load -->
+          <button class="fb-expand-btn" id="fbExpand" aria-label="View in fullscreen" hidden>
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+              <path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+            </svg>
+            Fullscreen
+          </button>
+        </div>
+
+        <div class="flipbook-controls reveal delay-2" id="fbControls" hidden>
+          <button class="fb-btn" id="fbPrev" aria-label="Previous page">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"/><path d="m12 5-7 7 7 7"/>
+            </svg>
+            Prev
+          </button>
+          <span class="fb-page-info" id="fbPageInfo">Loading…</span>
+          <button class="fb-btn" id="fbNext" aria-label="Next page">
+            Next
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Fullscreen flipbook modal ────────────────────────────────── -->
+    <div class="fb-modal" id="fbModal" role="dialog" aria-modal="true" aria-label="Portfolio fullscreen view" hidden>
+      <div class="fb-modal-backdrop" id="fbModalBackdrop"></div>
+      <div class="fb-modal-inner">
+        <button class="fb-modal-close" id="fbModalClose" aria-label="Close fullscreen">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+        <div id="fbModalFlipbook"></div>
+        <div class="fb-modal-controls">
+          <button class="fb-btn" id="fbModalPrev" aria-label="Previous page">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"/><path d="m12 5-7 7 7 7"/>
+            </svg>
+            Prev
+          </button>
+          <span class="fb-page-info" id="fbModalPageInfo">Page 1 / –</span>
+          <button class="fb-btn" id="fbModalNext" aria-label="Next page">
+            Next
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        <p class="fb-modal-hint">
+          <kbd>←</kbd><kbd>→</kbd> to flip &nbsp;·&nbsp; <kbd>Esc</kbd> to close
+        </p>
+      </div>
+    </div>
+
     <footer class="section" id="contact">
       <div class="container">
         <div class="footer-shell reveal">
           <div class="footer-grid">
             <div>
               <div class="section-kicker">Contact</div>
-              <h2 class="footer-title">Open to projects that need rigorous spatial thinking.</h2>
+              <h2 class="footer-title">Get in touch.</h2>
               <p class="footer-copy">
-                If you are working on urban systems, mobility, geospatial products, climate resilience, or
-                research-led built environment work, I would be glad to connect.
+                If you're working on urban systems, geospatial products, climate resilience, or
+                research-led built environment projects, I'd be glad to help and contribute.
               </p>
 
               <div class="footer-actions">
                 <a class="button button-primary" href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
-                <a class="button button-secondary" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
               </div>
 
+              <p class="footer-note">Email is the best place to reach me for collaborations, research partnerships, and consulting conversations.</p>
+
               <div class="footer-meta">
-                <span>Barcelona / Chennai</span>
-                <span>GIS + urban systems</span>
-                <span>Climate resilience</span>
+                <span>Geospatial Analyst</span>
+                <span>Product Engineer</span>
+                <span>Sustainability Consultant</span>
               </div>
             </div>
 
             <div class="contact-grid">
-              <article class="contact-card">
+              <article class="contact-card contact-card--links">
                 <div class="card-index">Navigation</div>
                 <h3>Quick links</h3>
-                <p><a href="#focus">Focus areas</a></p>
-                <p><a href="#work">Selected work</a></p>
-                <p><a href="about.html">About</a></p>
-                <p><a href="about.html#experience">Experience</a></p>
-              </article>
-
-              <article class="contact-card">
-                <div class="card-index">Selected tools</div>
-                <h3>Technical stack</h3>
-                <p>Python</p>
-                <p>QGIS / ArcGIS</p>
-                <p>Google Earth Engine</p>
-                <p>SQL / PostGIS</p>
-              </article>
-
-              <article class="contact-card">
-                <div class="card-index">Practice lens</div>
-                <h3>Core themes</h3>
-                <p>Urban strategy</p>
-                <p>Mobility analytics</p>
-                <p>Climate and resilience analytics</p>
-                <p>Evidence-based decision support</p>
+                <p class="contact-card-intro">A shorter route to the main parts of the site without the extra footer bulk.</p>
+                <div class="quick-links-grid">
+                  <a class="quick-link" href="#focus">Focus areas</a>
+                  <a class="quick-link" href="#skills">Technical skills</a>
+                  <a class="quick-link" href="#work">Selected work</a>
+                  <a class="quick-link" href="about.html">About</a>
+                  <a class="quick-link" href="about.html#experience">Experience</a>
+                  <a class="quick-link" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
+                </div>
               </article>
             </div>
           </div>
@@ -2035,6 +2820,243 @@
         }
       });
     }
+  </script>
+
+  <!-- ── PDF.js + StPageFlip: GIS Portfolio Flipbook ──────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+  <script>
+    (function () {
+      const PDF_URL = "posts/maps_of_meaning/Maps_of_Meaning_GIS.pdf";
+      const SCALE   = 1.5;
+
+      // ── DOM refs ──────────────────────────────────────────────────
+      const fbContainer     = document.getElementById("flipbook");
+      const fbCover         = document.getElementById("fbCover");
+      const fbLoading       = document.getElementById("fbLoading");
+      const fbControls      = document.getElementById("fbControls");
+      const fbPrev          = document.getElementById("fbPrev");
+      const fbNext          = document.getElementById("fbNext");
+      const fbPageInfo      = document.getElementById("fbPageInfo");
+      const fbProgressBar   = document.getElementById("fbProgressBar");
+      const fbProgressLabel = document.getElementById("fbProgressLabel");
+      const fbExpand        = document.getElementById("fbExpand");
+
+      const fbModal         = document.getElementById("fbModal");
+      const fbModalBackdrop = document.getElementById("fbModalBackdrop");
+      const fbModalClose    = document.getElementById("fbModalClose");
+      const fbModalFlipbook = document.getElementById("fbModalFlipbook");
+      const fbModalPrev     = document.getElementById("fbModalPrev");
+      const fbModalNext     = document.getElementById("fbModalNext");
+      const fbModalPageInfo = document.getElementById("fbModalPageInfo");
+
+      if (!fbContainer || typeof pdfjsLib === "undefined" || typeof St === "undefined") return;
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+      // ── Shared state ──────────────────────────────────────────────
+      let dataURLs       = [];   // populated after render
+      let currentPageIdx = 0;    // tracks current page in inline flipbook
+      let modalFlip      = null; // modal PageFlip instance (created once)
+      let hasStarted     = false;
+
+      // ── Progress helper ───────────────────────────────────────────
+      function setProgress(pct, label) {
+        const clamped = Math.min(100, Math.max(0, Math.round(pct)));
+        if (fbProgressBar) {
+          fbProgressBar.style.width = clamped + "%";
+          fbProgressBar.closest("[role='progressbar']")?.setAttribute("aria-valuenow", clamped);
+        }
+        if (fbProgressLabel) fbProgressLabel.textContent = label;
+      }
+
+      // ── PDF page renderer ─────────────────────────────────────────
+      async function renderPage(pdfDoc, num) {
+        const page     = await pdfDoc.getPage(num);
+        const viewport = page.getViewport({ scale: SCALE });
+        const canvas   = document.createElement("canvas");
+        canvas.width   = viewport.width;
+        canvas.height  = viewport.height;
+        await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        return canvas.toDataURL("image/jpeg", 0.85);
+      }
+
+      // ── Inline flipbook init ──────────────────────────────────────
+      async function initFlipbook() {
+        if (hasStarted) return;
+        hasStarted = true;
+
+        if (fbCover) fbCover.classList.add("fb-hidden");
+        if (fbLoading) fbLoading.classList.remove("fb-hidden");
+        if (fbControls) fbControls.removeAttribute("hidden");
+
+        setProgress(0, "Downloading portfolio…");
+
+        let pdfDoc;
+        try {
+          const loadingTask = pdfjsLib.getDocument(PDF_URL);
+          loadingTask.onProgress = function (data) {
+            if (data.total > 0) {
+              const pct = (data.loaded / data.total) * 50;
+              setProgress(pct, "Downloading… " + Math.round(pct * 2) + "%");
+            }
+          };
+          pdfDoc = await loadingTask.promise;
+        } catch {
+          fbLoading.innerHTML = "<span style='color:#f87171'>Could not load PDF — please refresh.</span>";
+          return;
+        }
+
+        const total = pdfDoc.numPages;
+        for (let i = 1; i <= total; i++) {
+          const pct = 50 + (i / total) * 50;
+          setProgress(pct, "Rendering page " + i + " of " + total + "…");
+          dataURLs.push(await renderPage(pdfDoc, i));
+        }
+        setProgress(100, "Ready");
+
+        // Compute dimensions — A3 landscape (width > height, ratio 1.414:1)
+        const isMobile  = window.innerWidth <= 480;
+        const outerW    = fbContainer.closest(".container")?.clientWidth
+                          || fbContainer.parentElement?.clientWidth
+                          || window.innerWidth;
+        const pageWidth = isMobile
+          ? Math.min(window.innerWidth - 48, 320)
+          : Math.floor(outerW / 2) - 8;
+        const pageH     = Math.round(pageWidth / 1.414);
+
+        const outer = document.querySelector(".flipbook-outer");
+        if (outer) outer.style.minHeight = pageH + "px";
+
+        const pageFlip = new St.PageFlip(fbContainer, {
+          width:               pageWidth,
+          height:              pageH,
+          size:                "fixed",
+          showCover:           true,
+          usePortrait:         isMobile,
+          mobileScrollSupport: false,
+          flippingTime:        650,
+          useMouseEvents:      true,
+          drawShadow:          true,
+          startPage:           0,
+          autoSize:            false,
+        });
+
+        pageFlip.loadFromImages(dataURLs);
+        fbLoading.classList.add("fb-hidden");
+
+        // Show the expand button now that pages are ready
+        if (fbExpand) fbExpand.removeAttribute("hidden");
+
+        const updateInfo = (idx) => {
+          currentPageIdx = idx;
+          // In double-spread mode each flip shows two pages (cover & back cover are single)
+          const isSpread = !isMobile && idx > 0 && idx < total - 1;
+          fbPageInfo.textContent = isSpread
+            ? "Pages " + (idx + 1) + "–" + (idx + 2) + " / " + total
+            : "Page "  + (idx + 1) + " / " + total;
+          fbPrev.disabled = idx <= 0;
+          fbNext.disabled = idx >= total - 1;
+        };
+
+        updateInfo(0);
+        fbPrev.disabled = true;
+
+        pageFlip.on("flip",        (e) => updateInfo(e.data));
+        pageFlip.on("changeState", ()  => updateInfo(pageFlip.getCurrentPageIndex()));
+
+        fbPrev.addEventListener("click", () => pageFlip.flipPrev());
+        fbNext.addEventListener("click", () => pageFlip.flipNext());
+      }
+
+      // ── Modal helpers ─────────────────────────────────────────────
+      function updateModalInfo(idx, total) {
+        if (!fbModalPageInfo) return;
+        // Modal is always double-spread (usePortrait: false); cover & back cover are single pages
+        const isSpread = idx > 0 && idx < total - 1;
+        fbModalPageInfo.textContent = isSpread
+          ? "Pages " + (idx + 1) + "–" + (idx + 2) + " / " + total
+          : "Page "  + (idx + 1) + " / " + total;
+        if (fbModalPrev) fbModalPrev.disabled = idx <= 0;
+        if (fbModalNext) fbModalNext.disabled = idx >= total - 1;
+      }
+
+      function openModal() {
+        if (!dataURLs.length || !fbModal) return;
+
+        fbModal.removeAttribute("hidden");
+        document.body.style.overflow = "hidden";
+        fbModal.focus();
+
+        const vw  = window.innerWidth;
+        const vh  = window.innerHeight;
+        // Spread must fit 96vw and 86vh (leaving room for controls/hint)
+        const spreadW = Math.min(vw * 0.96, vh * 0.86 * 2 * 1.414);
+        const mPageW  = Math.floor(spreadW / 2) - 8;
+        const mPageH  = Math.round(mPageW / 1.414);
+
+        const total = dataURLs.length;
+
+        if (!modalFlip) {
+          // First open — initialise the modal PageFlip
+          modalFlip = new St.PageFlip(fbModalFlipbook, {
+            width:               mPageW,
+            height:              mPageH,
+            size:                "fixed",
+            showCover:           true,
+            usePortrait:         false,
+            mobileScrollSupport: false,
+            flippingTime:        600,
+            useMouseEvents:      true,
+            drawShadow:          true,
+            startPage:           currentPageIdx,
+            autoSize:            false,
+          });
+          modalFlip.loadFromImages(dataURLs);
+
+          modalFlip.on("flip",        (e) => updateModalInfo(e.data, total));
+          modalFlip.on("changeState", ()  => updateModalInfo(modalFlip.getCurrentPageIndex(), total));
+
+          if (fbModalPrev) fbModalPrev.addEventListener("click", () => modalFlip.flipPrev());
+          if (fbModalNext) fbModalNext.addEventListener("click", () => modalFlip.flipNext());
+        } else {
+          // Subsequent opens — jump to current page without re-init
+          modalFlip.turnToPage(currentPageIdx);
+        }
+
+        updateModalInfo(currentPageIdx, total);
+      }
+
+      function closeModal() {
+        if (!fbModal) return;
+        fbModal.setAttribute("hidden", "");
+        document.body.style.overflow = "";
+        // Sync inline flipbook to wherever the user navigated in the modal
+        if (modalFlip) {
+          currentPageIdx = modalFlip.getCurrentPageIndex();
+        }
+        if (fbExpand) fbExpand.focus();
+      }
+
+      // ── Modal event wiring ────────────────────────────────────────
+      if (fbExpand)        fbExpand.addEventListener("click", openModal);
+      if (fbModalClose)    fbModalClose.addEventListener("click", closeModal);
+      if (fbModalBackdrop) fbModalBackdrop.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", (e) => {
+        if (!fbModal || fbModal.hasAttribute("hidden")) return;
+        if (e.key === "Escape")      { e.preventDefault(); closeModal(); }
+        if (e.key === "ArrowLeft")   { e.preventDefault(); modalFlip?.flipPrev(); }
+        if (e.key === "ArrowRight")  { e.preventDefault(); modalFlip?.flipNext(); }
+      });
+
+      if (fbCover) {
+        fbCover.addEventListener("click", initFlipbook, { once: true });
+      } else {
+        initFlipbook();
+      }
+    })();
   </script>
 </body>
 </html>

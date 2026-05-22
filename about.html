@@ -208,9 +208,60 @@
     .section { padding: 96px 0; }
 
     .page-hero {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      min-height: min(760px, calc(100vh - 112px));
       padding-top: 28px;
       padding-bottom: 36px;
       text-align: center;
+      background:
+        radial-gradient(circle at 50% 24%, rgba(99, 102, 241, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.22), rgba(5, 5, 10, 0.08) 32%, rgba(5, 5, 10, 0.54) 100%);
+    }
+
+    .page-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.04), transparent 18%),
+        radial-gradient(circle at 82% 34%, rgba(99, 102, 241, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.16), rgba(5, 5, 10, 0.44));
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .page-hero-effects {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-hero-webgl {
+      position: absolute;
+      inset: 0;
+      opacity: 0.96;
+    }
+
+    .page-hero-webgl canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .page-hero-copy {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: clamp(72px, 12vw, 132px) 0;
     }
 
     .section-kicker {
@@ -258,6 +309,35 @@
       max-width: 56ch;
       margin: 24px auto 0;
       font-size: 1.16rem;
+      text-shadow: 0 10px 30px rgba(5, 5, 10, 0.36);
+    }
+
+    .hero-flags {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+    }
+
+    .flag-icon {
+      width: 28px;
+      height: 20px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 8px 18px rgba(5, 5, 10, 0.32);
+      display: inline-block;
+    }
+
+    .flag-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .section-head {
@@ -277,9 +357,9 @@
 
     .about-grid {
       display: grid;
-      grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.15fr);
+      grid-template-columns: 1fr 1fr;
       gap: 22px;
-      align-items: start;
+      align-items: stretch;
     }
 
     .about-shell,
@@ -297,21 +377,22 @@
     }
 
     .about-shell {
-      padding: 26px;
+      padding: 0;
       background:
         linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.04) 22%, rgba(12, 12, 20, 0.88) 68%),
         rgba(10, 10, 18, 0.9);
     }
 
-    .about-visual { display: grid; gap: 16px; }
+    .about-visual { display: block; height: 100%; }
 
     .about-hero-image {
       position: relative;
       overflow: hidden;
-      border-radius: 26px;
-      min-height: 420px;
+      border-radius: 33px;
+      min-height: 480px;
+      height: 100%;
       background:
-        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.66)),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.08)),
         url("posts/assets/New_Main_Pfp.jpg") center 18%/cover no-repeat;
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
@@ -320,9 +401,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(180deg, rgba(99, 102, 241, 0.12), transparent 40%),
-        linear-gradient(180deg, rgba(5, 5, 10, 0.08), rgba(5, 5, 10, 0.72));
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.10), transparent 40%);
     }
 
     .image-copy {
@@ -358,10 +437,13 @@
     }
 
     .mini-card:hover,
-    .timeline-card:hover,
-    .contact-card:hover {
+    .timeline-card:hover {
       transform: translateY(-6px);
       border-color: rgba(99, 102, 241, 0.42);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-6px);
     }
 
     .mini-card strong {
@@ -417,12 +499,6 @@
       text-transform: uppercase;
     }
 
-    .timeline-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
     .timeline-card,
     .contact-card {
       padding: 26px;
@@ -445,58 +521,262 @@
       text-transform: uppercase;
     }
 
-    .footer-shell {
-      padding: 32px;
+    .trajectory-header {
+      max-width: 760px;
+      margin: 0 auto 44px;
+      text-align: center;
+    }
+
+    .trajectory-header .section-copy {
+      max-width: 56ch;
+      margin: 18px auto 0;
+    }
+
+    .experience-timeline {
+      display: grid;
+      gap: 24px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .experience-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .experience-item::before {
+      content: "";
+      position: absolute;
+      top: 22px;
+      bottom: -24px;
+      left: 21px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+    }
+
+    .experience-item:last-child::before {
+      display: none;
+    }
+
+    .experience-marker {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       background:
-        linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.03) 24%, rgba(10, 10, 18, 0.92) 70%),
+        radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.2), transparent 42%),
+        rgba(18, 18, 24, 0.92);
+      box-shadow: 0 18px 40px rgba(5, 5, 10, 0.18);
+    }
+
+    .experience-marker::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(99, 102, 241, 0.92));
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+
+    .experience-panel {
+      padding: 22px 24px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+        rgba(18, 18, 24, 0.72);
+      box-shadow: 0 18px 46px rgba(5, 5, 10, 0.18);
+    }
+
+    .experience-topline {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .experience-role {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: baseline;
+    }
+
+    .experience-title {
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .experience-company {
+      color: #c4c4fc;
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .experience-location {
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .experience-date {
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .experience-copy {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .footer-shell {
+      padding: 30px;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.14), transparent 34%),
+        linear-gradient(180deg, rgba(99, 102, 241, 0.12), rgba(255, 255, 255, 0.02) 22%, rgba(10, 10, 18, 0.94) 72%),
         rgba(10, 10, 18, 0.92);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-      gap: 28px;
-      align-items: start;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 32px;
+      align-items: center;
     }
 
     .footer-title {
-      font-size: clamp(2.4rem, 4vw, 4.1rem);
-      line-height: 1.02;
+      max-width: 12ch;
+      font-size: clamp(2.35rem, 4vw, 3.9rem);
+      line-height: 1.04;
     }
 
     .footer-copy {
-      margin: 18px 0 30px;
-      max-width: 58ch;
+      margin: 18px 0 24px;
+      max-width: 44ch;
     }
 
     .footer-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
+      align-items: center;
     }
 
     .footer-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 22px;
       color: var(--text-muted);
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
+    .footer-meta span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-note {
+      margin: 18px 0 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+      align-items: stretch;
     }
 
     .contact-card {
       height: 100%;
       display: grid;
-      gap: 14px;
+      gap: 16px;
       align-content: start;
+      padding: 28px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+        rgba(20, 20, 28, 0.76);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(5, 5, 10, 0.24);
+    }
+
+    .contact-card--links h3 {
+      margin-bottom: 0;
+    }
+
+    .contact-card-intro {
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.7;
+    }
+
+    .quick-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 24px;
+    }
+
+    .quick-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 1rem;
+      line-height: 1.4;
+      transition: color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+
+    .quick-link::after {
+      content: "↗";
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.92rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .quick-link:hover,
+    .quick-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateX(2px);
+    }
+
+    .quick-link:hover::after,
+    .quick-link:focus-visible::after {
+      color: rgba(255, 255, 255, 0.72);
+      transform: translate(2px, -1px);
+    }
+
+    .quick-link:last-child,
+    .quick-link:nth-last-child(2) {
+      border-bottom: 0;
     }
 
     .contact-card a:hover,
@@ -520,9 +800,12 @@
     @media (max-width: 1100px) {
       .about-grid,
       .footer-grid,
-      .timeline-grid,
       .contact-grid {
         grid-template-columns: 1fr;
+      }
+
+      .footer-title {
+        max-width: none;
       }
     }
 
@@ -531,18 +814,62 @@
       .nav-cta { display: none; }
       .menu-button { display: inline-flex; }
       .section { padding: 78px 0; }
-      .about-mini-grid { grid-template-columns: 1fr; }
+      .page-hero {
+        min-height: auto;
+      }
+      .page-hero-copy {
+        padding: 64px 0 56px;
+      }
       .section-head { flex-direction: column; align-items: start; }
+      .experience-item {
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 18px;
+      }
+      .experience-item::before {
+        left: 18px;
+      }
+      .experience-marker {
+        width: 38px;
+        height: 38px;
+      }
     }
 
     @media (max-width: 640px) {
       .container { width: min(calc(100% - 24px), var(--max-w)); }
       .nav-shell,
       .footer-shell,
-      .about-shell,
       .about-copy,
       .timeline-card,
       .contact-card { padding-left: 18px; padding-right: 18px; }
+      .page-hero-copy {
+        padding: 48px 0 38px;
+      }
+      .footer-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .contact-card {
+        padding: 22px;
+      }
+      .quick-links-grid {
+        grid-template-columns: 1fr;
+      }
+      .quick-link:nth-last-child(2) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .trajectory-header {
+        margin-bottom: 34px;
+      }
+      .experience-topline {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .experience-panel {
+        padding: 18px 20px;
+      }
+      .experience-date {
+        white-space: normal;
+      }
       .page-title { font-size: clamp(2.8rem, 13vw, 4.3rem); }
     }
 
@@ -606,16 +933,48 @@
 
   <main>
     <section class="section page-hero">
+      <div class="page-hero-effects" aria-hidden="true">
+        <div class="page-hero-webgl" data-about-hero-webgl></div>
+      </div>
       <div class="container reveal is-visible">
-        <div class="section-kicker">About and experience</div>
-        <h1 class="page-title">
-          The background behind
-          <span>the geospatial and urban systems work.</span>
-        </h1>
-        <p class="page-copy">
-          A dedicated page for profile, trajectory, and professional context so the homepage stays focused
-          on the portfolio itself.
-        </p>
+        <div class="page-hero-copy">
+          <div class="section-kicker">About and experience</div>
+          <h1 class="page-title">
+            Masters in City and Technology 
+          </h1>
+          <p class="page-copy">
+            [MaCT]<br />
+            Institute for Advanced Architecture of Catalonia (IAAC)<br />
+            Barcelona, Spain
+          </p>
+          <div class="hero-flags" aria-label="Indian and European Union flags">
+            <span class="flag-icon" aria-label="Indian flag" role="img">
+              <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#138808" />
+                <rect width="60" height="26.67" y="0" fill="#ffffff" />
+                <rect width="60" height="13.33" y="0" fill="#ff9933" />
+                <circle cx="30" cy="20" r="5.2" fill="none" stroke="#000080" stroke-width="1.2" />
+              </svg>
+            </span>
+            <span class="flag-icon" aria-label="European Union flag" role="img">
+              <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="40" fill="#003399" />
+                <circle cx="30" cy="12" r="1.2" fill="#ffcc00" />
+                <circle cx="36" cy="13.61" r="1.2" fill="#ffcc00" />
+                <circle cx="40.39" cy="18" r="1.2" fill="#ffcc00" />
+                <circle cx="42" cy="24" r="1.2" fill="#ffcc00" />
+                <circle cx="40.39" cy="30" r="1.2" fill="#ffcc00" />
+                <circle cx="36" cy="34.39" r="1.2" fill="#ffcc00" />
+                <circle cx="30" cy="36" r="1.2" fill="#ffcc00" />
+                <circle cx="24" cy="34.39" r="1.2" fill="#ffcc00" />
+                <circle cx="19.61" cy="30" r="1.2" fill="#ffcc00" />
+                <circle cx="18" cy="24" r="1.2" fill="#ffcc00" />
+                <circle cx="19.61" cy="18" r="1.2" fill="#ffcc00" />
+                <circle cx="24" cy="13.61" r="1.2" fill="#ffcc00" />
+              </svg>
+            </span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -625,8 +984,8 @@
           <div>
             <div class="section-kicker">About</div>
             <h2 class="section-title">
-              A profile shaped by
-              <span>architecture, GIS, and city-scale systems.</span>
+              A product oriented profile 
+              <span>shaped by GIS and city-scale systems.</span>
             </h2>
           </div>
           <p class="section-copy">
@@ -638,48 +997,17 @@
         <div class="about-grid">
           <div class="about-shell reveal delay-1">
             <div class="about-visual">
-              <div class="about-hero-image">
-                <div class="image-copy">
-                  <strong>Evidence-based urban decisions</strong>
-                  <p>
-                    Using geospatial simulations and analytical workflows to support climate resilience,
-                    sustainable infrastructure, and data-driven planning decisions.
-                  </p>
-                </div>
-              </div>
-
-              <div class="about-mini-grid">
-                <div class="mini-card">
-                  <span>Home base</span>
-                  <strong>Barcelona | Chennai</strong>
-                  <p>Working across European and Indian urban contexts.</p>
-                </div>
-                <div class="mini-card">
-                  <span>Languages</span>
-                  <strong>English, Tamil, Hindi, Spanish, French</strong>
-                  <p>Comfort moving between technical, strategic, and cross-cultural settings.</p>
-                </div>
-                <div class="mini-card">
-                  <span>Education</span>
-                  <strong>IAAC + SRM University</strong>
-                  <p>Master in City and Technology after a Bachelor of Architecture.</p>
-                </div>
-                <div class="mini-card">
-                  <span>Technical stack</span>
-                  <strong>Python, GIS, GEE, SQL, Rhino</strong>
-                  <p>Combined with simulation, analytics, and visual communication tools.</p>
-                </div>
-              </div>
+              <div class="about-hero-image"></div>
             </div>
           </div>
 
           <div class="about-copy reveal delay-2">
             <h3>Curious about me?</h3>
             <p>
-              I am a geospatial specialist with a background in architecture, urban strategy, mobility
-              analysis, and earth observation. My work focuses on translating spatial and environmental
-              data into strategies that support climate resilience, sustainable infrastructure, and
-              stronger urban decisions.
+              I am a geospatial specialist and product engineer with a background in architecture, urban strategy, mobility
+              analysis, and earth observation. My work focuses on translating spatial, regulatory and environmental
+              data into products and development strategies that support climate resilience, sustainable infrastructure and
+              stronger product decisions.
             </p>
             <p>
               Across projects and roles, I use geospatial simulations, analytical workflows, and systems
@@ -687,8 +1015,8 @@
               the green and digital transition more actionable.
             </p>
             <p>
-              What motivates me is the bridge between technical analysis and strategy: turning complex
-              datasets into frameworks that are both rigorous and useful for the built environment.
+              What motivates me is the bridge between technical analysis and implementation: turning complex
+              datasets into frameworks that are both rigorous and useful for product development and decision-making.
             </p>
 
             <div class="pill-row">
@@ -696,31 +1024,8 @@
               <span class="pill">Pre-construction analytics</span>
               <span class="pill">Geospatial analysis</span>
               <span class="pill">Remote sensing</span>
-              <span class="pill">Climate analytics</span>
-              <span class="pill">Transport planning</span>
-            </div>
-
-            <div class="meta-block">
-              <div class="meta-item">
-                <div class="meta-label">Currently</div>
-                <div class="meta-value">
-                  Strategy and computational systems on the founding team at Sentient Grid, building
-                  spatial automation logic and product direction for large-scale planning workflows.
-                </div>
-              </div>
-              <div class="meta-item">
-                <div class="meta-label">Previously</div>
-                <div class="meta-value">
-                  Urban Planner and Business Development Associate at Greenroads, connecting mobility and
-                  environmental datasets to planning and policy outcomes across partner cities.
-                </div>
-              </div>
-              <div class="meta-item">
-                <div class="meta-label">Contact</div>
-                <div class="meta-value">
-                  <a href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
-                </div>
-              </div>
+              <span class="pill">Sustainability analytics</span>
+              <span class="pill">Dashboard development</span>
             </div>
           </div>
         </div>
@@ -729,46 +1034,107 @@
 
     <section class="section" id="experience">
       <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <div class="section-kicker">Recent trajectory</div>
-            <h2 class="section-title">
-              Work shaped by
-              <span>strategy, product thinking, and urban analysis.</span>
-            </h2>
-          </div>
+        <div class="trajectory-header reveal">
+          <div class="section-kicker">Recent trajectory</div>
+          <h2 class="section-title">
+            Work
+            <span>experience.</span>
+          </h2>
           <p class="section-copy">
-            A concise snapshot of the recent experience behind the portfolio, adapted from the resume to
-            support the broader narrative without crowding the homepage.
+            A quieter view of the recent roles shaping the mix of spatial systems, product thinking,
+            and built-environment delivery behind the portfolio.
           </p>
         </div>
 
-        <div class="timeline-grid">
-          <article class="timeline-card reveal delay-1">
-            <div class="timeline-meta">Sentient Grid / Nov 2025 - Current</div>
-            <h3>Strategy and Computational Systems</h3>
-            <p class="timeline-body">
-              Developing spatial automation algorithms, shaping product modules, and helping position
-              planning technology for market fit, pricing, and scalable deployment.
-            </p>
+        <div class="experience-timeline">
+          <article class="experience-item reveal delay-1">
+            <div class="experience-marker" aria-hidden="true"></div>
+            <div class="experience-panel">
+              <div class="experience-topline">
+                <div class="experience-role">
+                  <h3 class="experience-title">Strategy &amp; Computational Systems</h3>
+                  <span class="experience-company">Sentient Grid</span>
+                  <span class="experience-location">Mumbai, India</span>
+                </div>
+                <div class="experience-date">Nov 2025 - Current</div>
+              </div>
+              <p class="experience-copy">
+                Developing spatial automation algorithms, helping shape product SKUs and pricing, and
+                building new planning modules that translate regulatory complexity into scalable workflows.
+              </p>
+            </div>
           </article>
 
-          <article class="timeline-card reveal delay-2">
-            <div class="timeline-meta">Greenroads / Feb 2025 - Jan 2026</div>
-            <h3>Urban Planner and Business Development Associate</h3>
-            <p class="timeline-body">
-              Analysed urban mobility and spatial datasets from AI-enabled traffic cameras to support
-              planning insights, emissions reduction, and data-driven policy conversations with cities.
-            </p>
+          <article class="experience-item reveal delay-2">
+            <div class="experience-marker" aria-hidden="true"></div>
+            <div class="experience-panel">
+              <div class="experience-topline">
+                <div class="experience-role">
+                  <h3 class="experience-title">Urban Planner &amp; Business Development Associate</h3>
+                  <span class="experience-company">Greenroads</span>
+                  <span class="experience-location">Barcelona, Spain</span>
+                </div>
+                <div class="experience-date">Feb 2025 - Jan 2026</div>
+              </div>
+              <p class="experience-copy">
+                Analysed AI-enabled mobility and spatial datasets across partner cities, while helping
+                position the platform for municipalities and infrastructure partners focused on sustainable mobility.
+              </p>
+            </div>
           </article>
 
-          <article class="timeline-card reveal delay-3">
-            <div class="timeline-meta">Earlier practice</div>
-            <h3>Architecture, operations, and delivery</h3>
-            <p class="timeline-body">
-              Led project delivery, technical detailing, and cross-functional coordination through
-              architecture and operations roles - grounding the analytical work in buildable realities.
-            </p>
+          <article class="experience-item reveal delay-3">
+            <div class="experience-marker" aria-hidden="true"></div>
+            <div class="experience-panel">
+              <div class="experience-topline">
+                <div class="experience-role">
+                  <h3 class="experience-title">Founder &amp; Chief Architect</h3>
+                  <span class="experience-company">Mocana Architecture+Design Studio</span>
+                  <span class="experience-location">India</span>
+                </div>
+                <div class="experience-date">May 2022 - Mar 2024</div>
+              </div>
+              <p class="experience-copy">
+                Directed end-to-end delivery across commercial and residential projects, managing the
+                full cycle from conceptual design and technical detailing through coordination and handover.
+              </p>
+            </div>
+          </article>
+
+          <article class="experience-item reveal delay-4">
+            <div class="experience-marker" aria-hidden="true"></div>
+            <div class="experience-panel">
+              <div class="experience-topline">
+                <div class="experience-role">
+                  <h3 class="experience-title">Architect &amp; Operations Manager</h3>
+                  <span class="experience-company">Espana</span>
+                  <span class="experience-location">India</span>
+                </div>
+                <div class="experience-date">Jan 2021 - Jun 2022</div>
+              </div>
+              <p class="experience-copy">
+                Delivered full-cycle design and construction advisory for private housing and hospitality projects,
+                coordinating specialized trades and logistics for smooth execution.
+              </p>
+            </div>
+          </article>
+
+          <article class="experience-item reveal delay-5">
+            <div class="experience-marker" aria-hidden="true"></div>
+            <div class="experience-panel">
+              <div class="experience-topline">
+                <div class="experience-role">
+                  <h3 class="experience-title">Intern</h3>
+                  <span class="experience-company">Pithavadian and Partners Engineering</span>
+                  <span class="experience-location">India</span>
+                </div>
+                <div class="experience-date">Jan 2019 - Jun 2019</div>
+              </div>
+              <p class="experience-copy">
+                Contributed to projects spanning industrial developments, township redevelopment, offices,
+                schools, and private and low-cost housing.
+              </p>
+            </div>
           </article>
         </div>
       </div>
@@ -780,50 +1146,38 @@
           <div class="footer-grid">
             <div>
               <div class="section-kicker">Contact</div>
-              <h2 class="footer-title">Open to projects that need rigorous spatial thinking.</h2>
+              <h2 class="footer-title">Get in touch.</h2>
               <p class="footer-copy">
-                If you are working on urban systems, mobility, geospatial products, climate resilience, or
-                research-led built environment work, I would be glad to connect.
+                If you're working on urban systems, geospatial products, climate resilience, or
+                research-led built environment projects, I'd be glad to help and contribute.
               </p>
 
               <div class="footer-actions">
                 <a class="button button-primary" href="mailto:sidnam97@gmail.com">sidnam97@gmail.com</a>
-                <a class="button button-secondary" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
               </div>
 
+              <p class="footer-note">Email is the best place to reach me for collaborations, research partnerships, and consulting conversations.</p>
+
               <div class="footer-meta">
-                <span>Barcelona / Chennai</span>
-                <span>GIS + urban systems</span>
-                <span>Climate resilience</span>
+                <span>Geospatial Analyst</span>
+                <span>Product Engineer</span>
+                <span>Sustainability Consultant</span>
               </div>
             </div>
 
             <div class="contact-grid">
-              <article class="contact-card">
-                <div class="section-kicker">Navigation</div>
+              <article class="contact-card contact-card--links">
+                <div class="card-index">Navigation</div>
                 <h3>Quick links</h3>
-                <p><a href="index.html">Homepage</a></p>
-                <p><a href="index.html#work">Selected work</a></p>
-                <p><a href="#about">About</a></p>
-                <p><a href="#experience">Experience</a></p>
-              </article>
-
-              <article class="contact-card">
-                <div class="section-kicker">Selected tools</div>
-                <h3>Technical stack</h3>
-                <p>Python</p>
-                <p>QGIS / ArcGIS</p>
-                <p>Google Earth Engine</p>
-                <p>SQL / PostGIS</p>
-              </article>
-
-              <article class="contact-card">
-                <div class="section-kicker">Practice lens</div>
-                <h3>Core themes</h3>
-                <p>Urban strategy</p>
-                <p>Mobility analytics</p>
-                <p>Climate and resilience analytics</p>
-                <p>Evidence-based decision support</p>
+                <p class="contact-card-intro">A shorter route to the main parts of the site without the extra footer bulk.</p>
+                <div class="quick-links-grid">
+                  <a class="quick-link" href="index.html#focus">Focus areas</a>
+                  <a class="quick-link" href="index.html#skills">Technical skills</a>
+                  <a class="quick-link" href="index.html#work">Selected work</a>
+                  <a class="quick-link" href="about.html">About</a>
+                  <a class="quick-link" href="about.html#experience">Experience</a>
+                  <a class="quick-link" href="https://blog.iaac.net" target="_blank" rel="noreferrer">IAAC blog</a>
+                </div>
               </article>
             </div>
           </div>
@@ -871,6 +1225,227 @@
           observer.observe(element);
         }
       });
+    }
+  </script>
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.165.0/build/three.module.js";
+
+    const heroElement = document.querySelector(".page-hero");
+    const heroWebglMount = document.querySelector("[data-about-hero-webgl]");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (heroElement && heroWebglMount && !reducedMotionQuery.matches && window.WebGLRenderingContext) {
+      let renderer;
+      let scene;
+      let camera;
+      let material;
+      let mesh;
+      let frameId = 0;
+      let disposed = false;
+
+      const clock = new THREE.Clock();
+      const resolution = new THREE.Vector2(1, 1);
+      const pointer = new THREE.Vector2(0.5, 0.5);
+      const pointerTarget = new THREE.Vector2(0.5, 0.5);
+
+      const vertexShader = `
+        varying vec2 vUv;
+
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
+        }
+      `;
+
+      const fragmentShader = `
+        precision highp float;
+
+        varying vec2 vUv;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform vec2 uPointer;
+        uniform float uMotion;
+
+        float hash(vec2 p) {
+          p = fract(p * vec2(123.34, 456.21));
+          p += dot(p, p + 45.32);
+          return fract(p.x * p.y);
+        }
+
+        float noise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+
+          return mix(
+            mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+            mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+            u.y
+          );
+        }
+
+        float fbm(vec2 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          for (int i = 0; i < 5; i++) {
+            value += amplitude * noise(p);
+            p = p * 2.02 + vec2(3.7, 5.1);
+            amplitude *= 0.52;
+          }
+          return value;
+        }
+
+        void main() {
+          vec2 uv = vUv;
+          vec2 centered = uv - 0.5;
+          centered.x *= uResolution.x / max(uResolution.y, 1.0);
+
+          vec2 pointerCentered = uPointer - 0.5;
+          pointerCentered.x *= uResolution.x / max(uResolution.y, 1.0);
+
+          vec2 flow = centered * 3.1;
+          flow += vec2(uTime * 0.055, -uTime * 0.04) * uMotion;
+
+          float terrainA = fbm(flow + vec2(0.0, uTime * 0.03 * uMotion));
+          float terrainB = fbm(flow * 1.9 - vec2(uTime * 0.028 * uMotion, -uTime * 0.016 * uMotion));
+          float terrain = mix(terrainA, terrainB, 0.34);
+
+          float pointerField = exp(-length(centered - pointerCentered * 0.68) * 5.5);
+          terrain += pointerField * 0.075 * uMotion;
+
+          float contour = abs(fract(terrain * 15.5) - 0.5);
+          float fineLines = smoothstep(0.18, 0.01, contour);
+
+          float majorContour = abs(fract(terrain * 5.4 + 0.1) - 0.5);
+          float majorLines = smoothstep(0.24, 0.015, majorContour) * 0.55;
+
+          float bloom =
+            smoothstep(0.09, 0.0, abs(terrain - 0.34)) * 0.36 +
+            smoothstep(0.07, 0.0, abs(terrain - 0.57)) * 0.52;
+          bloom *= 0.5 + 0.5 * fbm(flow * 1.4 + 12.0);
+          bloom += pointerField * 0.32;
+
+          float vignette = smoothstep(1.15, 0.12, length(centered));
+
+          // Page palette: --bg #05050a, --primary #6366f1
+          vec3 lineColor = vec3(1.0);                   // pure white contour lines
+          vec3 glowColor = vec3(0.78, 0.79, 1.0);      // soft indigo-white glow
+          vec3 accent    = vec3(0.388, 0.396, 0.945);  // #6366f1 pointer accent
+
+          float lineIntensity = fineLines * 0.28 + majorLines * 0.60;
+          float bloomVal      = bloom * 0.30;
+          float accentVal     = pointerField * 0.10;
+
+          vec3 color = lineColor * lineIntensity
+                     + glowColor * bloomVal
+                     + accent    * accentVal;
+          color *= vignette;
+
+          // Transparent base — page background shows through
+          float alpha = clamp(lineIntensity + bloomVal * 0.55 + accentVal, 0.0, 1.0);
+          alpha *= vignette;
+
+          gl_FragColor = vec4(color, alpha);
+        }
+      `;
+
+      function resize() {
+        const width = heroElement.clientWidth;
+        const height = heroElement.clientHeight;
+
+        if (!width || !height || !renderer || !material) {
+          return;
+        }
+
+        resolution.set(width, height);
+        renderer.setSize(width, height, false);
+        material.uniforms.uResolution.value.copy(resolution);
+      }
+
+      function dispose() {
+        disposed = true;
+        if (frameId) {
+          cancelAnimationFrame(frameId);
+        }
+        window.removeEventListener("resize", resize);
+        heroElement.removeEventListener("pointermove", onPointerMove);
+        heroElement.removeEventListener("pointerleave", onPointerLeave);
+        if (renderer) {
+          renderer.dispose();
+        }
+        if (material) {
+          material.dispose();
+        }
+        if (mesh) {
+          mesh.geometry.dispose();
+        }
+      }
+
+      function onPointerMove(event) {
+        const bounds = heroElement.getBoundingClientRect();
+        pointerTarget.set(
+          (event.clientX - bounds.left) / bounds.width,
+          1 - (event.clientY - bounds.top) / bounds.height
+        );
+      }
+
+      function onPointerLeave() {
+        pointerTarget.set(0.5, 0.5);
+      }
+
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+
+        scene = new THREE.Scene();
+        camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+        material = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          uniforms: {
+            uTime: { value: 0 },
+            uResolution: { value: resolution.clone() },
+            uPointer: { value: pointer.clone() },
+            uMotion: { value: 1 }
+          },
+          vertexShader,
+          fragmentShader
+        });
+
+        mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+        scene.add(mesh);
+
+        heroWebglMount.appendChild(renderer.domElement);
+        resize();
+
+        heroElement.addEventListener("pointermove", onPointerMove);
+        heroElement.addEventListener("pointerleave", onPointerLeave);
+        window.addEventListener("resize", resize);
+
+        function animate() {
+          if (disposed) {
+            return;
+          }
+
+          const elapsed = clock.getElapsedTime();
+          pointer.lerp(pointerTarget, 0.05);
+
+          material.uniforms.uTime.value = elapsed;
+          material.uniforms.uPointer.value.copy(pointer);
+          material.uniforms.uMotion.value = 1.0;
+
+          renderer.render(scene, camera);
+          frameId = requestAnimationFrame(animate);
+        }
+
+        animate();
+        window.addEventListener("beforeunload", dispose, { once: true });
+      } catch (error) {
+        dispose();
+        console.error("About hero contour background failed to initialize.", error);
+      }
     }
   </script>
 </body>

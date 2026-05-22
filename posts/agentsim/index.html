@@ -4,12 +4,14 @@
   <meta charset="utf-8" />
   <base href="/posts/agentsim/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0c10" />
   <title>Agent Simulation: Measuring Intervention Impact</title>
   <meta name="description" content="Agent-based simulation of pedestrian movement in Viladecans, Spain, comparing pre- and post-intervention scenarios for a tactical urban intervention." />
-  <link rel="stylesheet" href="../networkflows/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#brief">Skip to main content</a>
   <!-- Sticky top nav -->
   <header class="topbar">
     <div class="topbar__inner">
@@ -34,12 +36,12 @@
         <img
           src="../assets/GIF_Rotate.gif"
           alt="Agent-based simulation cover"
+          fetchpriority="high"
           loading="eager"
         />
       </div>
 
       <div class="hero__content">
-        <p class="kicker">Modified by Siddharth Nambiar on March 28, 2024</p>
         <h1>Agent Simulation: Measuring Intervention Impact</h1>
         <p class="subtitle">
           Visualizing an urban simulation of free agents affected by a tactical intervention in Viladecans, Spain, comparing pre- and post-intervention movement patterns.
@@ -157,6 +159,8 @@
             <img
               src="../assets/viladecans.png"
               alt="Map of Viladecans, Spain"
+              width="1172"
+              height="538"
               loading="lazy"
             />
             <figcaption>Study area in Viladecans, Spain, used as the sandbox for the agent simulation.</figcaption>
@@ -196,6 +200,8 @@
               <img
                 src="../assets/gravityGIF.gif"
                 alt="Gravity-based attraction field for agent movement"
+                width="1430"
+                height="828"
                 loading="lazy"
               />
               <figcaption>Gravity-like vector field guiding baseline agent movement.</figcaption>
@@ -206,6 +212,8 @@
             <img
               src="../assets/Blac&whiteCode.JPG"
               alt="Binary raster separating buildings and streets"
+              width="1756"
+              height="333"
               loading="lazy"
             />
             <figcaption>Binary raster encoding: buildings (0, white) vs streets (1, black).</figcaption>
@@ -215,6 +223,8 @@
             <img
               src="../assets/Agents&Field.JPG"
               alt="Agents interacting with the underlying movement field"
+              width="1827"
+              height="743"
               loading="lazy"
             />
             <figcaption>Agents following the field while remaining constrained to the street network.</figcaption>
@@ -263,6 +273,8 @@
             <img
               src="../assets/WeightedAVG.JPG"
               alt="Weighted average of agent movement vectors"
+              width="1578"
+              height="676"
               loading="lazy"
             />
             <figcaption>Weighted movement vectors defining each agent’s next step.</figcaption>
@@ -303,6 +315,8 @@
               <img
                 src="../assets/Impact_Intervention.gif"
                 alt="Impact of urban intervention on agent flows"
+                width="600"
+                height="600"
                 loading="lazy"
               />
               <figcaption>Difference in footfall patterns pre- vs post-intervention.</figcaption>
@@ -385,4 +399,3 @@
   </script>
 </body>
 </html>
-
