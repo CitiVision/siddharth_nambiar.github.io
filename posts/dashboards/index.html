@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Data Platform | Siddharth Nambiar</title>
+  <meta
+    name="description"
+    content="Interactive Data Platform project page with a flipbook viewer for dashboard samples."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/posts/dashboards/style.css?v=20260522-1905" />
+</head>
+<body>
+  <main class="page">
+    <div class="container">
+      <div class="topbar">
+        <a class="back-link" href="/index.html" aria-label="Back to homepage">
+          <span aria-hidden="true">&larr;</span>
+          Back to Home
+        </a>
+      </div>
+
+      <section class="hero">
+        <p class="eyebrow">Interactive Dashboard Project</p>
+        <h1>Interactive Data Platform</h1>
+        <p class="subtitle">
+          React based dashboard for manipulable statistics and spatial dataset interaction.
+        </p>
+        <div class="meta-band" aria-label="Project focus tags">
+          <span class="meta-pill">React UI</span>
+          <span class="meta-pill">Spatial Analytics</span>
+          <span class="meta-pill">Interactive Statistics</span>
+        </div>
+        <p class="lead-copy">
+          Open the flipbook to review dashboard screens, interaction logic, and geospatial
+          visual workflows curated for this platform concept.
+        </p>
+
+        <div class="flipbook-wrap">
+          <div class="flipbook-outer">
+            <button class="fb-cover-btn" id="fbCover" type="button" aria-label="Open dashboard sample flipbook">
+              <img
+                class="fb-cover-image"
+                src="/posts/dashboards/Finance_Dashboard_Sample_1.png"
+                alt="Interactive dashboard cover sample"
+                loading="lazy"
+              />
+              <span class="fb-cover-overlay">Click cover to open dashboard samples</span>
+            </button>
+
+            <div class="flipbook-loading fb-hidden" id="fbLoading">
+              <svg aria-hidden="true" class="fb-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="32" height="32">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <div class="fb-progress-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="fb-progress-bar" id="fbProgressBar"></div>
+              </div>
+              <span id="fbProgressLabel">Preparing flipbook...</span>
+            </div>
+
+            <div id="flipbook"></div>
+
+            <button class="fb-expand-btn" id="fbExpand" aria-label="View in fullscreen" hidden>
+              Fullscreen
+            </button>
+          </div>
+
+          <div class="flipbook-controls" id="fbControls" hidden>
+            <button class="fb-btn" id="fbPrev" aria-label="Previous page">Prev</button>
+            <span class="fb-page-info" id="fbPageInfo">Loading...</span>
+            <button class="fb-btn" id="fbNext" aria-label="Next page">Next</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="fb-modal" id="fbModal" hidden>
+    <button class="fb-modal-backdrop" id="fbModalBackdrop" aria-label="Close fullscreen viewer"></button>
+    <div class="fb-modal-shell" role="dialog" aria-modal="true" aria-label="Dashboard flipbook fullscreen view">
+      <div class="fb-modal-head">
+        <p class="fb-modal-title">Dashboard Samples - Fullscreen Viewer</p>
+        <button class="fb-modal-close" id="fbModalClose" aria-label="Close fullscreen">Close</button>
+      </div>
+      <div id="fbModalFlipbook"></div>
+      <div class="fb-modal-controls">
+        <button class="fb-btn" id="fbModalPrev" aria-label="Previous page in fullscreen">Prev</button>
+        <span class="fb-page-info" id="fbModalPageInfo">Page 1</span>
+        <button class="fb-btn" id="fbModalNext" aria-label="Next page in fullscreen">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+  <script>
+    (function () {
+      const PDF_URL = "/posts/dashboards/DashboardSamples_SidNambiar.pdf";
+      const SCALE = 1.5;
+
+      const fbContainer = document.getElementById("flipbook");
+      const fbCover = document.getElementById("fbCover");
+      const fbLoading = document.getElementById("fbLoading");
+      const fbControls = document.getElementById("fbControls");
+      const fbPrev = document.getElementById("fbPrev");
+      const fbNext = document.getElementById("fbNext");
+      const fbPageInfo = document.getElementById("fbPageInfo");
+      const fbProgressBar = document.getElementById("fbProgressBar");
+      const fbProgressLabel = document.getElementById("fbProgressLabel");
+      const fbExpand = document.getElementById("fbExpand");
+
+      const fbModal = document.getElementById("fbModal");
+      const fbModalBackdrop = document.getElementById("fbModalBackdrop");
+      const fbModalClose = document.getElementById("fbModalClose");
+      const fbModalFlipbook = document.getElementById("fbModalFlipbook");
+      const fbModalPrev = document.getElementById("fbModalPrev");
+      const fbModalNext = document.getElementById("fbModalNext");
+      const fbModalPageInfo = document.getElementById("fbModalPageInfo");
+
+      if (!fbContainer || typeof pdfjsLib === "undefined" || typeof St === "undefined") return;
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+      let dataURLs = [];
+      let currentPageIdx = 0;
+      let modalFlip = null;
+      let hasStarted = false;
+      let inlineFlip = null;
+      let pageRatio = 1.414;
+
+      function setProgress(pct, label) {
+        const clamped = Math.min(100, Math.max(0, Math.round(pct)));
+        if (fbProgressBar) {
+          fbProgressBar.style.width = clamped + "%";
+          fbProgressBar.closest("[role='progressbar']")?.setAttribute("aria-valuenow", clamped);
+        }
+        if (fbProgressLabel) fbProgressLabel.textContent = label;
+      }
+
+      async function renderPage(pdfDoc, num) {
+        const page = await pdfDoc.getPage(num);
+        const viewport = page.getViewport({ scale: SCALE });
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        return canvas.toDataURL("image/jpeg", 0.85);
+      }
+
+      function updateInlineInfo(idx, total, isMobile) {
+        currentPageIdx = idx;
+        const isSpread = !isMobile && idx > 0 && idx < total - 1;
+        fbPageInfo.textContent = isSpread
+          ? "Pages " + (idx + 1) + "-" + (idx + 2) + " / " + total
+          : "Page " + (idx + 1) + " / " + total;
+        fbPrev.disabled = idx <= 0;
+        fbNext.disabled = idx >= total - 1;
+      }
+
+      async function initFlipbook() {
+        if (hasStarted) return;
+        hasStarted = true;
+
+        if (fbCover) fbCover.classList.add("fb-hidden");
+        if (fbLoading) fbLoading.classList.remove("fb-hidden");
+        if (fbControls) fbControls.removeAttribute("hidden");
+
+        setProgress(0, "Downloading dashboard samples...");
+
+        let pdfDoc;
+        try {
+          const loadingTask = pdfjsLib.getDocument(PDF_URL);
+          loadingTask.onProgress = function (data) {
+            if (data.total > 0) {
+              const pct = (data.loaded / data.total) * 50;
+              setProgress(pct, "Downloading... " + Math.round(pct * 2) + "%");
+            }
+          };
+          pdfDoc = await loadingTask.promise;
+        } catch {
+          fbLoading.innerHTML = "<span style='color:#f87171'>Could not load PDF - please refresh.</span>";
+          return;
+        }
+
+        try {
+          const firstPage = await pdfDoc.getPage(1);
+          const firstViewport = firstPage.getViewport({ scale: 1 });
+          if (firstViewport.height > 0) {
+            pageRatio = firstViewport.width / firstViewport.height;
+          }
+        } catch {
+          pageRatio = 1.414;
+        }
+
+        const total = pdfDoc.numPages;
+        for (let i = 1; i <= total; i++) {
+          const pct = 50 + (i / total) * 50;
+          setProgress(pct, "Rendering page " + i + " of " + total + "...");
+          dataURLs.push(await renderPage(pdfDoc, i));
+        }
+        setProgress(100, "Ready");
+
+        const isMobile = window.innerWidth <= 480;
+        const outerW = fbContainer.closest(".container")?.clientWidth ||
+          fbContainer.parentElement?.clientWidth ||
+          window.innerWidth;
+        const pageWidth = isMobile
+          ? Math.min(window.innerWidth - 48, 320)
+          : Math.floor(outerW / 2) - 8;
+        const pageH = Math.round(pageWidth / pageRatio);
+
+        const outer = document.querySelector(".flipbook-outer");
+        if (outer) outer.style.minHeight = pageH + "px";
+
+        inlineFlip = new St.PageFlip(fbContainer, {
+          width: pageWidth,
+          height: pageH,
+          size: "fixed",
+          showCover: true,
+          usePortrait: isMobile,
+          mobileScrollSupport: false,
+          flippingTime: 650,
+          useMouseEvents: true,
+          drawShadow: true,
+          startPage: 0,
+          autoSize: false
+        });
+
+        inlineFlip.loadFromImages(dataURLs);
+        fbLoading.classList.add("fb-hidden");
+        if (fbExpand) fbExpand.removeAttribute("hidden");
+
+        updateInlineInfo(0, total, isMobile);
+        inlineFlip.on("flip", (e) => updateInlineInfo(e.data, total, isMobile));
+        inlineFlip.on("changeState", () => updateInlineInfo(inlineFlip.getCurrentPageIndex(), total, isMobile));
+
+        fbPrev.addEventListener("click", () => inlineFlip.flipPrev());
+        fbNext.addEventListener("click", () => inlineFlip.flipNext());
+      }
+
+      function updateModalInfo(idx, total) {
+        if (!fbModalPageInfo) return;
+        const isSpread = idx > 0 && idx < total - 1;
+        fbModalPageInfo.textContent = isSpread
+          ? "Pages " + (idx + 1) + "-" + (idx + 2) + " / " + total
+          : "Page " + (idx + 1) + " / " + total;
+        if (fbModalPrev) fbModalPrev.disabled = idx <= 0;
+        if (fbModalNext) fbModalNext.disabled = idx >= total - 1;
+      }
+
+      function openModal() {
+        if (!dataURLs.length || !fbModal) return;
+
+        fbModal.removeAttribute("hidden");
+        document.body.style.overflow = "hidden";
+
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const spreadW = Math.min(vw * 0.96, vh * 0.86 * 2 * pageRatio);
+        const mPageW = Math.floor(spreadW / 2) - 8;
+        const mPageH = Math.round(mPageW / pageRatio);
+        const total = dataURLs.length;
+
+        if (!modalFlip) {
+          modalFlip = new St.PageFlip(fbModalFlipbook, {
+            width: mPageW,
+            height: mPageH,
+            size: "fixed",
+            showCover: true,
+            usePortrait: false,
+            mobileScrollSupport: false,
+            flippingTime: 600,
+            useMouseEvents: true,
+            drawShadow: true,
+            startPage: currentPageIdx,
+            autoSize: false
+          });
+          modalFlip.loadFromImages(dataURLs);
+          modalFlip.on("flip", (e) => updateModalInfo(e.data, total));
+          modalFlip.on("changeState", () => updateModalInfo(modalFlip.getCurrentPageIndex(), total));
+          if (fbModalPrev) fbModalPrev.addEventListener("click", () => modalFlip.flipPrev());
+          if (fbModalNext) fbModalNext.addEventListener("click", () => modalFlip.flipNext());
+        } else {
+          modalFlip.turnToPage(currentPageIdx);
+        }
+
+        updateModalInfo(currentPageIdx, total);
+      }
+
+      function closeModal() {
+        if (!fbModal) return;
+        fbModal.setAttribute("hidden", "");
+        document.body.style.overflow = "";
+        if (modalFlip) {
+          currentPageIdx = modalFlip.getCurrentPageIndex();
+          if (inlineFlip) inlineFlip.turnToPage(currentPageIdx);
+        }
+      }
+
+      if (fbExpand) fbExpand.addEventListener("click", openModal);
+      if (fbModalClose) fbModalClose.addEventListener("click", closeModal);
+      if (fbModalBackdrop) fbModalBackdrop.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", (e) => {
+        if (!fbModal || fbModal.hasAttribute("hidden")) return;
+        if (e.key === "Escape") {
+          e.preventDefault();
+          closeModal();
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          modalFlip?.flipPrev();
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          modalFlip?.flipNext();
+        }
+      });
+
+      if (fbCover) {
+        fbCover.addEventListener("click", initFlipbook, { once: true });
+      } else {
+        initFlipbook();
+      }
+    })();
+  </script>
+</body>
+</html>

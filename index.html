@@ -261,8 +261,15 @@
       position: relative;
       overflow: hidden;
       isolation: isolate;
-      padding-top: 18px;
-      padding-bottom: 76px;
+      display: flex;
+      align-items: center;
+      min-height: min(760px, calc(100vh - 112px));
+      padding-top: 28px;
+      padding-bottom: 36px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 24%, rgba(99, 102, 241, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.22), rgba(5, 5, 10, 0.08) 32%, rgba(5, 5, 10, 0.54) 100%);
     }
 
     .hero-effects {
@@ -275,8 +282,8 @@
 
     .hero-effects-webgl {
       position: absolute;
-      inset: -6% -4% -8%;
-      opacity: 0.94;
+      inset: 0;
+      opacity: 0.96;
     }
 
     .hero-effects-webgl canvas {
@@ -294,17 +301,14 @@
 
     .hero-effects::before {
       background:
-        radial-gradient(circle at 18% 30%, rgba(138, 255, 200, 0.08), transparent 16%),
-        radial-gradient(circle at 72% 34%, rgba(95, 255, 204, 0.1), transparent 18%),
-        radial-gradient(circle at 80% 62%, rgba(99, 102, 241, 0.08), transparent 22%),
-        linear-gradient(180deg, rgba(5, 5, 10, 0.12), rgba(5, 5, 10, 0.42));
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.04), transparent 18%),
+        radial-gradient(circle at 82% 34%, rgba(99, 102, 241, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(5, 5, 10, 0.16), rgba(5, 5, 10, 0.44));
       z-index: 1;
     }
 
     .hero-effects::after {
-      background:
-        radial-gradient(circle at 50% 32%, transparent 0, transparent 44%, rgba(5, 5, 10, 0.22) 80%, rgba(5, 5, 10, 0.68) 100%),
-        linear-gradient(180deg, rgba(5, 5, 10, 0.04), rgba(5, 5, 10, 0.16) 30%, rgba(5, 5, 10, 0.4) 100%);
+      background: none;
       z-index: 2;
     }
 
@@ -1051,6 +1055,17 @@
       object-position: center 42%;
     }
 
+    .project-media--sthala {
+      background: #5a3a82;
+    }
+
+    .project-media--sthala img {
+      object-fit: contain;
+      object-position: center;
+      padding: 16px;
+      background: #5a3a82;
+    }
+
     .project-media--torrents::before {
       content: "Rosario 2050";
       position: absolute;
@@ -1465,8 +1480,7 @@
       }
 
       .hero-effects-webgl {
-        inset: -10% -18% -12%;
-        opacity: 0.88;
+        opacity: 0.96;
       }
 
       .work-grid,
@@ -1919,7 +1933,6 @@
 
         <nav class="nav-links" aria-label="Primary">
           <a href="#work">Work</a>
-          <a href="#portfolio-book">Portfolio</a>
           <a href="about.html">About</a>
           <a href="about.html#experience">Experience</a>
           <a href="#contact">Contact</a>
@@ -1945,7 +1958,6 @@
 
       <div class="mobile-menu" id="mobileMenu">
         <a href="#work">Work</a>
-        <a href="#portfolio-book">Portfolio</a>
         <a href="about.html">About</a>
         <a href="about.html#experience">Experience</a>
         <a href="#contact">Contact</a>
@@ -2086,8 +2098,8 @@
         <div class="skills-header reveal">
           <div class="section-kicker">Technical skills</div>
           <h2 class="section-title">
-            A concise toolkit
-            <span>for mapping, modeling, data, and delivery.</span>
+            My toolkit
+            <span>for mapping, modeling, data and delivery.</span>
           </h2>
         </div>
 
@@ -2356,6 +2368,48 @@
               </div>
             </div>
           </a>
+
+          <a class="project-card reveal" href="posts/dashboards/index.html">
+            <div class="project-media">
+              <img src="posts/dashboards/Finance_Dashboard_Sample_1.png" alt="Interactive Data Platform dashboard sample" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">Interactive dashboard</span>
+                <span class="project-tag">Spatial analytics</span>
+              </div>
+              <h3>Interactive Data Platform</h3>
+              <p>
+                React based dashboard for manipulable statistics and spatial dataset inteaction.
+              </p>
+              <div class="pill-row">
+                <span class="pill">React</span>
+                <span class="pill">Geospatial data</span>
+                <span class="pill">Data interaction</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="project-card reveal" href="#">
+            <div class="project-media project-media--sthala">
+              <img src="posts/sthala/Sthala_PlainLogo_White.png" alt="Sthala Spatial Systems logo" loading="lazy" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tag">GeoAI systems</span>
+                <span class="project-tag">Location intelligence</span>
+              </div>
+              <h3>Sthala Spatial Systems</h3>
+              <p>
+                GeoAi systems for hyperlocal location intelligence assessing for risk and opportunity in the urban environment.
+              </p>
+              <div class="pill-row">
+                <span class="pill">GeoAI</span>
+                <span class="pill">Urban risk</span>
+                <span class="pill">Opportunity mapping</span>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -2508,260 +2562,212 @@
       let renderer;
       let scene;
       let camera;
-      let points;
-      let geometry;
       let material;
+      let mesh;
       let frameId = 0;
-      let isVisible = true;
       let disposed = false;
 
       const clock = new THREE.Clock();
-      const pointer = new THREE.Vector2();
-      const pointerTarget = new THREE.Vector2();
-      const viewport = new THREE.Vector2(1, 1);
-      const basePointer = new THREE.Vector2();
+      const resolution = new THREE.Vector2(1, 1);
+      const pointer = new THREE.Vector2(0.5, 0.5);
+      const pointerTarget = new THREE.Vector2(0.5, 0.5);
 
       const vertexShader = `
-        uniform float uTime;
-        uniform vec2 uPointer;
-        uniform vec2 uViewport;
-        uniform float uMotion;
-
-        attribute float aSeed;
-
-        varying float vAlpha;
-        varying float vGlow;
-        varying float vTint;
+        varying vec2 vUv;
 
         void main() {
-          vec3 pos = position;
-          float radial = length(pos.xy / (uViewport * 0.5));
-          float wave =
-            sin((pos.x * 0.035) + (uTime * 0.34) + aSeed * 6.28318) * 0.55 +
-            cos((pos.y * 0.03) - (uTime * 0.2) + aSeed * 3.14159) * 0.45;
-
-          pos.y += wave * 7.0 * (1.0 - smoothstep(0.22, 1.2, radial)) * uMotion;
-          pos.x += sin(uTime * 0.16 + aSeed * 10.0) * 4.0 * uMotion;
-
-          vec2 pointerDelta = pos.xy - uPointer;
-          vec2 pointerScale = vec2(uViewport.x * 0.18, uViewport.y * 0.24);
-          vec2 pointerNorm = pointerDelta / pointerScale;
-          float pointerField = exp(-dot(pointerNorm, pointerNorm));
-
-          pos.xy += normalize(pointerDelta + 0.0001) * pointerField * 18.0 * uMotion;
-
-          vGlow = pointerField;
-          vTint = smoothstep(0.98, 0.18, radial);
-          vAlpha = mix(0.08, 0.26, vTint) + pointerField * 0.16;
-
-          float sparkle = 0.72 + 0.28 * sin(uTime * 0.72 + aSeed * 14.0);
-          gl_PointSize = mix(3.0, 8.8, vTint) * sparkle;
-
-          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_Position = projectionMatrix * mvPosition;
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
         }
       `;
 
       const fragmentShader = `
-        varying float vAlpha;
-        varying float vGlow;
-        varying float vTint;
+        precision highp float;
+
+        varying vec2 vUv;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform vec2 uPointer;
+        uniform float uMotion;
+
+        float hash(vec2 p) {
+          p = fract(p * vec2(123.34, 456.21));
+          p += dot(p, p + 45.32);
+          return fract(p.x * p.y);
+        }
+
+        float noise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+
+          return mix(
+            mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+            mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+            u.y
+          );
+        }
+
+        float fbm(vec2 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          for (int i = 0; i < 5; i++) {
+            value += amplitude * noise(p);
+            p = p * 2.02 + vec2(3.7, 5.1);
+            amplitude *= 0.52;
+          }
+          return value;
+        }
 
         void main() {
-          vec2 centered = abs(gl_PointCoord - 0.5);
-          float edge = max(centered.x, centered.y);
-          float square = 1.0 - smoothstep(0.32, 0.5, edge);
-          float inner = 1.0 - smoothstep(0.06, 0.24, edge);
+          vec2 uv = vUv;
+          vec2 centered = uv - 0.5;
+          centered.x *= uResolution.x / max(uResolution.y, 1.0);
 
-          vec3 base = mix(vec3(0.26, 0.27, 0.34), vec3(0.62, 0.65, 0.78), vTint * 0.68);
-          vec3 accent = vec3(0.18, 0.86, 0.72);
-          vec3 color = mix(base, accent, vGlow * 0.78);
-          color += accent * inner * vGlow * 0.22;
+          vec2 pointerCentered = uPointer - 0.5;
+          pointerCentered.x *= uResolution.x / max(uResolution.y, 1.0);
 
-          float alpha = square * vAlpha;
-          if (alpha < 0.01) discard;
+          vec2 flow = centered * 3.1;
+          flow += vec2(uTime * 0.055, -uTime * 0.04) * uMotion;
+
+          float terrainA = fbm(flow + vec2(0.0, uTime * 0.03 * uMotion));
+          float terrainB = fbm(flow * 1.9 - vec2(uTime * 0.028 * uMotion, -uTime * 0.016 * uMotion));
+          float terrain = mix(terrainA, terrainB, 0.34);
+
+          float pointerField = exp(-length(centered - pointerCentered * 0.68) * 5.5);
+          terrain += pointerField * 0.075 * uMotion;
+
+          float contour = abs(fract(terrain * 15.5) - 0.5);
+          float fineLines = smoothstep(0.18, 0.01, contour);
+
+          float majorContour = abs(fract(terrain * 5.4 + 0.1) - 0.5);
+          float majorLines = smoothstep(0.24, 0.015, majorContour) * 0.55;
+
+          float bloom =
+            smoothstep(0.09, 0.0, abs(terrain - 0.34)) * 0.36 +
+            smoothstep(0.07, 0.0, abs(terrain - 0.57)) * 0.52;
+          bloom *= 0.5 + 0.5 * fbm(flow * 1.4 + 12.0);
+          bloom += pointerField * 0.32;
+
+          float vignette = smoothstep(1.15, 0.12, length(centered));
+
+          vec3 lineColor = vec3(1.0);
+          vec3 glowColor = vec3(0.78, 0.79, 1.0);
+          vec3 accent = vec3(0.388, 0.396, 0.945);
+
+          float lineIntensity = fineLines * 0.28 + majorLines * 0.60;
+          float bloomVal = bloom * 0.30;
+          float accentVal = pointerField * 0.10;
+
+          vec3 color = lineColor * lineIntensity
+                     + glowColor * bloomVal
+                     + accent * accentVal;
+          color *= vignette;
+
+          float alpha = clamp(lineIntensity + bloomVal * 0.55 + accentVal, 0.0, 1.0);
+          alpha *= vignette;
 
           gl_FragColor = vec4(color, alpha);
         }
       `;
 
-      function buildGrid(width, height) {
-        const columns = Math.max(36, Math.min(72, Math.floor(width / 20)));
-        const rows = Math.max(20, Math.min(40, Math.floor(height / 20)));
-        const count = columns * rows;
+      function resize() {
+        const width = heroElement.clientWidth;
+        const height = heroElement.clientHeight;
 
-        const positions = new Float32Array(count * 3);
-        const seeds = new Float32Array(count);
-
-        const stepX = width / Math.max(columns - 1, 1);
-        const stepY = height / Math.max(rows - 1, 1);
-
-        let ptr = 0;
-        for (let y = 0; y < rows; y += 1) {
-          for (let x = 0; x < columns; x += 1) {
-            positions[ptr * 3] = x * stepX - width / 2;
-            positions[ptr * 3 + 1] = y * stepY - height / 2;
-            positions[ptr * 3 + 2] = 0;
-            seeds[ptr] = Math.random();
-            ptr += 1;
-          }
-        }
-
-        if (geometry) {
-          geometry.dispose();
-        }
-
-        geometry = new THREE.BufferGeometry();
-        geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
-
-        if (points) {
-          scene.remove(points);
-        }
-
-        points = new THREE.Points(geometry, material);
-        scene.add(points);
-      }
-
-      function setHeroSize() {
-        const bounds = heroElement.getBoundingClientRect();
-        const width = Math.max(1, Math.floor(bounds.width));
-        const height = Math.max(1, Math.floor(bounds.height));
-
-        viewport.set(width, height);
-
-        renderer.setSize(width, height, false);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-
-        camera.left = -width / 2;
-        camera.right = width / 2;
-        camera.top = height / 2;
-        camera.bottom = -height / 2;
-        camera.near = -100;
-        camera.far = 100;
-        camera.position.z = 10;
-        camera.updateProjectionMatrix();
-
-        material.uniforms.uViewport.value.set(width, height);
-        buildGrid(width * 1.08, height * 1.08);
-
-        basePointer.set(-width * 0.16, height * 0.02);
-        pointer.copy(basePointer);
-        pointerTarget.copy(basePointer);
-      }
-
-      function renderFrame() {
-        if (disposed || !isVisible) {
-          frameId = 0;
+        if (!width || !height || !renderer || !material) {
           return;
         }
 
-        frameId = window.requestAnimationFrame(renderFrame);
-
-        const elapsed = clock.getElapsedTime();
-        pointer.lerp(pointerTarget, 0.045);
-
-        material.uniforms.uTime.value = elapsed;
-        material.uniforms.uPointer.value.copy(pointer);
-        renderer.render(scene, camera);
+        resolution.set(width, height);
+        renderer.setSize(width, height, false);
+        material.uniforms.uResolution.value.copy(resolution);
       }
 
-      function startRendering() {
-        if (!frameId && !disposed) {
-          clock.start();
-          renderFrame();
-        }
-      }
-
-      function stopRendering() {
-        if (frameId) {
-          window.cancelAnimationFrame(frameId);
-          frameId = 0;
-        }
-      }
-
-      renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: false,
-        powerPreference: "high-performance",
-      });
-      renderer.setClearColor(0x000000, 0);
-      heroWebglMount.appendChild(renderer.domElement);
-
-      scene = new THREE.Scene();
-      camera = new THREE.OrthographicCamera();
-      material = new THREE.ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        transparent: true,
-        depthWrite: false,
-        uniforms: {
-          uTime: { value: 0 },
-          uPointer: { value: pointer.clone() },
-          uViewport: { value: viewport.clone() },
-          uMotion: { value: 1 },
-        },
-      });
-
-      setHeroSize();
-
-      const heroObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            isVisible = entry.isIntersecting;
-            if (isVisible) {
-              startRendering();
-            } else {
-              stopRendering();
-            }
-          });
-        },
-        { threshold: 0.08 }
-      );
-      heroObserver.observe(heroElement);
-
-      function handlePointerMove(event) {
-        const bounds = heroElement.getBoundingClientRect();
-        const localX = event.clientX - bounds.left;
-        const localY = event.clientY - bounds.top;
-        pointerTarget.set(localX - bounds.width / 2, bounds.height / 2 - localY);
-      }
-
-      function handlePointerLeave() {
-        pointerTarget.copy(basePointer);
-      }
-
-      function handleVisibility() {
-        if (document.hidden) {
-          stopRendering();
-        } else if (isVisible) {
-          startRendering();
-        }
-      }
-
-      function handleResize() {
-        setHeroSize();
-      }
-
-      heroElement.addEventListener("pointermove", handlePointerMove, { passive: true });
-      heroElement.addEventListener("pointerleave", handlePointerLeave, { passive: true });
-      window.addEventListener("resize", handleResize);
-      document.addEventListener("visibilitychange", handleVisibility);
-
-      startRendering();
-
-      window.addEventListener("beforeunload", () => {
+      function dispose() {
         disposed = true;
-        stopRendering();
-        heroObserver.disconnect();
-        heroElement.removeEventListener("pointermove", handlePointerMove);
-        heroElement.removeEventListener("pointerleave", handlePointerLeave);
-        window.removeEventListener("resize", handleResize);
-        document.removeEventListener("visibilitychange", handleVisibility);
-        if (geometry) geometry.dispose();
-        if (material) material.dispose();
-        if (renderer) renderer.dispose();
-      });
+        if (frameId) {
+          cancelAnimationFrame(frameId);
+        }
+        window.removeEventListener("resize", resize);
+        heroElement.removeEventListener("pointermove", onPointerMove);
+        heroElement.removeEventListener("pointerleave", onPointerLeave);
+        if (renderer) {
+          renderer.dispose();
+        }
+        if (material) {
+          material.dispose();
+        }
+        if (mesh) {
+          mesh.geometry.dispose();
+        }
+      }
+
+      function onPointerMove(event) {
+        const bounds = heroElement.getBoundingClientRect();
+        pointerTarget.set(
+          (event.clientX - bounds.left) / bounds.width,
+          1 - (event.clientY - bounds.top) / bounds.height
+        );
+      }
+
+      function onPointerLeave() {
+        pointerTarget.set(0.5, 0.5);
+      }
+
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+
+        scene = new THREE.Scene();
+        camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+        material = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          uniforms: {
+            uTime: { value: 0 },
+            uResolution: { value: resolution.clone() },
+            uPointer: { value: pointer.clone() },
+            uMotion: { value: 1 }
+          },
+          vertexShader,
+          fragmentShader
+        });
+
+        mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+        scene.add(mesh);
+
+        heroWebglMount.appendChild(renderer.domElement);
+        resize();
+
+        heroElement.addEventListener("pointermove", onPointerMove);
+        heroElement.addEventListener("pointerleave", onPointerLeave);
+        window.addEventListener("resize", resize);
+
+        function animate() {
+          if (disposed) {
+            return;
+          }
+
+          const elapsed = clock.getElapsedTime();
+          pointer.lerp(pointerTarget, 0.05);
+
+          material.uniforms.uTime.value = elapsed;
+          material.uniforms.uPointer.value.copy(pointer);
+          material.uniforms.uMotion.value = 1.0;
+
+          renderer.render(scene, camera);
+          frameId = requestAnimationFrame(animate);
+        }
+
+        animate();
+        window.addEventListener("beforeunload", dispose, { once: true });
+      } catch (error) {
+        dispose();
+        console.error("Homepage hero contour background failed to initialize.", error);
+      }
     }
   </script>
 
